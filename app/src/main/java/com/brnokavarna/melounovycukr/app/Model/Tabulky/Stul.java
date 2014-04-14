@@ -1,4 +1,4 @@
-package com.brnokavarna.melounovycukr.app.Model;
+package com.brnokavarna.melounovycukr.app.Model.Tabulky;
 
 /**
  * Created by Seky on 14. 4. 2014.

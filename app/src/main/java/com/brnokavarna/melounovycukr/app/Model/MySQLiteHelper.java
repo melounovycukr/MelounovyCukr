@@ -13,12 +13,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
+
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    private static final String DATABASE_NAME = "BookDB";
+    private static final String DATABASE_NAME = "ItemsDB";
 
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,20 +28,39 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // SQL statement to create book table
-        String CREATE_BOOK_TABLE = "CREATE TABLE books ( " +
+        // SQL statement to create seznam table
+        String CREATE_SEZNAM_TABLE = "CREATE TABLE seznam ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "title TEXT, "+
-                "author TEXT )";
+                "kategorie_id INTEGER, " +
+                "kategorie_nazev TEXT, "+
+                "cena FLOAT, "+
+                "nazev_zbozi TEXT )";
+
+        // SQL statement to create stul table
+        String CREATE_STUL_TABLE = "CREATE TABLE stul ( " +
+                "id_stul INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id_polozka INTEGER, " +
+                "mnozstvi INTEGER )";
+        // SQL statement to create CelkovaTrzba table
+        String CREATE_CELKOVA_TRZBA_TABLE = "CREATE TABLE celkovaTrzba ( " +
+                "id_trzba INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id_polozka INTEGER, " +
+                "mnozstvi INTEGER )";
+
 
         // create books table
-        db.execSQL(CREATE_BOOK_TABLE);
+        db.execSQL(CREATE_SEZNAM_TABLE);
+        db.execSQL(CREATE_STUL_TABLE);
+        db.execSQL(CREATE_CELKOVA_TRZBA_TABLE);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older books table if existed
-        db.execSQL("DROP TABLE IF EXISTS books");
+        db.execSQL("DROP TABLE IF EXISTS seznam");
+        db.execSQL("DROP TABLE IF EXISTS stul");
+        db.execSQL("DROP TABLE IF EXISTS celkovaTrzba");
 
         // create fresh books table
         this.onCreate(db);
@@ -47,31 +68,38 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     //---------------------------------------------------------------------
 
     /**
-     * CRUD operations (create "add", read "get", update, delete) book + get all books + delete all books
+     * Operace s tabulkami
      */
 
-    // Books table name
-    private static final String TABLE_BOOKS = "books";
+    /**
+     * Seznam*******************************************
+     */
+    // Seznam table name
+    private static final String TABLE_SEZNAM = "seznam";
 
     // Books Table Columns names
     private static final String KEY_ID = "id";
-    private static final String KEY_TITLE = "title";
-    private static final String KEY_AUTHOR = "author";
+    private static final String KEY_KATEGORY = "kategorie_id";
+    private static final String KEY_KATEGORY_NAME = "kategorie_nazev";
+    private static final String KEY_CENA = "cena";
+    private static final String KEY_NAZEV_ZBOZI = "nazev_zbozi";
 
-    private static final String[] COLUMNS = {KEY_ID,KEY_TITLE,KEY_AUTHOR};
+    private static final String[] COLUMNS = {KEY_ID, KEY_KATEGORY, KEY_KATEGORY_NAME, KEY_CENA, KEY_NAZEV_ZBOZI};
 
-    public void addBook(Seznam book){
-        Log.d("addBook", book.toString());
+    public void addSeznam(Seznam seznam){
+        Log.d("addSeznam", seznam.toString());
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
-        //values.put(KEY_TITLE, book.getTitle()); // get title
-        //values.put(KEY_AUTHOR, book.getAuthor()); // get author
+        values.put(KEY_KATEGORY, seznam.getKategorie_id());
+        values.put(KEY_KATEGORY_NAME, seznam.getKategorie_nazev());
+        values.put(KEY_CENA, seznam.getCena());
+        values.put(KEY_NAZEV_ZBOZI, seznam.getNazev_zbozi());
 
         // 3. insert
-        db.insert(TABLE_BOOKS, // table
+        db.insert(TABLE_SEZNAM, // table
                 null, //nullColumnHack
                 values); // key/value -> keys = column names/ values = column values
 
@@ -79,14 +107,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public Seznam getBook(int id){
+    public Seznam getSeznam(int id){
 
         // 1. get reference to readable DB
         SQLiteDatabase db = this.getReadableDatabase();
 
         // 2. build query
         Cursor cursor =
-                db.query(TABLE_BOOKS, // a. table
+                db.query(TABLE_SEZNAM, // a. table
                         COLUMNS, // b. column names
                         " id = ?", // c. selections
                         new String[] { String.valueOf(id) }, // d. selections args
@@ -100,17 +128,20 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         // 4. build book object
-        Seznam book = new Seznam();
-        book.setId(Integer.parseInt(cursor.getString(0)));
-       // book.setTitle(cursor.getString(1));
-       // book.setAuthor(cursor.getString(2));
+        Seznam seznam = new Seznam();
+        seznam.setId(Integer.parseInt(cursor.getString(0)));
+        seznam.setKategorie_id(Integer.parseInt(cursor.getString(1)));
+        seznam.setKategorie_nazev(cursor.getString(2));
+        seznam.setCena(cursor.getFloat(3));
+        seznam.setNazev_zbozi(cursor.getString(4));
 
-        Log.d("getBook("+id+")", book.toString());
+        Log.d("getSeznam("+id+")", seznam.toString());
 
         // 5. return book
-        return book;
+        return seznam;
     }
 
+    /*
     // Get All Books
     public List<Seznam> getAllBooks() {
         List<Seznam> books = new LinkedList<Seznam>();
@@ -141,7 +172,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // return books
         return books;
     }
-
+    */
+    /*
     // Updating single book
     public int updateBook(Seznam book) {
 
@@ -164,8 +196,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         return i;
 
-    }
-
+    }*/
+    /*
     // Deleting single book
     public void deleteBook(Seznam book) {
 
@@ -174,6 +206,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         // 2. delete
         db.delete(TABLE_BOOKS,
+
                 KEY_ID+" = ?",
                 new String[] { String.valueOf(book.getId()) });
 
@@ -182,5 +215,5 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         Log.d("deleteBook", book.toString());
 
-    }
+    }*/
 }

@@ -1,4 +1,4 @@
-package com.brnokavarna.melounovycukr.app.Model;
+package com.brnokavarna.melounovycukr.app.Model.Tabulky;
 
 /**
  * Created by Seky on 14. 4. 2014.
@@ -12,9 +12,17 @@ public class Seznam {
     private String nazev_zbozi;
 
     /**
-     * Constructor
+     * Constructors
      */
-    public Seznam(){};
+    public Seznam(){}
+
+    public Seznam(int katId, String naz, float cen, String zboz){
+        //  super();
+        this.kategorie_id = katId;
+        this.kategorie_nazev = naz;
+        this.cena = cen;
+        this.nazev_zbozi = zboz;
+    };
 
     /**
      * Getters and setters
@@ -57,5 +65,10 @@ public class Seznam {
 
     public void setNazev_zbozi(String nazev_zbozi) {
         this.nazev_zbozi = nazev_zbozi;
+    }
+
+    public String toString() {
+        return "Seznam [id=" + id + ", kat_id=" + kategorie_id + ", kat_naz=" + kategorie_nazev + ", cena=" + cena + ", nazev=" + nazev_zbozi
+                + "]";
     }
 }

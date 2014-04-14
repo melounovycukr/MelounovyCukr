@@ -1,4 +1,6 @@
-package com.brnokavarna.melounovycukr.app.Model;
+package com.brnokavarna.melounovycukr.app.Model.Tabulky;
+
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 
 /**
  * Created by Seky on 14. 4. 2014.
