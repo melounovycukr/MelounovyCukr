@@ -247,5 +247,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
      * @return
      */
     public List<Seznam> showCategory()
-    {}
+    {
+        return null;
+    }
 }
