@@ -8,7 +8,12 @@ import android.view.MenuItem;
 import com.brnokavarna.melounovycukr.app.Model.MySQLiteHelper;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 
+import java.util.List;
+
+
+
 public class MainActivity extends ActionBarActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,9 +24,13 @@ public class MainActivity extends ActionBarActivity {
         MySQLiteHelper db = new MySQLiteHelper(this);
 
 
-        /*
-        db.addSeznam(new Seznam(1 ,"Pepa", 50, "cen"));
-        Seznam test = db.getSeznam(1);*/
+
+        //db.addSeznam(new Seznam(1 ,"Pepa", 50, "cen"));
+        //Seznam test = db.getItem(1);
+        //List<Seznam> list = db.getAllItems();
+
+       // db.deleteItem(2,db.TABLE_SEZNAM)
+        //db.getAllItems();
     }
 
 

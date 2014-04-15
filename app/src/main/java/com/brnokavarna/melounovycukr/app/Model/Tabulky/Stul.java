@@ -5,7 +5,7 @@ package com.brnokavarna.melounovycukr.app.Model.Tabulky;
  * Trida obsahujici predpis tabulky pro jednotlivy stul
  */
 public class Stul {
-    private int id_stolu;
+    private int id;
     private int id_polozky;
     private int mnozstvi;
 
@@ -17,12 +17,12 @@ public class Stul {
     /**
      * Getters and setters
      */
-    public int getId_stolu() {
-        return id_stolu;
+    public int getId() {
+        return id;
     }
 
-    public void setId_stolu(int id_stolu) {
-        this.id_stolu = id_stolu;
+    public void setId(int id_stolu) {
+        this.id = id_stolu;
     }
 
     public int getId_polozky() {
