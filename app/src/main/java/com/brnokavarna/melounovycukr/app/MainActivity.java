@@ -1,14 +1,13 @@
 package com.brnokavarna.melounovycukr.app;
 
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.brnokavarna.melounovycukr.app.Model.MySQLiteHelper;
-import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
+import com.brnokavarna.melounovycukr.app.Controller.Controller;
 
-import java.util.List;
 
 
 
@@ -21,16 +20,9 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
-        MySQLiteHelper db = new MySQLiteHelper(this);
+        Controller test = new Controller(this);
+        test.test();
 
-
-
-        //db.addSeznam(new Seznam(1 ,"Pepa", 50, "cen"));
-        //Seznam test = db.getItem(1);
-        //List<Seznam> list = db.getAllItems();
-
-       // db.deleteItem(2,db.TABLE_SEZNAM)
-        //db.getAllItems();
     }
 
 
@@ -56,3 +48,4 @@ public class MainActivity extends ActionBarActivity {
     }
 
 }
+

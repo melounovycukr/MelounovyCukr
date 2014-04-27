@@ -5,14 +5,19 @@ package com.brnokavarna.melounovycukr.app.Model.Tabulky;
  * Trida obsahujici predpis tabulky pro jednotlivy stul
  */
 public class Stul {
-    private int id;
-    private int id_polozky;
-    private int mnozstvi;
+    protected int id;
+    protected int id_polozky;
+    protected int mnozstvi;
 
     /**
      * Constructor
      */
     public Stul(){}
+
+    public Stul(int id_pol, int mnoz){
+        this.id_polozky = id_pol;
+        this.mnozstvi = mnoz;
+    }
 
     /**
      * Getters and setters
@@ -39,5 +44,9 @@ public class Stul {
 
     public void setMnozstvi(int mnozstvi) {
         this.mnozstvi = mnozstvi;
+    }
+
+    public String toString() {
+        return "Seznam [id=" + id + ", polozka_id=" + id_polozky + ", mnozstvi_naz=" + mnozstvi + "]";
     }
 }
