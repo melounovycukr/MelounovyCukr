@@ -41,20 +41,22 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         String CREATE_SEZNAM_TABLE = "CREATE TABLE seznam ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "kategorie_id INTEGER, " +
-                "kategorie_nazev TEXT, "+
                 "cena FLOAT, "+
                 "nazev_zbozi TEXT )";
 
         // SQL statement to create stul table
         String CREATE_STUL_TABLE = "CREATE TABLE stul ( " +
-                "id_stul INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "id_polozka INTEGER, " +
-                "mnozstvi INTEGER )";
+                "id_stul INTEGER, " +
+                "druh_kavy INTEGER, "+
+                "mnozstvi INTEGER)";
 
         // SQL statement to create CelkovaTrzba table
         String CREATE_CELKOVA_TRZBA_TABLE = "CREATE TABLE celkovaTrzba ( " +
                 "id_trzba INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "id_polozka INTEGER, " +
+                "druh_kavy INTEGER, "+
                 "mnozstvi INTEGER )";
 
 
@@ -88,11 +90,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     // Items Table Columns names
     private static final String KEY_ID = "id";
     private static final String KEY_KATEGORY = "kategorie_id";
-    private static final String KEY_KATEGORY_NAME = "kategorie_nazev";
     private static final String KEY_CENA = "cena";
     private static final String KEY_NAZEV_ZBOZI = "nazev_zbozi";
 
-    private static final String[] COLUMNS = {KEY_ID, KEY_KATEGORY, KEY_KATEGORY_NAME, KEY_CENA, KEY_NAZEV_ZBOZI};
+    private static final String[] COLUMNS = {KEY_ID, KEY_KATEGORY, KEY_CENA, KEY_NAZEV_ZBOZI};
 
     public void addSeznam(Seznam seznam){
         Log.d("addSeznam", seznam.toString());
@@ -102,7 +103,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
         values.put(KEY_KATEGORY, seznam.getKategorie_id());
-        values.put(KEY_KATEGORY_NAME, seznam.getKategorie_nazev());
         values.put(KEY_CENA, seznam.getCena());
         values.put(KEY_NAZEV_ZBOZI, seznam.getNazev_zbozi());
 
@@ -144,9 +144,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Seznam seznam = new Seznam();
         seznam.setId(Integer.parseInt(cursor.getString(0)));
         seznam.setKategorie_id(Integer.parseInt(cursor.getString(1)));
-        seznam.setKategorie_nazev(cursor.getString(2));
-        seznam.setCena(cursor.getFloat(3));
-        seznam.setNazev_zbozi(cursor.getString(4));
+        seznam.setCena(cursor.getFloat(2));
+        seznam.setNazev_zbozi(cursor.getString(3));
 
         Log.d("getSeznam("+id+")", seznam.toString());
 
@@ -176,9 +175,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 item = new Seznam();
                 item.setId(Integer.parseInt(cursor.getString(0)));
                 item.setKategorie_id(Integer.parseInt(cursor.getString(1)));
-                item.setKategorie_nazev(cursor.getString(2));
-                item.setCena(cursor.getFloat(3));
-                item.setNazev_zbozi(cursor.getString(4));
+                item.setCena(cursor.getFloat(2));
+                item.setNazev_zbozi(cursor.getString(3));
 
 
                 items.add(item);
@@ -205,7 +203,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
         values.put(KEY_KATEGORY, item.getKategorie_id());
-        values.put(KEY_KATEGORY_NAME, item.getKategorie_nazev());
         values.put(KEY_CENA, item.getCena());
         values.put(KEY_NAZEV_ZBOZI, item.getNazev_zbozi());
 
@@ -223,15 +220,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     }
 
 
-
-     /**
-     * List of items within some category                     TODO
-     * @return
-     */
-    public List<Seznam> showCategory()
-    {
-        return null;
-    }
 
     /**
      * Remove item from table

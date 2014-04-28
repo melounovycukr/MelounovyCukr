@@ -7,7 +7,6 @@ package com.brnokavarna.melounovycukr.app.Model.Tabulky;
 public class Seznam {
     private int id;
     private int kategorie_id;
-    private String kategorie_nazev;
     private double cena;
     private String nazev_zbozi;
 
@@ -16,10 +15,9 @@ public class Seznam {
      */
     public Seznam(){}
 
-    public Seznam(int katId, String naz, float cen, String zboz){
+    public Seznam(int katId, float cen, String zboz){
         //  super();
         this.kategorie_id = katId;
-        this.kategorie_nazev = naz;
         this.cena = cen;
         this.nazev_zbozi = zboz;
     };
@@ -43,13 +41,6 @@ public class Seznam {
         this.kategorie_id = kategorie_id;
     }
 
-    public String getKategorie_nazev() {
-        return kategorie_nazev;
-    }
-
-    public void setKategorie_nazev(String kategorie_nazev) {
-        this.kategorie_nazev = kategorie_nazev;
-    }
 
     public double getCena() {
         return cena;
@@ -68,7 +59,7 @@ public class Seznam {
     }
 
     public String toString() {
-        return "Seznam [id=" + id + ", kat_id=" + kategorie_id + ", kat_naz=" + kategorie_nazev + ", cena=" + cena + ", nazev=" + nazev_zbozi
+        return "Seznam [id=" + id + ", kat_id=" + kategorie_id +  ", cena=" + cena + ", nazev=" + nazev_zbozi
                 + "]";
     }
 }
