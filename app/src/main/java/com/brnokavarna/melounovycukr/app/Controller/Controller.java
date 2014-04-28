@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Seky on 14. 4. 2014.
  * Spojuje datovy model s pohledem
  */
-public class Controller {
+public class Controller implements ControllerInterface {
     private MySQLiteHelper db;
 
     /**
@@ -29,7 +29,6 @@ public class Controller {
      * Kategorie
      */
     public enum CategoryID{
-        Popularni,
         Kava,
         Dobroty,
         Alkohol,
@@ -51,9 +50,18 @@ public class Controller {
 
     public void test(){
 
+
+        db.addTrzba(new CelkovaTrzba(1,2,3));
+        //db.addSeznam(new Seznam(CategoryID.Alkohol.ordinal() ,2,"pepa"));
+      //  db.addSeznam(new Seznam(CategoryID.Alkohol.ordinal(),2,"franta"));
+       // db.addSeznam(new Seznam(CategoryID.Kava.ordinal(),2,"zdena"));
+       /* db.addStul(new Stul(2, 2,45,5));
+        db.addStul(new Stul(2, 2,46,5));
+        db.addStul(new Stul(2, 3,50,5));*/
         //MySQLiteHelper db = new MySQLiteHelper(this);
 
 /*
+
          db.addSeznam(new Seznam(1 , 50, "cen"));
          db.addStul(new Stul(2, 50));
          db.addTrzba(new CelkovaTrzba(5, 60));*/
@@ -113,12 +121,13 @@ public class Controller {
     }
 
     /**
-     * Smazazni polozky ze sortimentu
+     * Smazani polozky ze sortimentu
      * @param idPolozky
      * @return
      */
     public EnumErrors SmazPolozkuSeznam(int idPolozky)
     {
+        db.deleteItemSeznam(idPolozky);
         return EnumErrors.Success;
     }
 
@@ -154,7 +163,7 @@ public class Controller {
      */
     public List<CelkovaTrzba>  VypisTrzbu()
     {
-        return null;
+        return db.getAllItemsTrzba();
     }
 
     /**
@@ -167,5 +176,32 @@ public class Controller {
         return 0;
     }
 
+    /**
+     * Zobrazi polozku ze sortimentu
+     * @param idPolozky
+     * @return
+     */
+    public Seznam ZobrazPolozkuSeznam(int idPolozky)
+    {
+        return null;
+    }
 
+      /**
+     * Zobrazi seznam vsech polozek od daneho stolu
+     * @param idStolu
+     * @return
+     */
+    public List<Stul> ZobrazVsechnyPolozkyStul(int idStolu)
+    {
+        return db.getAllItemsStul(idStolu);
+    }
+
+    /**
+     * Zobrani polozky dane kategorie
+     * @param idKategorie
+     * @return
+     */
+    public List<Seznam> ZobrazKategoriiSeznam(CategoryID idKategorie) {
+        return db.getAllCategoryItemsSeznam(idKategorie);
+    }
 }

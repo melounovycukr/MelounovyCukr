@@ -16,9 +16,11 @@ public class Stul {
      */
     public Stul(){}
 
-    public Stul(int id_pol, int mnoz){
+    public Stul(int id_pol, int stul, int druh, int mnoz){
         this.id_polozky = id_pol;
         this.mnozstvi = mnoz;
+        this.id_stul = stul;
+        this.druh_kavy = druh;
     }
 
 
@@ -41,7 +43,6 @@ public class Stul {
     public void setDruh_kavy(int druh_kavy) {
         this.druh_kavy = druh_kavy;
     }
-
 
     public int getId() {
         return id;
@@ -68,6 +69,6 @@ public class Stul {
     }
 
     public String toString() {
-        return "Seznam [id=" + id + ", polozka_id=" + id_polozky + ", mnozstvi_naz=" + mnozstvi + "]";
+        return "Seznam [id=" + id + "stul_id " + id_stul + ", polozka_id=" + id_polozky + ", mnozstvi_naz=" + mnozstvi + "]";
     }
 }

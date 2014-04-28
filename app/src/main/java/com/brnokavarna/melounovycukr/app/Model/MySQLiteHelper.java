@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.brnokavarna.melounovycukr.app.Controller.Controller;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.CelkovaTrzba;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
@@ -155,18 +156,19 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 
     /**
-     * Get list of all items
+     * Zobrazi vsechny polozky dane kategorie
+     * @param id
      * @return
      */
-    public List<Seznam> getAllItemsSeznam() {
+    public List<Seznam> getAllCategoryItemsSeznam(Controller.CategoryID id) {
         List<Seznam> items = new LinkedList<Seznam>();
 
         // 1. build the query
-        String query = "SELECT  * FROM " + TABLE_SEZNAM;
+        String query = "SELECT  * FROM " + TABLE_SEZNAM + " WHERE " + KEY_KATEGORY + " = ?";
 
         // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = db.rawQuery(query,  new String[] { String.valueOf(id.ordinal()) });
 
         // 3. go over each row, build book and add it to list
         Seznam item = null;
@@ -253,10 +255,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     // Items Table Columns names
     private static final String KEY_ID_STUL = "id_stul";
     private static final String KEY_POLOZKA = "id_polozka";
+    private static final String KEY_DRUH_KAVY = "druh_kavy";
     private static final String KEY_MNOZSTVI= "mnozstvi";
 
 
-    private static final String[] COLUMNS_STUL = {KEY_ID_STUL, KEY_POLOZKA, KEY_MNOZSTVI};
+    private static final String[] COLUMNS_STUL = {KEY_ID, KEY_POLOZKA, KEY_ID_STUL, KEY_DRUH_KAVY , KEY_MNOZSTVI};
 
     public void addStul(Stul stul){
         Log.d("addStul", stul.toString());
@@ -266,6 +269,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
         values.put(KEY_POLOZKA, stul.getId_polozky());
+        values.put(KEY_ID_STUL, stul.getId_stul());
+        values.put(KEY_DRUH_KAVY, stul.getDruh_kavy());
         values.put(KEY_MNOZSTVI, stul.getMnozstvi());
 
         // 3. insert
@@ -306,7 +311,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Stul stul = new Stul();
         stul.setId(Integer.parseInt(cursor.getString(0)));
         stul.setId_polozky(Integer.parseInt(cursor.getString(1)));
-        stul.setMnozstvi(Integer.parseInt(cursor.getString(2)));
+        stul.setId_stul(Integer.parseInt(cursor.getString(2)));
+        stul.setDruh_kavy(Integer.parseInt(cursor.getString(3)));
+        stul.setMnozstvi(Integer.parseInt(cursor.getString(4)));
 
         Log.d("getStul("+id+")", stul.toString());
 
@@ -315,18 +322,19 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Get list of all items
+     * Ziska seznam vsech polozek na danem stole
+     * @param id
      * @return
      */
-    public List<Stul> getAllItemsStul() {
+    public List<Stul> getAllItemsStul(int id) {
         List<Stul> items = new LinkedList<Stul>();
 
         // 1. build the query
-        String query = "SELECT  * FROM " + TABLE_STUL;
+        String query = "SELECT  * FROM " + TABLE_STUL + " WHERE " + KEY_ID_STUL + " = ?";
 
         // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = db.rawQuery(query, new String[] { String.valueOf(id) });
 
         // 3. go over each row, build book and add it to list
        Stul item = null;
@@ -335,7 +343,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 item = new Stul();
                 item.setId(Integer.parseInt(cursor.getString(0)));
                 item.setId_polozky(Integer.parseInt(cursor.getString(1)));
-                item.setMnozstvi(Integer.parseInt(cursor.getString(2)));
+                item.setId_stul(Integer.parseInt(cursor.getString(2)));
+                item.setDruh_kavy(Integer.parseInt(cursor.getString(3)));
+                item.setMnozstvi(Integer.parseInt(cursor.getString(4)));
 
                 items.add(item);
             } while (cursor.moveToNext());
@@ -360,12 +370,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
         values.put(KEY_POLOZKA, item.getId_polozky());
+        values.put(KEY_ID_STUL, item.getId_stul());
+        values.put(KEY_DRUH_KAVY, item.getDruh_kavy());
         values.put(KEY_MNOZSTVI, item.getMnozstvi());
 
         // 3. updating row
         int i = db.update(TABLE_STUL, //table
                 values, // column/value
-                KEY_ID_STUL+" = ?", // selections
+                KEY_ID+" = ?", // selections
                 new String[] { String.valueOf(item.getId()) }); //selection args
 
         // 4. close
@@ -387,7 +399,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 2. delete
         db.delete(TABLE_STUL,
 
-                KEY_ID_STUL+" = ?",
+                KEY_ID+" = ?",
                 new String[] { String.valueOf(itemID) });
 
         // 3. close
@@ -408,7 +420,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     //private static final String KEY_MNOZSTVI= "mnozstvi";
 
 
-    private static final String[] COLUMNS_TRZBA = {KEY_ID_TRZBA, KEY_POLOZKA, KEY_MNOZSTVI};
+    private static final String[] COLUMNS_TRZBA = {KEY_ID_TRZBA, KEY_POLOZKA, KEY_DRUH_KAVY, KEY_MNOZSTVI};
 
     public void addTrzba(CelkovaTrzba stul){
         Log.d("addTrzba", stul.toString());
@@ -418,6 +430,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
         values.put(KEY_POLOZKA, stul.getId_polozky());
+        values.put(KEY_DRUH_KAVY, stul.getDruh_kavy());
         values.put(KEY_MNOZSTVI, stul.getMnozstvi());
 
         // 3. insert
@@ -458,7 +471,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         CelkovaTrzba stul = new CelkovaTrzba();
         stul.setId(Integer.parseInt(cursor.getString(0)));
         stul.setId_polozky(Integer.parseInt(cursor.getString(1)));
-        stul.setMnozstvi(Integer.parseInt(cursor.getString(2)));
+        stul.setDruh_kavy(Integer.parseInt(cursor.getString(2)));
+        stul.setMnozstvi(Integer.parseInt(cursor.getString(3)));
 
         Log.d("getTrzba("+id+")", stul.toString());
 
@@ -487,7 +501,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 item = new CelkovaTrzba();
                 item.setId(Integer.parseInt(cursor.getString(0)));
                 item.setId_polozky(Integer.parseInt(cursor.getString(1)));
-                item.setMnozstvi(Integer.parseInt(cursor.getString(2)));
+                item.setDruh_kavy(Integer.parseInt(cursor.getString(2)));
+                item.setMnozstvi(Integer.parseInt(cursor.getString(3)));
 
                 items.add(item);
             } while (cursor.moveToNext());
@@ -512,6 +527,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
         values.put(KEY_POLOZKA, item.getId_polozky());
+        values.put(KEY_DRUH_KAVY, item.getDruh_kavy());
         values.put(KEY_MNOZSTVI, item.getMnozstvi());
 
         // 3. updating row

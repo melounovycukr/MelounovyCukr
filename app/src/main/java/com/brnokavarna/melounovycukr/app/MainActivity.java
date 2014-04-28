@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.brnokavarna.melounovycukr.app.Controller.Controller;
 
@@ -21,7 +22,11 @@ public class MainActivity extends ActionBarActivity {
 
 
         Controller test = new Controller(this);
-        test.test();
+        //test.test();
+        test.SmazPolozkuSeznam(9);
+        TextView txtView;
+        txtView = (TextView)findViewById(R.id.txtView);
+        txtView.setText(test.VypisTrzbu().toString());
 
 
     }

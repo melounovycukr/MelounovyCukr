@@ -18,10 +18,11 @@ public class CelkovaTrzba{
      */
     public CelkovaTrzba(){}
 
-    public CelkovaTrzba(int pol, int mnoz)
+    public CelkovaTrzba(int pol, int mnoz, int druh)
     {
         this.id_polozky = pol;
         this.mnozstvi = mnoz;
+        this.druh_kavy = druh;
     }
 
     public int getId_polozky() {
@@ -57,4 +58,8 @@ public class CelkovaTrzba{
     }
 
 
+    public String toString() {
+        return "Seznam [id=" + id + ", pol_id=" + id_polozky +  ", kava=" + druh_kavy + ",mnozstvi=" + mnozstvi
+                + "]";
+    }
 }
