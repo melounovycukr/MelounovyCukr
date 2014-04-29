@@ -16,25 +16,13 @@ public class Stul {
      */
     public Stul(){}
 
-    public Stul(int id_pol, int stul, int druh, int mnoz){
+    public Stul(int id_pol, int stul, int mnoz){
         this.id_polozky = id_pol;
         this.mnozstvi = mnoz;
         this.id_stul = stul;
-        this.druh_kavy = druh;
+       // this.druh_kavy = druh;
     }
 
-
-    /**
-     * Getters and setters
-     */
-
-    public int getId_stul() {
-        return id_stul;
-    }
-
-    public void setId_stul(int id_stul) {
-        this.id_stul = id_stul;
-    }
 
     public int getDruh_kavy() {
         return druh_kavy;
@@ -42,6 +30,19 @@ public class Stul {
 
     public void setDruh_kavy(int druh_kavy) {
         this.druh_kavy = druh_kavy;
+    }
+
+    /**
+     * Getters and setters
+     */
+
+
+    public int getId_stul() {
+        return id_stul;
+    }
+
+    public void setId_stul(int id_stul) {
+        this.id_stul = id_stul;
     }
 
     public int getId() {

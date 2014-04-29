@@ -18,11 +18,18 @@ public class CelkovaTrzba{
      */
     public CelkovaTrzba(){}
 
-    public CelkovaTrzba(int pol, int mnoz, int druh)
+    public CelkovaTrzba(int pol, int mnoz)
     {
         this.id_polozky = pol;
         this.mnozstvi = mnoz;
-        this.druh_kavy = druh;
+     }
+
+    public int getDruh_kavy() {
+        return druh_kavy;
+    }
+
+    public void setDruh_kavy(int druh_kavy) {
+        this.druh_kavy = druh_kavy;
     }
 
     public int getId_polozky() {
@@ -41,14 +48,6 @@ public class CelkovaTrzba{
         this.id = id;
     }
 
-    public int getDruh_kavy() {
-        return druh_kavy;
-    }
-
-    public void setDruh_kavy(int druh_kavy) {
-        this.druh_kavy = druh_kavy;
-    }
-
     public int getMnozstvi() {
         return mnozstvi;
     }
@@ -59,7 +58,7 @@ public class CelkovaTrzba{
 
 
     public String toString() {
-        return "Seznam [id=" + id + ", pol_id=" + id_polozky +  ", kava=" + druh_kavy + ",mnozstvi=" + mnozstvi
+        return "Seznam [id=" + id + ", pol_id=" + id_polozky +   ",mnozstvi=" + mnozstvi
                 + "]";
     }
 }

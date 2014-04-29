@@ -17,7 +17,8 @@ import com.brnokavarna.melounovycukr.app.Controller.Controller;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.CelkovaTrzba;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
-
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.TagSeznam;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Tagy;
 
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
@@ -30,6 +31,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_SEZNAM = "seznam";
     public static final String TABLE_STUL = "stul";
     public static final String TABLE_CELKOVA_TRZBA = "celkovaTrzba";
+    public static final String TABLE_TAGY = "tagy";
+    public static final String TABLE_TAGY_SEZNAM = "tagySeznam";
 
 
     public MySQLiteHelper(Context context) {
@@ -60,11 +63,22 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 "druh_kavy INTEGER, "+
                 "mnozstvi INTEGER )";
 
+        String CREATE_TAGY = "CREATE TABLE tagy ( " +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "tag TEXT )";
 
-        // create books table
+        String CREATE_TAGY_SEZNAM = "CREATE TABLE tagySeznam ( " +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "id_polozky INTEGER, " +
+                "id_tagu INTEGER )";
+
+
+        // create tables
         db.execSQL(CREATE_SEZNAM_TABLE);
         db.execSQL(CREATE_STUL_TABLE);
         db.execSQL(CREATE_CELKOVA_TRZBA_TABLE);
+        db.execSQL(CREATE_TAGY);
+        db.execSQL(CREATE_TAGY_SEZNAM);
 
     }
 
@@ -74,6 +88,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS seznam");
         db.execSQL("DROP TABLE IF EXISTS stul");
         db.execSQL("DROP TABLE IF EXISTS celkovaTrzba");
+        db.execSQL("DROP TABLE IF EXISTS tagy");
+        db.execSQL("DROP TABLE IF EXISTS tagySeznam");
 
         // create fresh books table
         this.onCreate(db);
@@ -259,7 +275,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_MNOZSTVI= "mnozstvi";
 
 
-    private static final String[] COLUMNS_STUL = {KEY_ID, KEY_POLOZKA, KEY_ID_STUL, KEY_DRUH_KAVY , KEY_MNOZSTVI};
+    private static final String[] COLUMNS_STUL = {KEY_ID, KEY_POLOZKA, KEY_DRUH_KAVY, KEY_ID_STUL, KEY_MNOZSTVI};
 
     public void addStul(Stul stul){
         Log.d("addStul", stul.toString());
@@ -411,6 +427,25 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 
     /**
+     * Kontrola jestli uz dana kava u daneho stolu neni
+     * @param itemID
+     * @param kava
+     * @return true jestli je a naopak
+     */
+    public boolean CheckTagTable(int itemID, Controller.TagKavy kava)
+    {
+        String query = "SELECT  * FROM " + TABLE_STUL + " ts, " + TABLE_TAGY_SEZNAM + " tg " + " WHERE ts." + KEY_ID + " = "
+                + "tg." + KEY_TAG_POLOZKA_ID + " AND tg." + KEY_TAG_ID + " = " + 1;
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        return true;
+    }
+
+
+    /**
      * TRZBA*****************************************************************************************
      */
     // TRZBA table name
@@ -420,7 +455,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     //private static final String KEY_MNOZSTVI= "mnozstvi";
 
 
-    private static final String[] COLUMNS_TRZBA = {KEY_ID_TRZBA, KEY_POLOZKA, KEY_DRUH_KAVY, KEY_MNOZSTVI};
+    private static final String[] COLUMNS_TRZBA = {KEY_ID_TRZBA, KEY_DRUH_KAVY, KEY_POLOZKA, KEY_MNOZSTVI};
 
     public void addTrzba(CelkovaTrzba stul){
         Log.d("addTrzba", stul.toString());
@@ -562,6 +597,170 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.close();
 
         Log.d("deleteItem", "ID = "+itemID);
+
+    }
+
+
+
+    /**
+     * Tagy*****************************************************************************************
+     */
+    // TAGY table name
+    // Items Table Columns names
+    private static final String KEY_TAG = "tag";
+
+
+
+    private static final String[] COLUMNS_TAGY = {KEY_TAG};
+
+    /**
+     * Pridani tagu
+     * @param stul tag
+     */
+    public void addTag(Tagy stul){
+        Log.d("addTag", stul.toString());
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // 2. create ContentValues to add key "column"/value
+        ContentValues values = new ContentValues();
+        values.put(KEY_TAG, stul.getTag());
+
+        // 3. insert
+        db.insert(TABLE_TAGY, // table
+                null, //nullColumnHack
+                values); // key/value -> keys = column names/ values = column values
+
+        // 4. close
+        db.close();
+    }
+
+    /**
+     * Vrati nazev daneho tagu
+     * @param id id pozadovaneho tagu
+     * @return dany tag
+     */
+    public String getTag(int id){
+
+        // 1. get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+        Cursor cursor =
+                db.query(TABLE_TAGY, // a. table
+                        COLUMNS_TAGY, // b. column names
+                        " id = ?", // c. selections
+                        new String[] { String.valueOf(id) }, // d. selections args
+                        null, // e. group by
+                        null, // f. having
+                        null, // g. order by
+                        null); // h. limit
+
+        // 3. if we got results get the first one
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        // 4. build book object
+       // Tagy stul = new Tagy();
+        //stul.setId(Integer.parseInt(cursor.getString(0)));
+       // stul.setTag(cursor.getString(1));
+
+        //Log.d("getTrzba("+id+")", stul.toString());
+
+        // 5. return book
+        return cursor.getString(0);
+    }
+
+    /**
+     * TagSeznam*****************************************************************************************
+     */
+    // TAGY_SEZNAM table name
+    // Items Table Columns names
+    private static final String KEY_TAG_POLOZKA_ID = "id_polozky";
+    private static final String KEY_TAG_ID = "id_tagu";
+
+
+
+    private static final String[] COLUMNS_TAG_SEZNAM = {KEY_TAG_POLOZKA_ID, KEY_TAG_ID};
+
+    /**
+     * Pridani polozky do vazebni tabulky
+     * @param stul tag seznam vazba
+     */
+    public void addTagSeznam(TagSeznam stul){
+        Log.d("addTag", stul.toString());
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // 2. create ContentValues to add key "column"/value
+        ContentValues values = new ContentValues();
+        values.put(KEY_TAG_POLOZKA_ID, stul.getId_polozky());
+        values.put(KEY_TAG_ID, stul.getId_tagu());
+
+        // 3. insert
+        db.insert(TABLE_TAGY_SEZNAM, // table
+                null, //nullColumnHack
+                values); // key/value -> keys = column names/ values = column values
+
+        // 4. close
+        db.close();
+    }
+
+    /**
+     * Smazani vazby
+     * @param itemID id vazby
+     */
+    public void deleteTagSeznam(int itemID) {
+
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // 2. delete
+        db.delete(TABLE_TAGY_SEZNAM,
+
+                KEY_ID+" = ?",
+                new String[] { String.valueOf(itemID) });
+
+        // 3. close
+        db.close();
+
+        Log.d("deleteItem", "ID = "+itemID);
+    }
+
+    /**
+     * Popularni polozky dle tagu
+     * @return seznam popularnich polozek
+     */
+    public List<Seznam> vratPopularni()
+    {
+        List<Seznam> items = new LinkedList<Seznam>();
+
+        // 1. build the query
+        String query = "SELECT  * FROM " + TABLE_SEZNAM + " ts, " + TABLE_TAGY_SEZNAM + " tg " + " WHERE ts." + KEY_ID + " = "
+                + "tg." + KEY_TAG_POLOZKA_ID + " AND tg." + KEY_TAG_ID + " = " + 1;
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // 3. go over each row, build book and add it to list
+        Seznam item = null;
+        if (cursor.moveToFirst()) {
+            do {
+                item = new Seznam();
+                item.setId(Integer.parseInt(cursor.getString(0)));
+                item.setKategorie_id(Integer.parseInt(cursor.getString(1)));
+                item.setCena(cursor.getFloat(2));
+                item.setNazev_zbozi(cursor.getString(3));
+
+                items.add(item);
+            } while (cursor.moveToNext());
+        }
+
+        Log.d("getAllItems()", items.toString());
+
+        // return books
+        return items;
 
     }
 

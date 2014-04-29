@@ -41,82 +41,62 @@ public class Controller implements ControllerInterface {
     public enum TagKavy{
         Ethyopie,
         Kena,
-        Zadne;//kdyz polozka neni kafe
-    }
-
-    public Controller(Context actual){
-       db = new MySQLiteHelper(actual);
-    }
-
-    public void test(){
-
-
-        db.addTrzba(new CelkovaTrzba(1,2,3));
-        //db.addSeznam(new Seznam(CategoryID.Alkohol.ordinal() ,2,"pepa"));
-      //  db.addSeznam(new Seznam(CategoryID.Alkohol.ordinal(),2,"franta"));
-       // db.addSeznam(new Seznam(CategoryID.Kava.ordinal(),2,"zdena"));
-       /* db.addStul(new Stul(2, 2,45,5));
-        db.addStul(new Stul(2, 2,46,5));
-        db.addStul(new Stul(2, 3,50,5));*/
-        //MySQLiteHelper db = new MySQLiteHelper(this);
-
-/*
-
-         db.addSeznam(new Seznam(1 , 50, "cen"));
-         db.addStul(new Stul(2, 50));
-         db.addTrzba(new CelkovaTrzba(5, 60));*/
-        //db.addSeznam(new Seznam(1 ,"Pepa", 50, "cen"));
-        //Seznam test = db.getItem(1);
-/*
-        Seznam tral = new Seznam();
-        tral.setId(1);
-        tral.setKategorie_id(5444);
-        tral.setKategorie_nazev("hovnooo");
-        tral.setNazev_zbozi("bobeeeeek");
-        tral.setCena(500000);
-        db.updateItemSeznam(tral);
-*/
-
-        //CelkovaTrzba test = new CelkovaTrzba();
-        // test.setId(0);
-        // test.setId_polozky(510);
-        // test.setMnozstvi(3);
-
-
-      /*
-        List<Seznam> list = db.getAllItemsSeznam();
-        List<Stul> list2 = db.getAllItemsStul();
-        List<CelkovaTrzba> list3 = db.getAllItemsTrzba();
-*/
-        // db.deleteItem(2,db.TABLE_SEZNAM)
-        //db.getAllItems();
-       /* List<Seznam> list = db.getAllItemsSeznam();
-        List<Stul> list2 = db.getAllItemsStul();
-        List<CelkovaTrzba> list3 = db.getAllItemsTrzba();*/
+        Zadna;//kdyz polozka neni kafe
     }
 
     /**
-     * Pridani polozky do sortimentu
-     * @param nazev
-     * @param cena
-     * @param kategorieID vybrat Katerogii z CategoryID
-     * @return chyba nebo success
+     * Constructor
+     * @param actual kontext
      */
-    public EnumErrors PridejPolozkuSeznam(String nazev, float cena, CategoryID kategorieID)
+    public Controller(Context actual){
+       db = new MySQLiteHelper(actual);
+       //jen jednou              **************************************""""""""""""""""""!!!!!!!!!!!
+
+       //db.addTag(new Tagy( "Popular"));
+       //db.addTag(new Tagy( "Ethiopia"));
+       //db.addTag(new Tagy( "Kena"));
+
+
+    }
+
+    public String test(){
+        //db.addSeznam(new Seznam(CategoryID.Alkohol.ordinal(),50,"Pivo"));
+        //db.addTagSeznam(new TagSeznam(1,1));//popularni
+       // db.deleteTagSeznam(1);
+        return db.getTag(1)+db.getTag(2)+db.getTag(3);
+
+    }
+
+    /**
+     * Pridani polozka do sortimentu
+     * @param polozka ID se zde v polozce nespecifikuje
+     * @return
+     */
+    public EnumErrors PridejPolozkuSeznam(Seznam polozka)
     {
+        try {
+                db.addSeznam(polozka);
+            }
+        catch(Exception e)
+             {
+                 return EnumErrors.AddItemError;
+             }
         return EnumErrors.Success;
     }
 
     /**
      * Editace polozky v sortimentu
-     * @param idPolozky
-     * @param nazev
-     * @param cena
-     * @param kategoieID vybrat Katerogii z CategoryID
+     * @param polozka polozka v seznamu musi mi definovane i ID
      * @return
      */
-    public EnumErrors EditujPolozkuSeznam(int idPolozky, String nazev, float cena, CategoryID kategoieID)
+    public EnumErrors EditujPolozkuSeznam(Seznam polozka)
     {
+        try{
+            db.updateItemSeznam(polozka);
+        }
+        catch(Exception e) {
+            return EnumErrors.EditItemError;
+        }
         return EnumErrors.Success;
     }
 
@@ -140,6 +120,16 @@ public class Controller implements ControllerInterface {
      */
     public EnumErrors PridejPolozkuStul(int idPolozky, TagKavy druhKavy, int idStolu)
     {
+        switch(druhKavy){
+            case Ethyopie:
+
+                db.addStul(new Stul());
+                break;
+            case Kena:
+                break;
+            case Zadna:
+                break;
+        }
         //mnozstvi daneho ID++
         return EnumErrors.Success;
     }
@@ -203,5 +193,14 @@ public class Controller implements ControllerInterface {
      */
     public List<Seznam> ZobrazKategoriiSeznam(CategoryID idKategorie) {
         return db.getAllCategoryItemsSeznam(idKategorie);
+    }
+
+    /**
+     * Zobrazi seznam popularni polozek
+     * @return
+     */
+    public List<Seznam> ZobrazPopularni()
+    {
+        return db.vratPopularni();
     }
 }

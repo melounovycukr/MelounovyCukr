@@ -11,14 +11,32 @@ public class Seznam {
     private int kategorie_id;
     private double cena;
     private String nazev_zbozi;
+    private boolean popularni;
 
     /**
      * Constructors
      */
-    public Seznam(){}
+    public Seznam(){
+        popularni = false;
+    }
 
+    /**
+     * ...
+     * @param katId
+     * @param cen
+     * @param zboz
+     */
     public Seznam(int katId, float cen, String zboz){
         //  super();
+        this.kategorie_id = katId;
+        this.cena = cen;
+        this.nazev_zbozi = zboz;
+        this.popularni = false;
+    };
+
+    public Seznam(int idPol, int katId, float cen, String zboz){
+        //  super();
+        this.id = idPol;
         this.kategorie_id = katId;
         this.cena = cen;
         this.nazev_zbozi = zboz;
@@ -43,6 +61,13 @@ public class Seznam {
         this.kategorie_id = kategorie_id;
     }
 
+    public boolean isPopularni() {
+        return popularni;
+    }
+
+    public void setPopularni(boolean popularni) {
+        this.popularni = popularni;
+    }
 
     public double getCena() {
         return cena;

@@ -11,15 +11,16 @@ import java.util.List;
  */
 interface ControllerInterface {
 
-    public Controller.EnumErrors PridejPolozkuSeznam(String nazev, float cena, Controller.CategoryID kategorieID);
-    public Controller.EnumErrors EditujPolozkuSeznam(int idPolozky, String nazev, float cena, Controller.CategoryID kategoieID);
+    public Controller.EnumErrors PridejPolozkuSeznam(Seznam polozka);//check
+    public Controller.EnumErrors EditujPolozkuSeznam(Seznam polozka);//check je potreba i ID
     public Controller.EnumErrors SmazPolozkuSeznam(int idPolozky);//check
     public Controller.EnumErrors PridejPolozkuStul(int idPolozky, Controller.TagKavy druhKavy, int idStolu);
     public Controller.EnumErrors ZaplatPolozkuStul(int idPolozky, Controller.TagKavy druhKavy, int idStolu);
-    public List<CelkovaTrzba> VypisTrzbu();
+    public List<CelkovaTrzba> VypisTrzbu();//check
     public float ZjistiCenu(int idPolozky, Controller.TagKavy druhKavy);
     public Seznam ZobrazPolozkuSeznam(int idPolozky);// druh kavy se urcuje az u stolu
-    public List<Stul> ZobrazVsechnyPolozkyStul(int idStolu);//check
+    public List<Stul> ZobrazVsechnyPolozkyStul(int idStolu);//check //dodelat tagy
     public List<Seznam> ZobrazKategoriiSeznam(Controller.CategoryID idKategorie);//check
+    public List<Seznam> ZobrazPopularni();//check
     //vypsat popularni
 }
