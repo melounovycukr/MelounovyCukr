@@ -46,7 +46,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "kategorie_id INTEGER, " +
                 "cena FLOAT, "+
-                "nazev_zbozi TEXT )";
+                "nazev_zbozi TEXT, "+
+                "popularni BOOLEAN)";
 
         // SQL statement to create stul table
         String CREATE_STUL_TABLE = "CREATE TABLE stul ( " +
@@ -109,8 +110,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_KATEGORY = "kategorie_id";
     private static final String KEY_CENA = "cena";
     private static final String KEY_NAZEV_ZBOZI = "nazev_zbozi";
+    private static final String KEY_POPULARNI = "popularni";
 
-    private static final String[] COLUMNS = {KEY_ID, KEY_KATEGORY, KEY_CENA, KEY_NAZEV_ZBOZI};
+    private static final String[] COLUMNS = {KEY_ID, KEY_KATEGORY, KEY_CENA, KEY_NAZEV_ZBOZI, KEY_POPULARNI};
 
     public void addSeznam(Seznam seznam){
         Log.d("addSeznam", seznam.toString());
@@ -122,6 +124,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_KATEGORY, seznam.getKategorie_id());
         values.put(KEY_CENA, seznam.getCena());
         values.put(KEY_NAZEV_ZBOZI, seznam.getNazev_zbozi());
+        values.put(KEY_POPULARNI, seznam.isPopularni());
 
         // 3. insert
         db.insert(TABLE_SEZNAM, // table
@@ -163,6 +166,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         seznam.setKategorie_id(Integer.parseInt(cursor.getString(1)));
         seznam.setCena(cursor.getFloat(2));
         seznam.setNazev_zbozi(cursor.getString(3));
+        seznam.setPopularni((Integer.parseInt(cursor.getString(4)) == 1)? true : false);
 
         Log.d("getSeznam("+id+")", seznam.toString());
 
@@ -195,6 +199,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 item.setKategorie_id(Integer.parseInt(cursor.getString(1)));
                 item.setCena(cursor.getFloat(2));
                 item.setNazev_zbozi(cursor.getString(3));
+                item.setPopularni((Integer.parseInt(cursor.getString(4)) == 1)? true : false);
 
 
                 items.add(item);
@@ -223,6 +228,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_KATEGORY, item.getKategorie_id());
         values.put(KEY_CENA, item.getCena());
         values.put(KEY_NAZEV_ZBOZI, item.getNazev_zbozi());
+        values.put(KEY_POPULARNI, item.isPopularni());
 
         // 3. updating row
         int i = db.update(TABLE_SEZNAM, //table
@@ -600,6 +606,15 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Delete whole table of celkova_trzba
+     */
+    public void deleteCelaTrzba()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_CELKOVA_TRZBA, null, null);
+    }
+
 
 
     /**
@@ -671,6 +686,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return cursor.getString(0);
     }
 
+
     /**
      * TagSeznam*****************************************************************************************
      */
@@ -736,8 +752,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         List<Seznam> items = new LinkedList<Seznam>();
 
         // 1. build the query
-        String query = "SELECT  * FROM " + TABLE_SEZNAM + " ts, " + TABLE_TAGY_SEZNAM + " tg " + " WHERE ts." + KEY_ID + " = "
-                + "tg." + KEY_TAG_POLOZKA_ID + " AND tg." + KEY_TAG_ID + " = " + 1;
+        String query = "SELECT  * FROM " + TABLE_SEZNAM + " WHERE " + KEY_POPULARNI + " = "+ 1;
 
         // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();

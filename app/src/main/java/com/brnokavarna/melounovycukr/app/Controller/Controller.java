@@ -1,6 +1,7 @@
 package com.brnokavarna.melounovycukr.app.Controller;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.brnokavarna.melounovycukr.app.Model.MySQLiteHelper;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.*;
@@ -60,11 +61,13 @@ public class Controller implements ControllerInterface {
     }
 
     public String test(){
-        //db.addSeznam(new Seznam(CategoryID.Alkohol.ordinal(),50,"Pivo"));
+        //db.addSeznam(new Seznam(CategoryID.Alkohol.ordinal(),50,"Pivo",true));
+        //db.addSeznam(new Seznam(CategoryID.Alkohol.ordinal(),100,"Fernet",true));
         //db.addTagSeznam(new TagSeznam(1,1));//popularni
        // db.deleteTagSeznam(1);
-        return db.getTag(1)+db.getTag(2)+db.getTag(3);
-
+        //db.updateItemStul(new Stul())
+        //return db.getTag(1)+db.getTag(2)+db.getTag(3);
+        return null;
     }
 
     /**
@@ -118,18 +121,15 @@ public class Controller implements ControllerInterface {
      * @param idStolu
      * @return
      */
-    public EnumErrors PridejPolozkuStul(int idPolozky, TagKavy druhKavy, int idStolu)
+    public EnumErrors PridejPolozkuStul(int idStolu, int idPolozky, TagKavy druhKavy )
     {
-        switch(druhKavy){
-            case Ethyopie:
+        Stul current;
 
-                db.addStul(new Stul());
-                break;
-            case Kena:
-                break;
-            case Zadna:
-                break;
-        }
+        if((current = ZobrazPolozkuStul(idPolozky, idStolu, druhKavy)) == null)
+            db.addStul(new Stul(idPolozky, idStolu, druhKavy.ordinal(), 1));
+        else
+            db.updateItemStul(new Stul(current.getId(), idPolozky, idStolu, druhKavy.ordinal(), current.getMnozstvi() + 1));
+
         //mnozstvi daneho ID++
         return EnumErrors.Success;
     }
@@ -141,9 +141,33 @@ public class Controller implements ControllerInterface {
      * @param idStolu
      * @return
      */
-    public EnumErrors ZaplatPolozkuStul(int idPolozky, TagKavy druhKavy, int idStolu)
+    public EnumErrors ZaplatPolozkuStul(int idStolu, int idPolozky, TagKavy druhKavy)
     {
+        Stul current;
+
+        if((current = ZobrazPolozkuStul(idPolozky, idStolu, druhKavy)) != null) {
+            if(current.getMnozstvi() - 1 <= 0)//kdyz jsme na 0 tak smazat
+                db.deleteItemStul(current.getId());
+            else
+                db.updateItemStul(new Stul(current.getId(), idPolozky, idStolu, druhKavy.ordinal(), current.getMnozstvi() - 1));
+        }
+
+
         //pridat do celkove trzby
+        List<CelkovaTrzba> currentList = ZobrazTrzbu();
+        CelkovaTrzba currentTrzba = null;
+
+        for(int i  = 0; i < currentList.size(); i++)
+        {
+            if(currentList.get(i).getId_polozky() == idPolozky && currentList.get(i).getDruh_kavy() == druhKavy.ordinal())
+                currentTrzba = currentList.get(i);
+        }
+        if(currentTrzba != null)
+            db.updateItemTrzba(new CelkovaTrzba(currentTrzba.getId(), idPolozky, druhKavy.ordinal(), currentTrzba.getMnozstvi() + 1));
+        else
+            db.addTrzba(new CelkovaTrzba(idPolozky, druhKavy.ordinal(), 1));
+        //db.addTrzba();
+
         return EnumErrors.Success;
     }
 
@@ -151,19 +175,9 @@ public class Controller implements ControllerInterface {
      * Vypsani celkove denni trzby
      * @return Seznam polozek z denni trzby
      */
-    public List<CelkovaTrzba>  VypisTrzbu()
+    public List<CelkovaTrzba>  ZobrazTrzbu()
     {
         return db.getAllItemsTrzba();
-    }
-
-    /**
-     * Pro zjiseni ceny dane polozky
-     * @param idPolozky
-     * @return
-     */
-    public float ZjistiCenu(int idPolozky, TagKavy druhKavy)
-    {
-        return 0;
     }
 
     /**
@@ -173,10 +187,29 @@ public class Controller implements ControllerInterface {
      */
     public Seznam ZobrazPolozkuSeznam(int idPolozky)
     {
-        return null;
+        return db.getItemSeznam(idPolozky);
     }
 
-      /**
+    /**
+     * Zobrazi polozku u daneho stolu
+     * @param idPolozky
+     * @param idStolu
+     * @return stul nebo null
+     */
+    public Stul ZobrazPolozkuStul(int idPolozky, int idStolu, TagKavy kava)
+    {
+
+        List<Stul> temp  = db.getAllItemsStul(idStolu);
+        for(int i  = 0; i < temp.size(); i++)
+        {
+            if(temp.get(i).getId_polozky() == idPolozky && temp.get(i).getDruh_kavy() == kava.ordinal())
+                return temp.get(i);
+        }
+        return null;
+
+    }
+
+     /**
      * Zobrazi seznam vsech polozek od daneho stolu
      * @param idStolu
      * @return
@@ -202,5 +235,13 @@ public class Controller implements ControllerInterface {
     public List<Seznam> ZobrazPopularni()
     {
         return db.vratPopularni();
+    }
+
+
+    /**
+     * Vymazani trzby
+     */
+    public void VymazTrzbu() {
+        db.deleteCelaTrzba();
     }
 }

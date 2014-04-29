@@ -18,12 +18,24 @@ public class CelkovaTrzba{
      */
     public CelkovaTrzba(){}
 
-    public CelkovaTrzba(int pol, int mnoz)
+    public CelkovaTrzba(int pol, int kava,  int mnoz)
     {
         this.id_polozky = pol;
         this.mnozstvi = mnoz;
+        this.druh_kavy = kava;
      }
 
+    public CelkovaTrzba(int idT, int pol, int kava,  int mnoz)
+    {
+        this.id = idT;
+        this.id_polozky = pol;
+        this.mnozstvi = mnoz;
+        this.druh_kavy = kava;
+    }
+
+    /**
+     * Getters and setters
+     */
     public int getDruh_kavy() {
         return druh_kavy;
     }
@@ -58,7 +70,7 @@ public class CelkovaTrzba{
 
 
     public String toString() {
-        return "Seznam [id=" + id + ", pol_id=" + id_polozky +   ",mnozstvi=" + mnozstvi
+        return "Seznam [id=" + id + ", pol_id=" + id_polozky +"druh_kavy=" + druh_kavy +   ",mnozstvi=" + mnozstvi
                 + "]";
     }
 }

@@ -26,20 +26,21 @@ public class Seznam {
      * @param cen
      * @param zboz
      */
-    public Seznam(int katId, float cen, String zboz){
+    public Seznam(int katId, float cen, String zboz, boolean pop){
         //  super();
         this.kategorie_id = katId;
         this.cena = cen;
         this.nazev_zbozi = zboz;
-        this.popularni = false;
+        this.popularni = pop;
     };
 
-    public Seznam(int idPol, int katId, float cen, String zboz){
+    public Seznam(int idPol, int katId, float cen, String zboz, boolean pop){
         //  super();
         this.id = idPol;
         this.kategorie_id = katId;
         this.cena = cen;
         this.nazev_zbozi = zboz;
+        this.popularni = pop;
     };
 
     /**

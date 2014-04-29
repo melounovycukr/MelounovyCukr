@@ -14,13 +14,17 @@ interface ControllerInterface {
     public Controller.EnumErrors PridejPolozkuSeznam(Seznam polozka);//check
     public Controller.EnumErrors EditujPolozkuSeznam(Seznam polozka);//check je potreba i ID
     public Controller.EnumErrors SmazPolozkuSeznam(int idPolozky);//check
-    public Controller.EnumErrors PridejPolozkuStul(int idPolozky, Controller.TagKavy druhKavy, int idStolu);
-    public Controller.EnumErrors ZaplatPolozkuStul(int idPolozky, Controller.TagKavy druhKavy, int idStolu);
-    public List<CelkovaTrzba> VypisTrzbu();//check
-    public float ZjistiCenu(int idPolozky, Controller.TagKavy druhKavy);
-    public Seznam ZobrazPolozkuSeznam(int idPolozky);// druh kavy se urcuje az u stolu
-    public List<Stul> ZobrazVsechnyPolozkyStul(int idStolu);//check //dodelat tagy
+    public Controller.EnumErrors PridejPolozkuStul(int idStolu, int idPolozky, Controller.TagKavy druhKavy);//check
+    public Controller.EnumErrors ZaplatPolozkuStul(int idStolu, int idPolozky, Controller.TagKavy druhKavy);//check
+    public List<CelkovaTrzba> ZobrazTrzbu();//check vypsani celkove trzby
+    //public float ZjistiCenu(int idPolozky);//mozna precist z polozky...resp funkce ZobrazPolozku
+    public Seznam ZobrazPolozkuSeznam(int idPolozky);//check druh kavy se urcuje az u stolu
+    public Stul ZobrazPolozkuStul(int idPolozky, int idStolu, Controller.TagKavy kava);//check druh kavy se urcuje az u stolu
+    public List<Stul> ZobrazVsechnyPolozkyStul(int idStolu);//check
     public List<Seznam> ZobrazKategoriiSeznam(Controller.CategoryID idKategorie);//check
     public List<Seznam> ZobrazPopularni();//check
-    //vypsat popularni
+    public void VymazTrzbu();//check vymazani cele trzby
+    //vypsat popularni\
+    //pridat popularni resp nastavit? ?
+    //zaplaceni lze i z prazdneho stolu OSETRIT ZDE NEBO NA VIEW CASTI?
 }
