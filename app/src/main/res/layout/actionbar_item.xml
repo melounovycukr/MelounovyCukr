@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Melounová pokladna"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="12dp"
+        android:textSize="24sp"
+        android:textColor="#595959"/>
+
+    <TextView
+        android:id="@+id/odhlasit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Odhlásit"
+        android:layout_marginLeft="1133dp"
+        android:layout_marginTop="15dp"
+        android:textSize="20sp"
+        android:textColor="#595959"
+        />
+
+</RelativeLayout>
