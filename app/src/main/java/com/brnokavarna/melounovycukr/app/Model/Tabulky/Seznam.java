@@ -1,5 +1,7 @@
 package com.brnokavarna.melounovycukr.app.Model.Tabulky;
 
+import com.brnokavarna.melounovycukr.app.Controller.Controller;
+
 /**
  * Created by Seky on 14. 4. 2014.
  * Trida obsahujici predpis tabulky pro seznam vsech polozek
@@ -7,21 +9,38 @@ package com.brnokavarna.melounovycukr.app.Model.Tabulky;
 public class Seznam {
     private int id;
     private int kategorie_id;
-    private String kategorie_nazev;
     private double cena;
     private String nazev_zbozi;
+    private boolean popularni;
 
     /**
      * Constructors
      */
-    public Seznam(){}
+    public Seznam(){
+        popularni = false;
+    }
 
-    public Seznam(int katId, String naz, float cen, String zboz){
+    /**
+     * ...
+     * @param katId
+     * @param cen
+     * @param zboz
+     */
+    public Seznam(int katId, float cen, String zboz, boolean pop){
         //  super();
         this.kategorie_id = katId;
-        this.kategorie_nazev = naz;
         this.cena = cen;
         this.nazev_zbozi = zboz;
+        this.popularni = pop;
+    };
+
+    public Seznam(int idPol, int katId, float cen, String zboz, boolean pop){
+        //  super();
+        this.id = idPol;
+        this.kategorie_id = katId;
+        this.cena = cen;
+        this.nazev_zbozi = zboz;
+        this.popularni = pop;
     };
 
     /**
@@ -43,12 +62,12 @@ public class Seznam {
         this.kategorie_id = kategorie_id;
     }
 
-    public String getKategorie_nazev() {
-        return kategorie_nazev;
+    public boolean isPopularni() {
+        return popularni;
     }
 
-    public void setKategorie_nazev(String kategorie_nazev) {
-        this.kategorie_nazev = kategorie_nazev;
+    public void setPopularni(boolean popularni) {
+        this.popularni = popularni;
     }
 
     public double getCena() {
@@ -68,7 +87,7 @@ public class Seznam {
     }
 
     public String toString() {
-        return "Seznam [id=" + id + ", kat_id=" + kategorie_id + ", kat_naz=" + kategorie_nazev + ", cena=" + cena + ", nazev=" + nazev_zbozi
+        return "Seznam [id=" + id + ", kat_id=" + kategorie_id +  ", cena=" + cena + ", nazev=" + nazev_zbozi
                 + "]";
     }
 }
