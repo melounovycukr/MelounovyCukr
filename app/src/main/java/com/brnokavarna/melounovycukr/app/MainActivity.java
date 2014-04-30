@@ -162,4 +162,8 @@ public class MainActivity extends ActionBarActivity {
         editNameDialog.show(fm, "fragment_edit_name");
     }
 
+    public void sortimentDialog(View view){
+        // for Seky nejvetsi borec na svete :D
+    }
+
 }
