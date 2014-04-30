@@ -244,4 +244,24 @@ public class Controller implements ControllerInterface {
     public void VymazTrzbu() {
         db.deleteCelaTrzba();
     }
+
+    /**
+     * Pridani popularni
+     * @param id existujici ID v seznamu
+     */
+    public void PridejPopularni(int id)
+    {
+        Seznam current = ZobrazPolozkuSeznam(id);
+        db.updateItemSeznam(new Seznam(id, current.getKategorie_id(), (float)current.getCena(), current.getNazev_zbozi(), true));
+    }
+
+    /**
+     * Odebrani popularniho
+     * @param id existujici ID v seznamu
+     */
+    public void SmazPopularni(int id)
+    {
+        Seznam current = ZobrazPolozkuSeznam(id);
+        db.updateItemSeznam(new Seznam(id, current.getKategorie_id(), (float)current.getCena(), current.getNazev_zbozi(), false));
+    }
 }

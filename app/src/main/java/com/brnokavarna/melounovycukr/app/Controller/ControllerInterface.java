@@ -11,8 +11,8 @@ import java.util.List;
  */
 interface ControllerInterface {
 
-    public Controller.EnumErrors PridejPolozkuSeznam(Seznam polozka);//check
-    public Controller.EnumErrors EditujPolozkuSeznam(Seznam polozka);//check je potreba i ID
+    public Controller.EnumErrors PridejPolozkuSeznam(Seznam polozka);//check Seznam(int katId, float cen, String zboz, boolean pop)
+    public Controller.EnumErrors EditujPolozkuSeznam(Seznam polozka);//check je potreba i ID Seznam(int idPol, int katId, float cen, String zboz, boolean pop)
     public Controller.EnumErrors SmazPolozkuSeznam(int idPolozky);//check
     public Controller.EnumErrors PridejPolozkuStul(int idStolu, int idPolozky, Controller.TagKavy druhKavy);//check
     public Controller.EnumErrors ZaplatPolozkuStul(int idStolu, int idPolozky, Controller.TagKavy druhKavy);//check
@@ -24,7 +24,8 @@ interface ControllerInterface {
     public List<Seznam> ZobrazKategoriiSeznam(Controller.CategoryID idKategorie);//check
     public List<Seznam> ZobrazPopularni();//check
     public void VymazTrzbu();//check vymazani cele trzby
-    //vypsat popularni\
+    public void PridejPopularni(int id);//pridej popularni skrze jeho ID
+    public void SmazPopularni(int id);//odeber popularni skrze jeho ID
     //pridat popularni resp nastavit? ?
     //zaplaceni lze i z prazdneho stolu OSETRIT ZDE NEBO NA VIEW CASTI?
 }
