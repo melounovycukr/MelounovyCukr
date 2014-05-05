@@ -1,6 +1,7 @@
 package com.brnokavarna.melounovycukr.app;
 
 import android.app.ActionBar;
+import android.app.FragmentTransaction;
 import android.content.ClipData;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentManager;
@@ -13,11 +14,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brnokavarna.melounovycukr.app.Model.MySQLiteHelper;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
+import com.brnokavarna.melounovycukr.app.View.MainScreen;
+import com.brnokavarna.melounovycukr.app.View.SortimentFragment;
 
 import java.util.List;
 
@@ -25,12 +30,21 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
+    private MainScreen mainScreenFragment;
+    private SortimentFragment sortimentFragment;
+    private RelativeLayout layoutMainScreen;
+    private RelativeLayout layoutSortiment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mainScreenFragment = new MainScreen();
+        layoutMainScreen = (RelativeLayout) findViewById(R.id.mainScreenFragment);
+
+        sortimentFragment = new SortimentFragment();
+        layoutSortiment = (RelativeLayout) findViewById(R.id.sortimentFragment);
 
         MySQLiteHelper db = new MySQLiteHelper(this);
 
@@ -158,12 +172,26 @@ public class MainActivity extends ActionBarActivity {
 
     public void createDialog(View view) {
         FragmentManager fm = getSupportFragmentManager();
-        EditNameDialog editNameDialog = new EditNameDialog();
+        EditNameDialog editNameDialog = new EditNameDialog(this);
         editNameDialog.show(fm, "fragment_edit_name");
+    }
+
+    public void printMethod(View view){
+        Toast.makeText(MainActivity.this, "Az to hanz dodela, ta mozna neco vytisku :D", Toast.LENGTH_LONG).show();
     }
 
     public void sortimentDialog(View view){
         // for Seky nejvetsi borec na svete :D
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+        ft.hide(mainScreenFragment);
+        layoutMainScreen.setVisibility(View.GONE);
+        ft.show(sortimentFragment);
+        layoutSortiment.setVisibility(View.VISIBLE);
+        System.out.println("hihihi");
+        ft.commit();
     }
+
+
 
 }
