@@ -26,11 +26,8 @@ import java.util.List;
  */
 public class EditNameDialog extends DialogFragment{
 
-    private Context mCtx;
-
-    public EditNameDialog(Context context) {
+    public EditNameDialog() {
         // Empty constructor required for DialogFragment
-        mCtx = context;
     }
 
     @Override
@@ -78,7 +75,7 @@ public class EditNameDialog extends DialogFragment{
                         .withEndAction(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(mCtx, "Je libo " + item.toString() + "?", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "Je libo " + item.toString() + "?", Toast.LENGTH_LONG).show();
                                 //list.remove(item);
                                 adapter.notifyDataSetChanged();
                                 view.setAlpha(1);
@@ -89,7 +86,7 @@ public class EditNameDialog extends DialogFragment{
 
         });
 
-        Typeface gothamLight = Typeface.createFromAsset(mCtx.getAssets(), "Gotham-Light.otf");
+        Typeface gothamLight = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Light.otf");
         TextView doneText = (TextView) view.findViewById(R.id.doneText);
         doneText.setTypeface(gothamLight);
 
@@ -111,13 +108,13 @@ public class EditNameDialog extends DialogFragment{
 
     View.OnClickListener doneListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Toast.makeText(mCtx, "Done", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
         }
     };
 
     View.OnClickListener printListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Toast.makeText(mCtx, "Az to hanz dodela, tak mozna neco vytisku :D", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Az to hanz dodela, tak mozna neco vytisku :D", Toast.LENGTH_LONG).show();
         }
     };
 
@@ -182,7 +179,7 @@ public class EditNameDialog extends DialogFragment{
         }
 
         public void doneMethod(View view){
-            Toast.makeText(mCtx, "it's done", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "it's done", Toast.LENGTH_LONG).show();
         }
 
 

@@ -172,7 +172,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void createDialog(View view) {
         FragmentManager fm = getSupportFragmentManager();
-        EditNameDialog editNameDialog = new EditNameDialog(this);
+        EditNameDialog editNameDialog = new EditNameDialog();
         editNameDialog.show(fm, "fragment_edit_name");
     }
 
