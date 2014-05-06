@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F7F7F7"
+    tools:context=".StulFragment">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="1196dp"
+        android:layout_height="fill_parent">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Populární     "
+            android:id="@+id/textView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Káva     "
+            android:id="@+id/textView2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dobroty     "
+            android:id="@+id/textView3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alkohol     "
+            android:id="@+id/textView4" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ostatní     "
+            android:id="@+id/textView5" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stul"
+        android:layout_alignParentRight="true"
+        android:id="@+id/textTableNumber" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="75dp">
+
+        <GridView
+            android:layout_width="850dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:numColumns="4"
+            android:gravity="center"
+            android:layout_marginTop="60dp"
+            android:verticalSpacing="8dp"
+            android:horizontalSpacing="4dp"
+            android:stretchMode="columnWidth"
+            android:listSelector="@android:color/transparent"
+            android:id="@+id/gridViewSortiment" />
+
+        <ListView
+            android:id="@+id/viewStul"
+            android:layout_marginTop="60dp"
+            android:layout_width="430dp"
+            android:layout_height="fill_parent"></ListView>
+        </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/bottomSpace"
+        android:layout_width="1280dp"
+        android:layout_height="85dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/actionbar_bg"
+        android:scaleType="fitXY" />
+
+    <ImageView
+        android:id="@+id/backStul"
+        android:layout_width="180dp"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/btn_grey_normal"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/backText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/backStul"
+        android:layout_alignTop="@+id/backStul"
+        android:layout_alignRight="@+id/backStul"
+        android:layout_alignBottom="@+id/backStul"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text="ZPĚT"
+        android:textSize="20sp"
+        android:textColor="#000000" />
+
+    <ImageView
+        android:id="@+id/zaplatitVse"
+        android:layout_width="180dp"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="220dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/btn_green_normal"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/zaplatitVseText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/zaplatitVse"
+        android:layout_alignTop="@+id/zaplatitVse"
+        android:layout_alignRight="@+id/zaplatitVse"
+        android:layout_alignBottom="@+id/zaplatitVse"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text="ZAPLATIT VŠE"
+        android:textSize="20sp"
+        android:textColor="#ffffff" />
+
+    <ImageView
+        android:id="@+id/zaplatit"
+        android:layout_width="180dp"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/btn_green_normal"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/zaplatitText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/zaplatit"
+        android:layout_alignTop="@+id/zaplatit"
+        android:layout_alignRight="@+id/zaplatit"
+        android:layout_alignBottom="@+id/zaplatit"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text="ZAPLATIT"
+        android:textSize="20sp"
+        android:textColor="#ffffff" />
+
+</RelativeLayout>

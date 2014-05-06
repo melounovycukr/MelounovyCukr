@@ -13,43 +13,58 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="1196dp"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="10dp">
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Populární     "
-                android:id="@+id/textView" />
+                android:text="Populární        "
+                android:textSize="24sp"
+                android:id="@+id/textPopular" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Káva     "
-                android:id="@+id/textView2" />
+                android:text="Káva        "
+                android:textSize="24sp"
+                android:id="@+id/textKava" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dobroty     "
-                android:id="@+id/textView3" />
+                android:text="Dobroty        "
+                android:textSize="24sp"
+                android:id="@+id/textDobroty" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Alkohol     "
-                android:id="@+id/textView4" />
+                android:text="Alkohol        "
+                android:textSize="24sp"
+                android:id="@+id/textAlkohol" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ostatní     "
-                android:id="@+id/textView5" />
+                android:textSize="24sp"
+                android:id="@+id/textOstatni" />
         </LinearLayout>
 
         <GridView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:numColumns="6"
+            android:gravity="center"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="75dp"
+            android:verticalSpacing="8dp"
+            android:horizontalSpacing="4dp"
+            android:stretchMode="columnWidth"
+            android:listSelector="@android:color/transparent"
             android:id="@+id/gridViewSortiment" />
 
     <ImageView
@@ -61,7 +76,7 @@
         android:scaleType="fitXY" />
 
     <ImageView
-        android:id="@+id/back"
+        android:id="@+id/backSortiment"
         android:layout_width="180dp"
         android:layout_height="65dp"
         android:layout_alignParentBottom="true"
@@ -74,10 +89,10 @@
         android:id="@+id/backText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/back"
-        android:layout_alignTop="@+id/back"
-        android:layout_alignRight="@+id/back"
-        android:layout_alignBottom="@+id/back"
+        android:layout_alignLeft="@+id/backSortiment"
+        android:layout_alignTop="@+id/backSortiment"
+        android:layout_alignRight="@+id/backSortiment"
+        android:layout_alignBottom="@+id/backSortiment"
         android:layout_margin="1dp"
         android:gravity="center"
         android:text="ZPĚT"

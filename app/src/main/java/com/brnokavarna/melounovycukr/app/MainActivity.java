@@ -3,6 +3,7 @@ package com.brnokavarna.melounovycukr.app;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.ClipData;
+import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
@@ -23,6 +24,7 @@ import com.brnokavarna.melounovycukr.app.Model.MySQLiteHelper;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 import com.brnokavarna.melounovycukr.app.View.MainScreen;
 import com.brnokavarna.melounovycukr.app.View.SortimentFragment;
+import com.brnokavarna.melounovycukr.app.View.StulFragment;
 
 import java.util.List;
 
@@ -32,19 +34,37 @@ public class MainActivity extends ActionBarActivity {
 
     private MainScreen mainScreenFragment;
     private SortimentFragment sortimentFragment;
+    private StulFragment stulFragment;
     private RelativeLayout layoutMainScreen;
     private RelativeLayout layoutSortiment;
+    private RelativeLayout layoutStul;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //lock landscape
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+
         mainScreenFragment = new MainScreen();
         layoutMainScreen = (RelativeLayout) findViewById(R.id.mainScreenFragment);
 
         sortimentFragment = new SortimentFragment();
         layoutSortiment = (RelativeLayout) findViewById(R.id.sortimentFragment);
+
+        stulFragment = new StulFragment();
+        layoutStul = (RelativeLayout) findViewById(R.id.stultFragment);
+
+
+        //hide other fragments
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.hide(stulFragment);
+        layoutStul.setVisibility(View.GONE);
+        ft.show(sortimentFragment);
+        layoutSortiment.setVisibility(View.GONE);
+        ft.commit();
 
         MySQLiteHelper db = new MySQLiteHelper(this);
 
@@ -168,6 +188,16 @@ public class MainActivity extends ActionBarActivity {
         int tableId = view.getId();
         ImageView table = (ImageView) findViewById(tableId);
         table.setImageResource(R.drawable.table_active);
+
+        //fragment
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.hide(mainScreenFragment);
+        layoutMainScreen.setVisibility(View.GONE);
+        ft.hide(mainScreenFragment);
+        layoutMainScreen.setVisibility(View.GONE);
+        ft.show(sortimentFragment);
+        layoutStul.setVisibility(View.VISIBLE);
+        ft.commit();
     }
 
     public void createDialog(View view) {
@@ -190,6 +220,22 @@ public class MainActivity extends ActionBarActivity {
         layoutSortiment.setVisibility(View.VISIBLE);
         System.out.println("hihihi");
         ft.commit();
+    }
+
+    /**
+     * Zobrazi hlavni fragment a schova ostatni
+     */
+    public void ShowMainHideOthers()
+    {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.hide(sortimentFragment);
+        layoutSortiment.setVisibility(View.GONE);
+        ft.hide(stulFragment);
+        layoutStul.setVisibility(View.GONE);
+        ft.show(mainScreenFragment);
+        layoutMainScreen.setVisibility(View.VISIBLE);
+        ft.commit();
+
     }
 
 
