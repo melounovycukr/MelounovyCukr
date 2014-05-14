@@ -1,35 +1,26 @@
 package com.brnokavarna.melounovycukr.app;
 
 import android.app.ActionBar;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.ClipData;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.brnokavarna.melounovycukr.app.Controller.Controller;
 import com.brnokavarna.melounovycukr.app.Model.MySQLiteHelper;
-import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 import com.brnokavarna.melounovycukr.app.View.EditNameDialog;
 import com.brnokavarna.melounovycukr.app.View.MainScreen;
 import com.brnokavarna.melounovycukr.app.View.SortimentFragment;
 import com.brnokavarna.melounovycukr.app.View.StulFragment;
-
-import java.util.List;
-
 
 
 public class MainActivity extends ActionBarActivity {
@@ -37,10 +28,11 @@ public class MainActivity extends ActionBarActivity {
     private MainScreen mainScreenFragment;
     private SortimentFragment sortimentFragment;
     private StulFragment stulFragment;
+    private EditNameDialog editNameDialog;
     private RelativeLayout layoutMainScreen;
     private RelativeLayout layoutSortiment;
     private RelativeLayout layoutStul;
-    public Controller cont;
+    private RelativeLayout layoutEditNameDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +43,7 @@ public class MainActivity extends ActionBarActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        MySQLiteHelper db = new MySQLiteHelper(this);
-        //controller
-        cont = new Controller(this);
-        //cont.PridejPolozkuSeznam(new Seznam(Controller.CategoryID.Alkohol.ordinal(),50,"hhh",true));
-        // cont.PridejPolozkuSeznam(new Seznam(Controller.CategoryID.Alkohol.ordinal(),80,"Fernet",true));
 
-
-        //fragment stuff
         mainScreenFragment = new MainScreen();
         layoutMainScreen = (RelativeLayout) findViewById(R.id.mainScreenFragment);
 
@@ -67,6 +52,10 @@ public class MainActivity extends ActionBarActivity {
 
         stulFragment = new StulFragment();
         layoutStul = (RelativeLayout) findViewById(R.id.stultFragment);
+
+        editNameDialog = new EditNameDialog();
+        layoutEditNameDialog = (RelativeLayout) findViewById(R.id.edit_name);
+
 
 
         //hide other fragments
@@ -77,6 +66,7 @@ public class MainActivity extends ActionBarActivity {
         layoutSortiment.setVisibility(View.GONE);
         ft.commit();
 
+        MySQLiteHelper db = new MySQLiteHelper(this);
 
         Typeface tf = Typeface.createFromAsset(getAssets(), "Gotham-Book.otf");
         int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
@@ -203,17 +193,25 @@ public class MainActivity extends ActionBarActivity {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.hide(mainScreenFragment);
         layoutMainScreen.setVisibility(View.GONE);
-        ft.hide(sortimentFragment);
-        layoutSortiment.setVisibility(View.GONE);
-        ft.show(stulFragment);
+        ft.hide(mainScreenFragment);
+        layoutMainScreen.setVisibility(View.GONE);
+        ft.show(sortimentFragment);
         layoutStul.setVisibility(View.VISIBLE);
         ft.commit();
     }
 
-    public void createDialog(View view) {
+    public void createTakingDialog(View view) {
         FragmentManager fm = getSupportFragmentManager();
         EditNameDialog editNameDialog = new EditNameDialog();
         editNameDialog.show(fm, "fragment_edit_name");
+        /*FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        EditNameDialog newFragment = new EditNameDialog();
+        newFragment.show(ft, "dialog");*/
     }
 
     public void printMethod(View view){
