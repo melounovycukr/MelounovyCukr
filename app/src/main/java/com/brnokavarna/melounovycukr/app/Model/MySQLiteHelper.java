@@ -767,6 +767,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 item.setKategorie_id(Integer.parseInt(cursor.getString(1)));
                 item.setCena(cursor.getFloat(2));
                 item.setNazev_zbozi(cursor.getString(3));
+                item.setPopularni(true);
 
                 items.add(item);
             } while (cursor.moveToNext());

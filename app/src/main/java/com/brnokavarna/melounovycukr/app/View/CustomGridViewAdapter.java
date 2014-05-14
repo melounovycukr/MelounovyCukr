@@ -13,12 +13,14 @@ import android.widget.TextView;
 
 import com.brnokavarna.melounovycukr.app.R;
 
+import java.util.List;
+
 
 public class CustomGridViewAdapter extends BaseAdapter {
     private Context context;
-    private final String[] itemsValues;
+    private  List<String> itemsValues;
 
-    public CustomGridViewAdapter(Context context, String[] itemsValues) {
+    public CustomGridViewAdapter(Context context, List<String> itemsValues) {
         this.context = context;
         this.itemsValues = itemsValues;
     }
@@ -40,13 +42,13 @@ public class CustomGridViewAdapter extends BaseAdapter {
             // set value into textview
             TextView textView = (TextView) gridView
                     .findViewById(R.id.grid_item_label);
-            textView.setText(itemsValues[position]);
+            textView.setText(itemsValues.get(position));
 
             // set image based on selected text
             ImageView imageView = (ImageView) gridView
                     .findViewById(R.id.grid_item_image);
 
-            String items = itemsValues[position];
+            String items = itemsValues.get(position);
 
             imageView.setImageResource(R.drawable.item_pink);
 
@@ -60,7 +62,7 @@ public class CustomGridViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return itemsValues.length;
+        return itemsValues.size();
     }
 
     @Override

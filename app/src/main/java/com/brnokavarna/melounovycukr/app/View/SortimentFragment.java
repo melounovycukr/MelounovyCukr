@@ -81,7 +81,7 @@ public class SortimentFragment extends Fragment {
         tv4 = (TextView) view.findViewById(R.id.textDobroty);
         tv5 = (TextView) view.findViewById(R.id.textOstatni);
 
-
+/*
         //reakce na kliknuti
         tv1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -112,7 +112,7 @@ public class SortimentFragment extends Fragment {
                 gridView.setAdapter(new CustomGridViewAdapter(getActivity(), MOBILE_OS2));
             }
         });
-
+*/
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
