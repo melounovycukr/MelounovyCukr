@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brnokavarna.melounovycukr.app.Controller.Controller;
 import com.brnokavarna.melounovycukr.app.Model.MySQLiteHelper;
 import com.brnokavarna.melounovycukr.app.View.EditNameDialog;
 import com.brnokavarna.melounovycukr.app.View.MainScreen;
@@ -33,6 +34,7 @@ public class MainActivity extends ActionBarActivity {
     private RelativeLayout layoutSortiment;
     private RelativeLayout layoutStul;
     private RelativeLayout layoutEditNameDialog;
+    public Controller cont;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class MainActivity extends ActionBarActivity {
         ft.commit();
 
         MySQLiteHelper db = new MySQLiteHelper(this);
+        cont = new Controller(this);
 
         Typeface tf = Typeface.createFromAsset(getAssets(), "Gotham-Book.otf");
         int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
