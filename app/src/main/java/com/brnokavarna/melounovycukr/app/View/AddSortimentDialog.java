@@ -76,8 +76,8 @@ public class AddSortimentDialog extends DialogFragment{
         if (getDialog() == null)
             return;
 
-        int dialogWidth = 650; // specify a value here
-        int dialogHeight = 300; // specify a value here
+        int dialogWidth = 700; // specify a value here
+        int dialogHeight = 330; // specify a value here
 
         getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
 
