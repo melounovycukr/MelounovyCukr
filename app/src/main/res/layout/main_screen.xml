@@ -295,7 +295,7 @@
         android:layout_height="100dp"
         android:layout_marginTop="110dp"
         android:src="@drawable/btn_blue_normal"
-        android:onClick="createDialog"
+        android:onClick="createTakingDialog"
         android:scaleType="fitXY" />
 
     <TextView

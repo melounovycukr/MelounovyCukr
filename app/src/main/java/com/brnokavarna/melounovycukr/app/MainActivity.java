@@ -1,33 +1,26 @@
 package com.brnokavarna.melounovycukr.app;
 
 import android.app.ActionBar;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.ClipData;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brnokavarna.melounovycukr.app.Model.MySQLiteHelper;
-import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
+import com.brnokavarna.melounovycukr.app.View.EditNameDialog;
 import com.brnokavarna.melounovycukr.app.View.MainScreen;
 import com.brnokavarna.melounovycukr.app.View.SortimentFragment;
 import com.brnokavarna.melounovycukr.app.View.StulFragment;
-
-import java.util.List;
-
 
 
 public class MainActivity extends ActionBarActivity {
@@ -35,9 +28,11 @@ public class MainActivity extends ActionBarActivity {
     private MainScreen mainScreenFragment;
     private SortimentFragment sortimentFragment;
     private StulFragment stulFragment;
+    private EditNameDialog editNameDialog;
     private RelativeLayout layoutMainScreen;
     private RelativeLayout layoutSortiment;
     private RelativeLayout layoutStul;
+    private RelativeLayout layoutEditNameDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +51,10 @@ public class MainActivity extends ActionBarActivity {
 
         stulFragment = new StulFragment();
         layoutStul = (RelativeLayout) findViewById(R.id.stultFragment);
+
+        editNameDialog = new EditNameDialog();
+        layoutEditNameDialog = (RelativeLayout) findViewById(R.id.edit_name);
+
 
 
         //hide other fragments
@@ -200,10 +199,18 @@ public class MainActivity extends ActionBarActivity {
         ft.commit();
     }
 
-    public void createDialog(View view) {
+    public void createTakingDialog(View view) {
         FragmentManager fm = getSupportFragmentManager();
         EditNameDialog editNameDialog = new EditNameDialog();
         editNameDialog.show(fm, "fragment_edit_name");
+        /*FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        EditNameDialog newFragment = new EditNameDialog();
+        newFragment.show(ft, "dialog");*/
     }
 
     public void printMethod(View view){

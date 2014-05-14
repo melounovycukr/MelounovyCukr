@@ -10,6 +10,8 @@ import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -129,6 +131,31 @@ public class SortimentFragment extends Fragment {
         zpetImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((MainActivity)getActivity()).ShowMainHideOthers();
+            }
+        });
+
+        //vraceni zpet do mainu
+        ImageView addSortiment;
+        addSortiment = (ImageView) view.findViewById(R.id.addSortiment);
+        addSortiment.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+                //ft.show(addSortimentDialog);
+                /*FragmentManager fm = getFragmentManager();
+                AddSortimentDialog addSortimentDialog = new AddSortimentDialog();
+                addSortimentDialog.show(fm, "fragment_edit_name");*/
+                /*FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+                if (prev != null) {
+                    ft.remove(prev);
+                }
+                ft.addToBackStack(null);
+                EditNameDialog newFragment = new EditNameDialog();
+                newFragment.show(ft, "dialog");*/
+                FragmentManager fm = ((MainActivity)getActivity()).getSupportFragmentManager();
+                AddSortimentDialog alert = new AddSortimentDialog();
+                alert.show(fm, "Add sortiment dialog");
             }
         });
 

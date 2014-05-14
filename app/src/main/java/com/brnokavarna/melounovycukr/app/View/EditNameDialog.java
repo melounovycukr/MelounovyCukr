@@ -1,4 +1,4 @@
-package com.brnokavarna.melounovycukr.app;
+package com.brnokavarna.melounovycukr.app.View;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.brnokavarna.melounovycukr.app.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
