@@ -111,6 +111,7 @@ public class EditNameDialog extends DialogFragment{
     View.OnClickListener doneListener = new View.OnClickListener() {
         public void onClick(View v) {
             Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
+
         }
     };
 
