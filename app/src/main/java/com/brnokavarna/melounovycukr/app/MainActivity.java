@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.brnokavarna.melounovycukr.app.Controller.Controller;
 import com.brnokavarna.melounovycukr.app.Model.MySQLiteHelper;
 import com.brnokavarna.melounovycukr.app.View.EditNameDialog;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 import com.brnokavarna.melounovycukr.app.View.MainScreen;
 import com.brnokavarna.melounovycukr.app.View.SortimentFragment;
 import com.brnokavarna.melounovycukr.app.View.StulFragment;
@@ -29,11 +30,9 @@ public class MainActivity extends ActionBarActivity {
     private MainScreen mainScreenFragment;
     private SortimentFragment sortimentFragment;
     private StulFragment stulFragment;
-    private EditNameDialog editNameDialog;
     private RelativeLayout layoutMainScreen;
     private RelativeLayout layoutSortiment;
     private RelativeLayout layoutStul;
-    private RelativeLayout layoutEditNameDialog;
     public Controller cont;
 
     @Override
@@ -55,9 +54,6 @@ public class MainActivity extends ActionBarActivity {
         stulFragment = new StulFragment();
         layoutStul = (RelativeLayout) findViewById(R.id.stultFragment);
 
-        editNameDialog = new EditNameDialog();
-        layoutEditNameDialog = (RelativeLayout) findViewById(R.id.edit_name);
-
 
 
         //hide other fragments
@@ -70,6 +66,8 @@ public class MainActivity extends ActionBarActivity {
 
         MySQLiteHelper db = new MySQLiteHelper(this);
         cont = new Controller(this);
+        cont.PridejPolozkuSeznam(new Seznam(Controller.CategoryID.Alkohol.ordinal(),50,"hhh",true));
+        cont.PridejPolozkuSeznam(new Seznam(Controller.CategoryID.Alkohol.ordinal(),80,"Fernet",true));
 
         Typeface tf = Typeface.createFromAsset(getAssets(), "Gotham-Book.otf");
         int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
