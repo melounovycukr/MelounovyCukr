@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class AddSortimentDialog extends DialogFragment{
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         Typeface gothamLight = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Light.otf");
+        Typeface gothamBook = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Book.otf");
         TextView addText = (TextView) view.findViewById(R.id.addText);
         addText.setTypeface(gothamLight);
 
@@ -52,6 +54,18 @@ public class AddSortimentDialog extends DialogFragment{
         TextView titleText = (TextView) view.findViewById(R.id.titleText);
         titleText.setText("Přidat sortiment");
         titleText.setTypeface(gothamLight);
+
+        TextView sortimentNameText = (TextView) view.findViewById(R.id.sortimentNameText);
+        sortimentNameText.setTypeface(gothamBook);
+
+        EditText sortimentNameEditText = (EditText) view.findViewById(R.id.sortimentNameEditText);
+        sortimentNameEditText.setTypeface(gothamBook);
+
+        TextView sortimentCostText = (TextView) view.findViewById(R.id.sortimentCostText);
+        sortimentCostText.setTypeface(gothamBook);
+
+        EditText sortimentCostEditText = (EditText) view.findViewById(R.id.sortimentCostEditText);
+        sortimentCostEditText.setTypeface(gothamBook);
 
         return view;
     }
@@ -77,7 +91,7 @@ public class AddSortimentDialog extends DialogFragment{
             return;
 
         int dialogWidth = 700; // specify a value here
-        int dialogHeight = 330; // specify a value here
+        int dialogHeight = 320; // specify a value here
 
         getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
 
