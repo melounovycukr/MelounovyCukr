@@ -134,7 +134,7 @@ public class SortimentFragment extends Fragment {
             }
         });
 
-        //vraceni zpet do mainu
+        //pridani sortimentu
         ImageView addSortiment;
         addSortiment = (ImageView) view.findViewById(R.id.addSortiment);
         addSortiment.setOnClickListener(new View.OnClickListener() {

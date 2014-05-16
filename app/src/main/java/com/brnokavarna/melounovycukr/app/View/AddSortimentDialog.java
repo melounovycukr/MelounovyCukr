@@ -1,8 +1,10 @@
 package com.brnokavarna.melounovycukr.app.View;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brnokavarna.melounovycukr.app.Controller.Controller;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 import com.brnokavarna.melounovycukr.app.R;
 
 import java.util.ArrayList;
@@ -26,6 +30,10 @@ import java.util.List;
  * Created by mpx on 29.4.2014.
  */
 public class AddSortimentDialog extends DialogFragment{
+
+    public Controller cont;
+    private EditText sortimentNameEditText;
+    private EditText sortimentCostEditText;
 
     public AddSortimentDialog() {
         // Empty constructor required for DialogFragment
@@ -58,27 +66,34 @@ public class AddSortimentDialog extends DialogFragment{
         TextView sortimentNameText = (TextView) view.findViewById(R.id.sortimentNameText);
         sortimentNameText.setTypeface(gothamBook);
 
-        EditText sortimentNameEditText = (EditText) view.findViewById(R.id.sortimentNameEditText);
+        sortimentNameEditText = (EditText) view.findViewById(R.id.sortimentNameEditText);
         sortimentNameEditText.setTypeface(gothamBook);
 
         TextView sortimentCostText = (TextView) view.findViewById(R.id.sortimentCostText);
         sortimentCostText.setTypeface(gothamBook);
 
-        EditText sortimentCostEditText = (EditText) view.findViewById(R.id.sortimentCostEditText);
+        sortimentCostEditText = (EditText) view.findViewById(R.id.sortimentCostEditText);
         sortimentCostEditText.setTypeface(gothamBook);
+
+        cont = new Controller(getActivity());
+
 
         return view;
     }
 
     View.OnClickListener doneListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
+            cont.PridejPolozkuSeznam(new Seznam(Controller.CategoryID.Alkohol.ordinal(),
+                    Float.parseFloat(sortimentCostEditText.getText().toString()),
+                    sortimentNameEditText.getText().toString(),true));
+            Toast.makeText(getActivity(), "Položka přídána", Toast.LENGTH_LONG).show();
+            getDialog().dismiss();
         }
     };
 
     View.OnClickListener printListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "Az to hanz dodela, tak mozna neco vytisku :D", Toast.LENGTH_LONG).show();
+            getDialog().dismiss();
         }
     };
 
