@@ -3,7 +3,9 @@ package com.brnokavarna.melounovycukr.app.View;
 /**
  * Created by Seky on 6. 5. 2014.
  */
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +41,10 @@ public class CustomGridViewAdapter extends BaseAdapter {
             // get layout from items.xml
             gridView = inflater.inflate(R.layout.row_grid, null);
 
+            //setting fonts
+            Typeface gothamMedium = Typeface.createFromAsset(context.getAssets(), "Gotham-Medium.otf");
+            TextView backText = (TextView) gridView.findViewById(R.id.grid_item_label);
+            backText.setTypeface(gothamMedium);
             // set value into textview
             TextView textView = (TextView) gridView
                     .findViewById(R.id.grid_item_label);

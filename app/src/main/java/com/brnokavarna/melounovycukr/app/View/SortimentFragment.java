@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.ClipData;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -24,17 +25,34 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brnokavarna.melounovycukr.app.Controller.Controller;
 import com.brnokavarna.melounovycukr.app.MainActivity;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 import com.brnokavarna.melounovycukr.app.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SortimentFragment extends Fragment {
 
     private GridView gridView;
+    private List<Seznam> ItemsGrid;
+    private List<String> stringList;
+    private TextView tv1, tv2, tv3, tv4, tv5;
 
     public SortimentFragment() {
         }
+
+    @Override
+    public void onResume() {
+        ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazPopularni();
+        stringList.clear();
+        for(int i=0; i < ItemsGrid.size();i++)
+            stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+        gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+        super.onResume();
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,7 +62,7 @@ public class SortimentFragment extends Fragment {
 
         //Nastaveni fontu
         Typeface gothamLight = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Light.otf");
-        Typeface gothamBook = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Book.otf");
+        Typeface gothamBook = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Medium.otf");
         TextView backText = (TextView) view.findViewById(R.id.backText);
         backText.setTypeface(gothamLight);
         TextView tempText = (TextView) view.findViewById(R.id.textPopular);
@@ -62,8 +80,9 @@ public class SortimentFragment extends Fragment {
 
         //grid
 
-        ArrayList<ClipData.Item> gridArray = new ArrayList<ClipData.Item>();
+       // ArrayList<ClipData.Item> gridArray = new ArrayList<ClipData.Item>();
         gridView = (GridView) view.findViewById(R.id.gridViewSortiment);
+        stringList = new ArrayList<String>();
 
         //bude z databaze
          final String[] MOBILE_OS = new String[] {
@@ -74,45 +93,92 @@ public class SortimentFragment extends Fragment {
 
 
         //volba kategorie
-        TextView tv1, tv2, tv3, tv4, tv5;
+
         tv1 = (TextView) view.findViewById(R.id.textPopular);
         tv2 = (TextView) view.findViewById(R.id.textKava);
-        tv3 = (TextView) view.findViewById(R.id.textAlkohol);
-        tv4 = (TextView) view.findViewById(R.id.textDobroty);
+        tv3 = (TextView) view.findViewById(R.id.textDobroty);
+        tv4 = (TextView) view.findViewById(R.id.textAlkohol);
         tv5 = (TextView) view.findViewById(R.id.textOstatni);
 
-/*
-        //reakce na kliknuti
         tv1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                gridView.setAdapter(new CustomGridViewAdapter(getActivity(), MOBILE_OS));
+                ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazPopularni();
+                stringList.clear();
+                for(int i=0; i < ItemsGrid.size();i++)
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //set all other classes gray color
+                tv1.setTextColor(Color.parseColor("#9c2320"));
+                tv2.setTextColor(Color.parseColor("#808080"));
+                tv3.setTextColor(Color.parseColor("#808080"));
+                tv4.setTextColor(Color.parseColor("#808080"));
+                tv5.setTextColor(Color.parseColor("#808080"));
             }
         });
 
         tv2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                gridView.setAdapter(new CustomGridViewAdapter(getActivity(), MOBILE_OS2));
+                ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Kava);
+                stringList.clear();
+                for(int i=0; i < ItemsGrid.size();i++)
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //set all other classes gray color
+                tv1.setTextColor(Color.parseColor("#808080"));
+                tv2.setTextColor(Color.parseColor("#9c2320"));
+                tv3.setTextColor(Color.parseColor("#808080"));
+                tv4.setTextColor(Color.parseColor("#808080"));
+                tv5.setTextColor(Color.parseColor("#808080"));
             }
         });
 
         tv3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                gridView.setAdapter(new CustomGridViewAdapter(getActivity(), MOBILE_OS2));
+                ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Dobroty);
+                stringList.clear();
+                for(int i=0; i < ItemsGrid.size();i++)
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //set all other classes gray color
+                tv1.setTextColor(Color.parseColor("#808080"));
+                tv2.setTextColor(Color.parseColor("#808080"));
+                tv3.setTextColor(Color.parseColor("#9c2320"));
+                tv4.setTextColor(Color.parseColor("#808080"));
+                tv5.setTextColor(Color.parseColor("#808080"));
             }
         });
 
         tv4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                gridView.setAdapter(new CustomGridViewAdapter(getActivity(), MOBILE_OS2));
+                ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Alkohol);
+                stringList.clear();
+                for(int i=0; i < ItemsGrid.size();i++)
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //set all other classes gray color
+                tv1.setTextColor(Color.parseColor("#808080"));
+                tv2.setTextColor(Color.parseColor("#808080"));
+                tv3.setTextColor(Color.parseColor("#808080"));
+                tv4.setTextColor(Color.parseColor("#9c2320"));
+                tv5.setTextColor(Color.parseColor("#808080"));
             }
         });
 
         tv5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                gridView.setAdapter(new CustomGridViewAdapter(getActivity(), MOBILE_OS2));
+                ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Ostatni);
+                stringList.clear();
+                for(int i=0; i < ItemsGrid.size();i++)
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //set all other classes gray color
+                tv1.setTextColor(Color.parseColor("#808080"));
+                tv2.setTextColor(Color.parseColor("#808080"));
+                tv3.setTextColor(Color.parseColor("#808080"));
+                tv4.setTextColor(Color.parseColor("#808080"));
+                tv5.setTextColor(Color.parseColor("#9c2320"));
             }
         });
-*/
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
