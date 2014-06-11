@@ -45,6 +45,9 @@ public class MainActivity extends ActionBarActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 
+        MySQLiteHelper db = new MySQLiteHelper(this);
+        cont = new Controller(this);
+
         mainScreenFragment = new MainScreen();
         layoutMainScreen = (RelativeLayout) findViewById(R.id.mainScreenFragment);
 
@@ -64,8 +67,7 @@ public class MainActivity extends ActionBarActivity {
         layoutSortiment.setVisibility(View.GONE);
         ft.commit();
 
-        MySQLiteHelper db = new MySQLiteHelper(this);
-        cont = new Controller(this);
+
         cont.PridejPolozkuSeznam(new Seznam(Controller.CategoryID.Alkohol.ordinal(),50,"hhh",true));
         cont.PridejPolozkuSeznam(new Seznam(Controller.CategoryID.Alkohol.ordinal(),80,"Fernet",true));
 
