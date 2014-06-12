@@ -13,6 +13,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,7 +49,7 @@ public class SortimentFragment extends Fragment {
         ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazPopularni();
         stringList.clear();
         for(int i=0; i < ItemsGrid.size();i++)
-            stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+            stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
         gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
         super.onResume();
     }
@@ -84,14 +85,6 @@ public class SortimentFragment extends Fragment {
         gridView = (GridView) view.findViewById(R.id.gridViewSortiment);
         stringList = new ArrayList<String>();
 
-        //bude z databaze
-         final String[] MOBILE_OS = new String[] {
-                "Android", "iOS","Windows", "Blackberry" , "Blackberry" ,"Blackberry" ,"Blackberry" ,"Blackberry" ,"Blackberry" ,};
-
-        final String[] MOBILE_OS2 = new String[] {
-                "Seky", "Pepaaaa","Windows", "Blackberry" , "Blackberry" ,"Blackberry" ,"Blackberry" ,"Blackberry" ,"Blackberry" ,};
-
-
         //volba kategorie
 
         tv1 = (TextView) view.findViewById(R.id.textPopular);
@@ -104,8 +97,9 @@ public class SortimentFragment extends Fragment {
             public void onClick(View v) {
                 ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazPopularni();
                 stringList.clear();
-                for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                for(int i=0; i < ItemsGrid.size();i++) {
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
+                }
                 gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
                 //set all other classes gray color
                 tv1.setTextColor(Color.parseColor("#9c2320"));
@@ -121,7 +115,7 @@ public class SortimentFragment extends Fragment {
                 ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Kava);
                 stringList.clear();
                 for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
                 gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
                 //set all other classes gray color
                 tv1.setTextColor(Color.parseColor("#808080"));
@@ -137,7 +131,7 @@ public class SortimentFragment extends Fragment {
                 ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Dobroty);
                 stringList.clear();
                 for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
                 gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
                 //set all other classes gray color
                 tv1.setTextColor(Color.parseColor("#808080"));
@@ -153,7 +147,7 @@ public class SortimentFragment extends Fragment {
                 ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Alkohol);
                 stringList.clear();
                 for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
                 gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
                 //set all other classes gray color
                 tv1.setTextColor(Color.parseColor("#808080"));
@@ -169,7 +163,7 @@ public class SortimentFragment extends Fragment {
                 ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Ostatni);
                 stringList.clear();
                 for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
                 gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
                 //set all other classes gray color
                 tv1.setTextColor(Color.parseColor("#808080"));
@@ -180,9 +174,15 @@ public class SortimentFragment extends Fragment {
             }
         });
 
+        //item click
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
+                Log.d("TADYSortimnt()", ((TextView) v.findViewById(R.id.grid_item_hidden_id)).getText().toString() );
+                FragmentManager fm = ((MainActivity)getActivity()).getSupportFragmentManager();
+                EditSortimentDialog alert = new EditSortimentDialog(((TextView) v.findViewById(R.id.grid_item_hidden_id)).getText().toString());
+                alert.show(fm, "Edit sortiment dialog");
+
                 Toast.makeText(
                         getActivity(),
                         ((TextView) v.findViewById(R.id.grid_item_label))
