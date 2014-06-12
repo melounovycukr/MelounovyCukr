@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_name"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:layout_gravity="center" android:orientation="vertical"
+    >
+
+    <ImageView
+        android:id="@+id/titleSpace"
+        android:layout_width="700dp"
+        android:layout_height="65dp"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/actionbar_bg"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/titleTextEditSortiment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/titleSpace"
+        android:layout_alignTop="@+id/titleSpace"
+        android:layout_alignBottom="@+id/titleSpace"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textColor="#9c2320" />
+
+    <ImageView
+        android:layout_width="700dp"
+        android:layout_height="90dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/actionbar_bg"
+        android:scaleType="fitXY" />
+
+    <ImageView
+        android:id="@+id/backEditSortiment"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/btn_grey_normal"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/backTextEditSortiment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/backEditSortiment"
+        android:layout_alignTop="@+id/backEditSortiment"
+        android:layout_alignRight="@+id/backEditSortiment"
+        android:layout_alignBottom="@+id/backEditSortiment"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text="ZPĚT"
+        android:textSize="20sp"
+        android:textColor="#000000" />
+
+    <ImageView
+        android:id="@+id/deleteEditSortiment"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginRight="215dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/btn_red_normal"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/deleteTextEditSortiment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/deleteEditSortiment"
+        android:layout_alignTop="@+id/deleteEditSortiment"
+        android:layout_alignRight="@+id/deleteEditSortiment"
+        android:layout_alignBottom="@+id/deleteEditSortiment"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text="SMAZAT"
+        android:textSize="20sp"
+        android:textColor="#ffffff" />
+
+    <ImageView
+        android:id="@+id/doneEditSortiment"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/btn_green_normal"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/doneTextEditSortiment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/doneEditSortiment"
+        android:layout_alignTop="@+id/doneEditSortiment"
+        android:layout_alignRight="@+id/doneEditSortiment"
+        android:layout_alignBottom="@+id/doneEditSortiment"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text="HOTOVO"
+        android:textSize="20sp"
+        android:textColor="#ffffff" />
+
+    <ImageView
+        android:id="@+id/sortimentNameEditSortiment"
+        android:layout_width="450dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="120dp"
+        android:src="@drawable/input"
+        android:scaleType="fitXY" />
+
+    <EditText
+        android:id="@+id/sortimentNameEditTextEditSortiment"
+        android:layout_width="430dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="125dp"
+        android:textSize="18sp"
+        android:textColor="#595959"
+        android:background="#ffffff"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/sortimentNameTextEditSortiment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="85dp"
+        android:textSize="18sp"
+        android:textColor="#595959"
+        android:text="Název"
+        android:scaleType="fitXY" />
+
+    <ImageView
+        android:id="@+id/sortimentCostEditSortiment"
+        android:layout_width="170dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="490dp"
+        android:layout_marginTop="120dp"
+        android:src="@drawable/input"
+        android:scaleType="fitXY" />
+
+    <EditText
+        android:id="@+id/sortimentCostEditTextEditSortiment"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="505dp"
+        android:layout_marginTop="125dp"
+        android:textSize="18sp"
+        android:textColor="#595959"
+        android:background="#ffffff"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/sortimentCostTextEditSortiment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="510dp"
+        android:layout_marginTop="85dp"
+        android:text="Cena"
+        android:textSize="18sp"
+        android:textColor="#595959"
+        android:scaleType="fitXY" />
+
+</RelativeLayout>
