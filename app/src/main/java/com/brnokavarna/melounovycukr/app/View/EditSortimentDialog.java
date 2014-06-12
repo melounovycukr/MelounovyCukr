@@ -1,7 +1,9 @@
 package com.brnokavarna.melounovycukr.app.View;
 
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +12,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 
 import com.brnokavarna.melounovycukr.app.MainActivity;
@@ -25,14 +27,16 @@ public class EditSortimentDialog  extends DialogFragment {
     private EditText sortimentNameEditText;
     private EditText sortimentCostEditText;
     private int idItem;
+    private Handler handler;
 
     public EditSortimentDialog() {
         // Empty constructor required for DialogFragment
     }
 
-    public EditSortimentDialog(String v)
+    public EditSortimentDialog(String v, Handler h)
     {
         idItem = Integer.parseInt(v);
+        this.handler = h;
     }
 
     @Override
@@ -50,7 +54,10 @@ public class EditSortimentDialog  extends DialogFragment {
         add.setOnClickListener(doneListener);
 
         ImageView back = (ImageView) view.findViewById(R.id.backEditSortiment);
-        back.setOnClickListener(printListener);
+        back.setOnClickListener(backListener);
+
+        ImageView delete = (ImageView) view.findViewById(R.id.deleteEditSortiment);
+        delete.setOnClickListener(deleteListener);
 
         TextView backText = (TextView) view.findViewById(R.id.backTextEditSortiment);
         backText.setTypeface(gothamLight);
@@ -85,13 +92,36 @@ public class EditSortimentDialog  extends DialogFragment {
         return view;
     }
 
+
+    /**
+     * Done edit listener
+     */
     View.OnClickListener doneListener = new View.OnClickListener() {
         public void onClick(View v) {
-
+            Seznam temp = ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idItem);
+            ((MainActivity)getActivity()).cont.EditujPolozkuSeznam(new Seznam(idItem ,temp.getKategorie_id(),
+                    Float.parseFloat(sortimentCostEditText.getText().toString()),
+                    sortimentNameEditText.getText().toString(),true));
+            Toast.makeText(getActivity(), "Položka editována", Toast.LENGTH_LONG).show();
+            getDialog().dismiss();
         }
     };
 
-    View.OnClickListener printListener = new View.OnClickListener() {
+    /**
+     * Delete listener
+     */
+    View.OnClickListener deleteListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            ((MainActivity)getActivity()).cont.SmazPolozkuSeznam(idItem);
+            Toast.makeText(getActivity(), "Položka smazána", Toast.LENGTH_LONG).show();
+            getDialog().dismiss();
+        }
+    };
+
+    /**
+     * Back listener
+     */
+    View.OnClickListener backListener = new View.OnClickListener() {
         public void onClick(View v) {
             getDialog().dismiss();
         }
@@ -112,5 +142,16 @@ public class EditSortimentDialog  extends DialogFragment {
 
         // ... other stuff you want to do in your onStart() method
     }
+
+    /**
+     * Dismiss handler
+     * @param dialog
+     */
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        handler.sendEmptyMessage(0);
+    }
+
 
 }

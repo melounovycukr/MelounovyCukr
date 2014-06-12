@@ -2,10 +2,13 @@ package com.brnokavarna.melounovycukr.app.View;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +16,14 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brnokavarna.melounovycukr.app.Controller.Controller;
+import com.brnokavarna.melounovycukr.app.MainActivity;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 import com.brnokavarna.melounovycukr.app.R;
 
@@ -31,12 +36,21 @@ import java.util.List;
  */
 public class AddSortimentDialog extends DialogFragment{
 
-    public Controller cont;
     private EditText sortimentNameEditText;
     private EditText sortimentCostEditText;
+    private Controller.CategoryID chosenCategory;
+    private Handler handler;
+
 
     public AddSortimentDialog() {
         // Empty constructor required for DialogFragment
+    }
+
+    //cons
+    public AddSortimentDialog(Controller.CategoryID cat, Handler h)
+    {
+        chosenCategory = cat;
+        handler = h;
     }
 
     @Override
@@ -75,7 +89,6 @@ public class AddSortimentDialog extends DialogFragment{
         sortimentCostEditText = (EditText) view.findViewById(R.id.sortimentCostEditText);
         sortimentCostEditText.setTypeface(gothamBook);
 
-        cont = new Controller(getActivity());
 
 
         return view;
@@ -83,7 +96,7 @@ public class AddSortimentDialog extends DialogFragment{
 
     View.OnClickListener doneListener = new View.OnClickListener() {
         public void onClick(View v) {
-            cont.PridejPolozkuSeznam(new Seznam(Controller.CategoryID.Alkohol.ordinal(),
+            ((MainActivity)getActivity()).cont.PridejPolozkuSeznam(new Seznam(chosenCategory.ordinal(),
                     Float.parseFloat(sortimentCostEditText.getText().toString()),
                     sortimentNameEditText.getText().toString(),true));
             Toast.makeText(getActivity(), "Položka přídána", Toast.LENGTH_LONG).show();
@@ -93,7 +106,9 @@ public class AddSortimentDialog extends DialogFragment{
 
     View.OnClickListener printListener = new View.OnClickListener() {
         public void onClick(View v) {
+            //close
             getDialog().dismiss();
+
         }
     };
 
@@ -111,6 +126,16 @@ public class AddSortimentDialog extends DialogFragment{
         getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
 
         // ... other stuff you want to do in your onStart() method
+    }
+
+    /**
+     * Dismiss handler
+     * @param dialog
+     */
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        handler.sendEmptyMessage(0);
     }
 
 }
