@@ -6,11 +6,14 @@ package com.brnokavarna.melounovycukr.app.View;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -33,6 +36,7 @@ import com.brnokavarna.melounovycukr.app.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 public class SortimentFragment extends Fragment {
 
@@ -40,6 +44,8 @@ public class SortimentFragment extends Fragment {
     private List<Seznam> ItemsGrid;
     private List<String> stringList;
     private TextView tv1, tv2, tv3, tv4, tv5;
+    private Controller.CategoryID  chosenCategory = Controller.CategoryID.Kava;
+
 
     public SortimentFragment() {
         }
@@ -123,7 +129,8 @@ public class SortimentFragment extends Fragment {
                 tv3.setTextColor(Color.parseColor("#808080"));
                 tv4.setTextColor(Color.parseColor("#808080"));
                 tv5.setTextColor(Color.parseColor("#808080"));
-            }
+                chosenCategory = Controller.CategoryID.Kava;
+              }
         });
 
         tv3.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +146,7 @@ public class SortimentFragment extends Fragment {
                 tv3.setTextColor(Color.parseColor("#9c2320"));
                 tv4.setTextColor(Color.parseColor("#808080"));
                 tv5.setTextColor(Color.parseColor("#808080"));
+                chosenCategory = Controller.CategoryID.Dobroty;
             }
         });
 
@@ -155,6 +163,7 @@ public class SortimentFragment extends Fragment {
                 tv3.setTextColor(Color.parseColor("#808080"));
                 tv4.setTextColor(Color.parseColor("#9c2320"));
                 tv5.setTextColor(Color.parseColor("#808080"));
+                chosenCategory = Controller.CategoryID.Alkohol;
             }
         });
 
@@ -171,6 +180,7 @@ public class SortimentFragment extends Fragment {
                 tv3.setTextColor(Color.parseColor("#808080"));
                 tv4.setTextColor(Color.parseColor("#808080"));
                 tv5.setTextColor(Color.parseColor("#9c2320"));
+                chosenCategory = Controller.CategoryID.Ostatni;
             }
         });
 
@@ -178,9 +188,10 @@ public class SortimentFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Log.d("TADYSortimnt()", ((TextView) v.findViewById(R.id.grid_item_hidden_id)).getText().toString() );
                 FragmentManager fm = ((MainActivity)getActivity()).getSupportFragmentManager();
-                EditSortimentDialog alert = new EditSortimentDialog(((TextView) v.findViewById(R.id.grid_item_hidden_id)).getText().toString());
+
+                //EditDialog
+                EditSortimentDialog alert = new EditSortimentDialog(((TextView) v.findViewById(R.id.grid_item_hidden_id)).getText().toString(), new DialogFragmentDismissHandler());
                 alert.show(fm, "Edit sortiment dialog");
 
                 Toast.makeText(
@@ -200,47 +211,38 @@ public class SortimentFragment extends Fragment {
             }
         });
 
+
         //pridani sortimentu
         ImageView addSortiment;
         addSortiment = (ImageView) view.findViewById(R.id.addSortiment);
         addSortiment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //FragmentTransaction ft = getFragmentManager().beginTransaction();
-
-                //ft.show(addSortimentDialog);
-                /*FragmentManager fm = getFragmentManager();
-                AddSortimentDialog addSortimentDialog = new AddSortimentDialog();
-                addSortimentDialog.show(fm, "fragment_edit_name");*/
-                /*FragmentTransaction ft = getFragmentManager().beginTransaction();
-                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-                if (prev != null) {
-                    ft.remove(prev);
-                }
-                ft.addToBackStack(null);
-                EditNameDialog newFragment = new EditNameDialog();
-                newFragment.show(ft, "dialog");*/
                 FragmentManager fm = ((MainActivity)getActivity()).getSupportFragmentManager();
-                AddSortimentDialog alert = new AddSortimentDialog();
+                AddSortimentDialog alert = new AddSortimentDialog(chosenCategory, new DialogFragmentDismissHandler());
                 alert.show(fm, "Add sortiment dialog");
             }
         });
 
-        //ruzova polozka
-       // ImageView imageView = (ImageView) gridView.findViewById(R.id.grid_item_image);
-       // imageView.setImageResource(R.drawable.item_pink);
-
-
-        //gridArray.add(new ClipData.Item(pinkIcon,"test"));
 
 
         return view;
     }
 
-    public void BackSortiment(View view)
-    {
-        Toast.makeText(
-                getActivity(),
-                "zkouska", Toast.LENGTH_SHORT).show();
+    /**
+     * Dismiss handler
+     */
+    private class DialogFragmentDismissHandler extends android.os.Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(chosenCategory);
+            stringList.clear();
+            for(int i=0; i < ItemsGrid.size();i++)
+                stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
+            gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+            Log.d("aa","aa");
+
+        }
     }
 
 }
