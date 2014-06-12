@@ -46,10 +46,12 @@ public class CustomGridViewAdapter extends BaseAdapter {
             Typeface gothamMedium = Typeface.createFromAsset(context.getAssets(), "Gotham-Medium.otf");
             TextView backText = (TextView) gridView.findViewById(R.id.grid_item_label);
             backText.setTypeface(gothamMedium);
+
             // set value into textview
             TextView textView = (TextView) gridView
                     .findViewById(R.id.grid_item_label);
-            textView.setText(itemsValues.get(position).substring(0, itemsValues.get(position).indexOf(";")));
+            if(itemsValues.get(position).contains(";"))
+                textView.setText(itemsValues.get(position).substring(0, itemsValues.get(position).indexOf(";")));
 
             //store id grid_item_hidden_id
             TextView idText = (TextView) gridView
