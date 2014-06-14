@@ -32,7 +32,7 @@ public class EditNameDialog extends DialogFragment{
 
 
     private Context context;
-    private PrintActivity printRecipe;
+    private PrintActivity print;
 
     //hlp
     private ArrayList<Polozka> listOfItems = new ArrayList<Polozka>();
@@ -55,9 +55,11 @@ public class EditNameDialog extends DialogFragment{
         //getDialog().setTitle("Prodej - 15.4.2014");
         //getDialog().getWindow().setBackgroundDrawableResource(R.drawable.btn_blue_normal);
 
+
+
         // instance for print recipe
         this.context = this.getActivity();
-        printRecipe = new PrintActivity(listOfItems, 205, context);
+        print = new PrintActivity(listOfItems, 205, context);
 
         //hlp
         listOfItems.add(jedna);
@@ -131,11 +133,19 @@ public class EditNameDialog extends DialogFragment{
         return view;
     }
 
+
     View.OnClickListener doneListener = new View.OnClickListener() {
         public void onClick(View v) {
+
             Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
 
-            printRecipe.printRecipe();
+
+            new Thread( new Runnable() {
+                public void run() {
+                    print.printRecipe();
+                }
+            }).start();
+            dismiss();
 
         }
     };
