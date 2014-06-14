@@ -369,7 +369,7 @@ public class PrintActivity {
 
 
     //RASTER PRINT
-    public void printReceipt(){
+    public void printRecipe(){
 
 
         Resources res = context.getResources();
