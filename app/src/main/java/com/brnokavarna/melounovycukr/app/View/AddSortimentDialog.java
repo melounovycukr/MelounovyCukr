@@ -1,20 +1,30 @@
 package com.brnokavarna.melounovycukr.app.View;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brnokavarna.melounovycukr.app.Controller.Controller;
+import com.brnokavarna.melounovycukr.app.MainActivity;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 import com.brnokavarna.melounovycukr.app.R;
 
 import java.util.ArrayList;
@@ -26,8 +36,21 @@ import java.util.List;
  */
 public class AddSortimentDialog extends DialogFragment{
 
+    private EditText sortimentNameEditText;
+    private EditText sortimentCostEditText;
+    private Controller.CategoryID chosenCategory;
+    private Handler handler;
+
+
     public AddSortimentDialog() {
         // Empty constructor required for DialogFragment
+    }
+
+    //cons
+    public AddSortimentDialog(Controller.CategoryID cat, Handler h)
+    {
+        chosenCategory = cat;
+        handler = h;
     }
 
     @Override
@@ -37,6 +60,7 @@ public class AddSortimentDialog extends DialogFragment{
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         Typeface gothamLight = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Light.otf");
+        Typeface gothamBook = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Book.otf");
         TextView addText = (TextView) view.findViewById(R.id.addText);
         addText.setTypeface(gothamLight);
 
@@ -53,18 +77,38 @@ public class AddSortimentDialog extends DialogFragment{
         titleText.setText("Přidat sortiment");
         titleText.setTypeface(gothamLight);
 
+        TextView sortimentNameText = (TextView) view.findViewById(R.id.sortimentNameText);
+        sortimentNameText.setTypeface(gothamBook);
+
+        sortimentNameEditText = (EditText) view.findViewById(R.id.sortimentNameEditText);
+        sortimentNameEditText.setTypeface(gothamBook);
+
+        TextView sortimentCostText = (TextView) view.findViewById(R.id.sortimentCostText);
+        sortimentCostText.setTypeface(gothamBook);
+
+        sortimentCostEditText = (EditText) view.findViewById(R.id.sortimentCostEditText);
+        sortimentCostEditText.setTypeface(gothamBook);
+
+
+
         return view;
     }
 
     View.OnClickListener doneListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
+            ((MainActivity)getActivity()).cont.PridejPolozkuSeznam(new Seznam(chosenCategory.ordinal(),
+                    Float.parseFloat(sortimentCostEditText.getText().toString()),
+                    sortimentNameEditText.getText().toString(),true));
+            Toast.makeText(getActivity(), "Položka přídána", Toast.LENGTH_LONG).show();
+            getDialog().dismiss();
         }
     };
 
     View.OnClickListener printListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "Az to hanz dodela, tak mozna neco vytisku :D", Toast.LENGTH_LONG).show();
+            //close
+            getDialog().dismiss();
+
         }
     };
 
@@ -77,11 +121,21 @@ public class AddSortimentDialog extends DialogFragment{
             return;
 
         int dialogWidth = 700; // specify a value here
-        int dialogHeight = 330; // specify a value here
+        int dialogHeight = 320; // specify a value here
 
         getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
 
         // ... other stuff you want to do in your onStart() method
+    }
+
+    /**
+     * Dismiss handler
+     * @param dialog
+     */
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        handler.sendEmptyMessage(0);
     }
 
 }

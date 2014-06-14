@@ -19,10 +19,23 @@
         android:layout_alignTop="@+id/grid_item_image"
         android:layout_alignRight="@+id/grid_item_image"
         android:layout_alignBottom="@+id/grid_item_image"
-        android:textSize="15sp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
+        android:textSize="16sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center_vertical"
+        android:textAlignment="gravity"
+        android:textColor="#595959"
+        > </TextView>
 
+    <TextView
+        android:id="@+id/grid_item_hidden_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/grid_item_image"
+        android:layout_alignTop="@+id/grid_item_image"
+        android:layout_alignRight="@+id/grid_item_image"
+        android:layout_alignBottom="@+id/grid_item_image"
+        android:visibility="gone"
         > </TextView>
 
 

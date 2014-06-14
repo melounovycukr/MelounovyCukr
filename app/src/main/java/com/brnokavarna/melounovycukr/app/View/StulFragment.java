@@ -6,6 +6,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -229,6 +230,24 @@ public class StulFragment extends Fragment {
         zpetImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((MainActivity)getActivity()).ShowMainHideOthers();
+            }
+        });
+
+        ImageView zaplatit;
+        zaplatit = (ImageView) view.findViewById(R.id.zaplatit);
+        zaplatit.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+            }
+        });
+
+        ImageView zaplatitVse;
+        zaplatitVse = (ImageView) view.findViewById(R.id.zaplatitVse);
+        zaplatitVse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                FragmentManager fm = ((MainActivity)getActivity()).getSupportFragmentManager();
+                PayAllDialog alert = new PayAllDialog();
+                alert.show(fm, "Pay all dialog");
             }
         });
 

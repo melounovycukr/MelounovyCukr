@@ -14,7 +14,8 @@
             android:orientation="horizontal"
             android:layout_width="1196dp"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp">
 
 
             <TextView
@@ -22,35 +23,40 @@
                 android:layout_height="wrap_content"
                 android:text="Populární        "
                 android:textSize="24sp"
-                android:id="@+id/textPopular" />
+                android:id="@+id/textPopular"
+                android:textColor="#9c2320"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Káva        "
                 android:textSize="24sp"
-                android:id="@+id/textKava" />
+                android:id="@+id/textKava"
+                android:textColor="#808080"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dobroty        "
                 android:textSize="24sp"
-                android:id="@+id/textDobroty" />
+                android:id="@+id/textDobroty"
+                android:textColor="#808080"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Alkohol        "
                 android:textSize="24sp"
-                android:id="@+id/textAlkohol" />
+                android:id="@+id/textAlkohol"
+                android:textColor="#808080"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ostatní     "
                 android:textSize="24sp"
-                android:id="@+id/textOstatni" />
+                android:id="@+id/textOstatni"
+                android:textColor="#808080"/>
         </LinearLayout>
 
         <GridView
@@ -59,8 +65,8 @@
             android:layout_marginLeft="10dp"
             android:numColumns="6"
             android:gravity="center"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="75dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="85dp"
             android:verticalSpacing="8dp"
             android:horizontalSpacing="4dp"
             android:stretchMode="columnWidth"
