@@ -6,6 +6,8 @@ package com.brnokavarna.melounovycukr.app.Print;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,11 +18,17 @@ import android.graphics.Typeface;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-import com.starmicronics.stario.StarIOPort;
-import com.starmicronics.stario.StarIOPortException;
-import com.starmicronics.stario.StarPrinterStatus;
-
+//import com.starmicronics.stario.StarIOPort;
+//import com.starmicronics.stario.StarIOPortException;
+//import com.starmicronics.stario.StarPrinterStatus;
+//import com.starmicronics.stario.PortInfo;
+//import com.brnokavarna.melounovycukr.app.R;
+import com.starmicronics.stario.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -39,7 +47,7 @@ public class PrintActivity {
 
     // Setting for print
     private StarIOPort port = null;
-    private String portName = "USB:";
+    private String portName = "TCP:192.168.1.103";
     private String portSettings = "";
     private boolean sensorActiveHigh = true;
     private static int printableArea = 576;
@@ -50,6 +58,9 @@ public class PrintActivity {
 
     private ArrayList<Polozka> listOfItems = new ArrayList<Polozka>();
     private int cenaCelkem;
+
+
+
 
 
     public PrintActivity(ArrayList<Polozka> listOfItems, int cenaCelkem, Context context) {
@@ -178,10 +189,8 @@ public class PrintActivity {
     // GET PRINTER FIRMWARE VERSION
     public void getPrinterFirmwareVersion(){
 
-
         try
         {
-
             port = StarIOPort.getPort(portName, portSettings, 10000, context);
 
             try
@@ -219,16 +228,14 @@ public class PrintActivity {
             alert.setCancelable(false);
             alert.show();
         }
-        finally
-        {
-            if(port != null)
-            {
+        finally {
+            if (port != null) {
                 try {
                     StarIOPort.releasePort(port);
-                } catch (StarIOPortException e) {}
+                } catch (StarIOPortException e) {
+                }
             }
         }
-
     }
 
 
@@ -237,7 +244,6 @@ public class PrintActivity {
 
         try
         {
-
             port = StarIOPort.getPort(portName, portSettings, 10000, context);
 
             try
@@ -274,13 +280,17 @@ public class PrintActivity {
         }
         catch (StarIOPortException e)
         {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-            dialog.setNegativeButton("Ok", null);
-            AlertDialog alert = dialog.create();
-            alert.setTitle("Failure");
-            alert.setMessage(e.getMessage());
-            alert.setCancelable(false);
-            alert.show();
+            System.err.println("\nPrinter or network problem!\n");
+
+            //TODO
+
+            //AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+            //dialog.setNegativeButton("Ok", null);
+            //AlertDialog alert = dialog.create();
+            //alert.setTitle("Failure");
+            //alert.setMessage(e.getMessage());
+            //alert.setCancelable(false);
+            //alert.show();
         }
         finally
         {
@@ -290,7 +300,9 @@ public class PrintActivity {
                 {
                     StarIOPort.releasePort(port);
                 }
-                catch (StarIOPortException e) { }
+                catch (StarIOPortException e) {
+                    System.err.println("\nCant release port!\n");
+                }
             }
         }
     }
@@ -369,7 +381,7 @@ public class PrintActivity {
 
 
     //RASTER PRINT
-    public void printReceipt(){
+    public void printRecipe(){
 
 
         Resources res = context.getResources();
@@ -473,6 +485,7 @@ public class PrintActivity {
 
 
     }
+
 
     // FOR COPY byte[] to Byte[]
     private static void CopyArray(byte[] srcArray, Byte[] cpyArray) {

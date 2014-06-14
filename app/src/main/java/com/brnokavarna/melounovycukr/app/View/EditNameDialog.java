@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brnokavarna.melounovycukr.app.Print.Polozka;
+import com.brnokavarna.melounovycukr.app.Print.PrintActivity;
 import com.brnokavarna.melounovycukr.app.R;
 
 import java.util.ArrayList;
@@ -27,6 +29,18 @@ import java.util.List;
  * Created by mpx on 29.4.2014.
  */
 public class EditNameDialog extends DialogFragment{
+
+
+    private Context context;
+    private PrintActivity print;
+
+    //hlp
+    private ArrayList<Polozka> listOfItems = new ArrayList<Polozka>();
+    private Polozka jedna = new Polozka("káva na mlýnku",2,50);
+    private Polozka dve = new Polozka("meloun",10,150);
+    private Polozka tri = new Polozka("cukr",2,5);
+
+
 
     public EditNameDialog() {
         // Empty constructor required for DialogFragment
@@ -40,6 +54,17 @@ public class EditNameDialog extends DialogFragment{
         //getDialog().getWindow().setLayout(200, 300);
         //getDialog().setTitle("Prodej - 15.4.2014");
         //getDialog().getWindow().setBackgroundDrawableResource(R.drawable.btn_blue_normal);
+
+
+
+        // instance for print recipe
+        this.context = this.getActivity();
+        print = new PrintActivity(listOfItems, 205, context);
+
+        //hlp
+        listOfItems.add(jedna);
+        listOfItems.add(dve);
+        listOfItems.add(tri);
 
         final ListView listview = (ListView) view.findViewById(R.id.listview);
         String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
@@ -108,9 +133,19 @@ public class EditNameDialog extends DialogFragment{
         return view;
     }
 
+
     View.OnClickListener doneListener = new View.OnClickListener() {
         public void onClick(View v) {
+
             Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
+
+
+            new Thread( new Runnable() {
+                public void run() {
+                    print.printRecipe();
+                }
+            }).start();
+            dismiss();
 
         }
     };
