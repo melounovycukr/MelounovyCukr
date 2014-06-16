@@ -359,11 +359,18 @@ public class StulFragment extends Fragment {
      */
     public void zobrazStul(int id){
         this.stulID = id;
+        tableNumberText.setText("Stůl č. " + id);
         //TADy pak udelas to naplneni z DB..novym adapterem
-        /*
-        listStul.add(map);
-        adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
-        listview.setAdapter(adapter);
-        */
+/*
+        map = new HashMap<String, String>();
+                map.put("item", "pepa");
+                map.put("amount", "2");
+                map.put("price", "80kč");
+                listStul.add(map);
+
+                //listStul.add(((TextView) v.findViewById(R.id.grid_item_label)).getText().toString() + "   5     50kč");
+                adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+                listview.setAdapter(adapter);
+*/
     }
 }

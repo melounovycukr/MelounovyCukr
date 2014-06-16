@@ -180,8 +180,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void SetTableNumber(int id){
-        stulFragment.zobrazStul(id);
-    }
+
+        StulFragment fragment = (StulFragment) getFragmentManager().findFragmentById(R.id.stultFragment);
+        fragment.zobrazStul(id);
+     }
 
 
 }
