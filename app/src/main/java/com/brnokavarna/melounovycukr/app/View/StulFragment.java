@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,12 @@ public class StulFragment extends Fragment {
     private Controller.CategoryID  chosenCategory = Controller.CategoryID.Kava;
     TextView tableNumberText;
     private int pompom = 1;
+
+
+    /**
+     * stul ID
+     */
+    private int stulID;
 
     public StulFragment() {
 
@@ -344,5 +351,19 @@ public class StulFragment extends Fragment {
 
 
 
+    }
+
+
+    /**
+     * Nastaveni kliknuteho stolu
+     */
+    public void zobrazStul(int id){
+        this.stulID = id;
+        //TADy pak udelas to naplneni z DB..novym adapterem
+        /*
+        listStul.add(map);
+        adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+        listview.setAdapter(adapter);
+        */
     }
 }

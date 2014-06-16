@@ -87,6 +87,10 @@ public class MainActivity extends ActionBarActivity {
         });
 
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+
+
+
+
     }
 
     @Override
@@ -173,6 +177,10 @@ public class MainActivity extends ActionBarActivity {
         layoutSortiment.setVisibility(View.VISIBLE);
         ft.commit();
 
+    }
+
+    public void SetTableNumber(int id){
+        stulFragment.zobrazStul(id);
     }
 
 

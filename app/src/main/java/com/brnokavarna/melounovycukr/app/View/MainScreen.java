@@ -15,13 +15,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.brnokavarna.melounovycukr.app.MainActivity;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 import com.brnokavarna.melounovycukr.app.R;
 
 public class MainScreen extends Fragment {
 
     private int tableId;
+
+    View.OnClickListener listener;
     /*OnHeadlineSelectedListener mCallback;
 
     public interface OnHeadlineSelectedListener {
@@ -105,6 +109,8 @@ public class MainScreen extends Fragment {
             public void onClick(View v) {
                 tableId = 1;
                 table1.setImageResource(R.drawable.table_active);
+
+                ((MainActivity)getActivity()).SetTableNumber(1);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -117,6 +123,7 @@ public class MainScreen extends Fragment {
                 tableId = 2;
                 table1.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(2);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
