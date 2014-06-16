@@ -61,9 +61,6 @@ public class MainActivity extends ActionBarActivity {
 
         ShowMainHideOthers();
 
-        cont.PridejPolozkuSeznam(new Seznam(Controller.CategoryID.Alkohol.ordinal(),50,"hhh",true));
-        cont.PridejPolozkuSeznam(new Seznam(Controller.CategoryID.Alkohol.ordinal(),80,"Fernet",true));
-
         Typeface gothamBook = Typeface.createFromAsset(getAssets(), "Gotham-Book.otf");
         int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
         TextView yourTextView = (TextView) findViewById(titleId);

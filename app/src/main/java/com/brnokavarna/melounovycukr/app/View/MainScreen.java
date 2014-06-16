@@ -121,7 +121,7 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 2;
-                table1.setImageResource(R.drawable.table_active);
+                table2.setImageResource(R.drawable.table_active);
 
                 ((MainActivity)getActivity()).SetTableNumber(2);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
@@ -134,8 +134,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 3;
-                table1.setImageResource(R.drawable.table_active);
+                table3.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(3);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -146,8 +147,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 4;
-                table1.setImageResource(R.drawable.table_active);
+                table4.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(4);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -158,8 +160,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 5;
-                table1.setImageResource(R.drawable.table_active);
+                table5.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(5);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -170,8 +173,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 6;
-                table1.setImageResource(R.drawable.table_active);
+                table6.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(6);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -182,8 +186,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 7;
-                table1.setImageResource(R.drawable.table_active);
+                table7.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(7);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -194,8 +199,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 8;
-                table1.setImageResource(R.drawable.table_active);
+                table8.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(8);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -206,8 +212,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 9;
-                table1.setImageResource(R.drawable.table_active);
+                table9.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(9);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -218,8 +225,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 10;
-                table1.setImageResource(R.drawable.table_active);
+                table10.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(10);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -230,8 +238,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 11;
-                table1.setImageResource(R.drawable.table_active);
+                table11.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(11);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -242,8 +251,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 12;
-                table1.setImageResource(R.drawable.table_active);
+                table12.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(12);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -254,8 +264,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 13;
-                table1.setImageResource(R.drawable.table_active);
+                table13.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(13);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -266,8 +277,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 14;
-                table1.setImageResource(R.drawable.table_active);
+                bar1.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(14);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -278,8 +290,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 15;
-                table1.setImageResource(R.drawable.table_active);
+                bar2.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(15);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -290,8 +303,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 16;
-                table1.setImageResource(R.drawable.table_active);
+                bar3.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(16);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });
@@ -302,8 +316,9 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 tableId = 17;
-                table1.setImageResource(R.drawable.table_active);
+                bar4.setImageResource(R.drawable.table_active);
 
+                ((MainActivity)getActivity()).SetTableNumber(17);
                 ((MainActivity)getActivity()).ShowTableHideOthers();
             }
         });

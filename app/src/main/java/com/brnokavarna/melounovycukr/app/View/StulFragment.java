@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.brnokavarna.melounovycukr.app.Controller.Controller;
 import com.brnokavarna.melounovycukr.app.MainActivity;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
 import com.brnokavarna.melounovycukr.app.R;
 
 import java.util.ArrayList;
@@ -40,12 +41,13 @@ public class StulFragment extends Fragment {
     private SimpleAdapter adapter;
     private ListView listview;
     private List<Seznam> ItemsGrid;
+    private List<Stul> itemsList;
     private HashMap<String, String> map;
     private List<String> stringList;
     private TextView tv1, tv2, tv3, tv4, tv5;
     private Controller.CategoryID  chosenCategory = Controller.CategoryID.Kava;
     TextView tableNumberText;
-    private int pompom = 1;
+    private Controller.TagKavy tagKavy;
 
 
     /**
@@ -213,26 +215,21 @@ public class StulFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(
-                        getActivity(),
-                        ((TextView) v.findViewById(R.id.grid_item_label))
-                                .getText().toString(), Toast.LENGTH_SHORT
-                ).show();
 
-                //HashMap tmpMap = new HashMap<"koko","luko">();
-                //if(listStul.contains(new HashMap<"item", "lulo">())) {}
+                ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
+                        getText().toString()),Controller.TagKavy.Zadna);
 
-                //((MainActivity)getActivity()).cont.PridejPolozkuStul(1,)
+                listStul.clear();
+                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
+                for(int i=0; i < itemsList.size();i++) {
+                    map = new HashMap<String, String>();
+                    map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
+                    map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+                    map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                            ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
+                    listStul.add(map);
+                }
 
-                map = new HashMap<String, String>();
-                map.put("item", ((TextView) v.findViewById(R.id.grid_item_label)).getText().toString());
-                map.put("amount", "2");
-                map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
-                        ZobrazPolozkuSeznam(Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
-                                getText().toString())).getCena()) + " Kč");
-                listStul.add(map);
-
-                //listStul.add(((TextView) v.findViewById(R.id.grid_item_label)).getText().toString() + "   5     50kč");
                 adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
                 listview.setAdapter(adapter);
 
@@ -360,7 +357,33 @@ public class StulFragment extends Fragment {
     public void zobrazStul(int id){
         this.stulID = id;
         tableNumberText.setText("Stůl č. " + id);
+
+        ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazPopularni();
+        stringList.clear();
+        for(int i=0; i < ItemsGrid.size();i++)
+            stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
+        gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+
+        tv1.setTextColor(Color.parseColor("#9c2320"));
+        tv2.setTextColor(Color.parseColor("#808080"));
+        tv3.setTextColor(Color.parseColor("#808080"));
+        tv4.setTextColor(Color.parseColor("#808080"));
+        tv5.setTextColor(Color.parseColor("#808080"));
         //TADy pak udelas to naplneni z DB..novym adapterem
+
+        listStul.clear();
+        itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(id);
+        for(int i=0; i < itemsList.size();i++) {
+            map = new HashMap<String, String>();
+            map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
+            map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+            map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                    ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
+            listStul.add(map);
+            //stringList.add(ItemsGrid.get(i).getNazev_zbozi() + ";" + ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
+        }
+        adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+        listview.setAdapter(adapter);
 /*
         map = new HashMap<String, String>();
                 map.put("item", "pepa");
