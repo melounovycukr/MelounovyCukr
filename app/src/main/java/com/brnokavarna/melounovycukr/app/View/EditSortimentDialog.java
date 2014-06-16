@@ -98,12 +98,19 @@ public class EditSortimentDialog  extends DialogFragment {
      */
     View.OnClickListener doneListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Seznam temp = ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idItem);
-            ((MainActivity)getActivity()).cont.EditujPolozkuSeznam(new Seznam(idItem ,temp.getKategorie_id(),
-                    Float.parseFloat(sortimentCostEditText.getText().toString()),
-                    sortimentNameEditText.getText().toString(),true));
-            Toast.makeText(getActivity(), "Položka editována", Toast.LENGTH_LONG).show();
-            getDialog().dismiss();
+            try{
+                float tempFloat = Float.parseFloat(sortimentCostEditText.getText().toString());
+                Seznam temp = ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idItem);
+                ((MainActivity)getActivity()).cont.EditujPolozkuSeznam(new Seznam(idItem ,temp.getKategorie_id(),
+                        tempFloat,
+                        sortimentNameEditText.getText().toString(),true));
+                Toast.makeText(getActivity(), "Položka editována", Toast.LENGTH_LONG).show();
+                getDialog().dismiss();
+            }
+            catch(NumberFormatException e){
+                Toast.makeText(getActivity(), "Špatně zadaná cena!", Toast.LENGTH_LONG).show();
+            }
+
         }
     };
 
