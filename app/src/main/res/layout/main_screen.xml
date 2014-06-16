@@ -272,7 +272,6 @@
         android:layout_width="430dp"
         android:layout_height="100dp"
         android:src="@drawable/btn_blue_normal"
-        android:onClick="sortimentDialog"
         android:scaleType="fitXY" />
 
     <TextView

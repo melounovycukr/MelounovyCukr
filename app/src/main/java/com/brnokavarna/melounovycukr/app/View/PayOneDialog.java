@@ -13,11 +13,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.brnokavarna.melounovycukr.app.MainActivity;
 import com.brnokavarna.melounovycukr.app.R;
 
 import java.util.ArrayList;
@@ -27,9 +25,9 @@ import java.util.List;
 /**
  * Created by mpx on 29.4.2014.
  */
-public class PayAllDialog extends DialogFragment{
+public class PayOneDialog extends DialogFragment{
 
-    public PayAllDialog() {
+    public PayOneDialog() {
         // Empty constructor required for DialogFragment
     }
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.ClipData;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -40,6 +41,10 @@ public class StulFragment extends Fragment {
     private List<Seznam> ItemsGrid;
     private HashMap<String, String> map;
     private List<String> stringList;
+    private TextView tv1, tv2, tv3, tv4, tv5;
+    private Controller.CategoryID  chosenCategory = Controller.CategoryID.Kava;
+    TextView tableNumberText;
+    private int pompom = 1;
 
     public StulFragment() {
 
@@ -49,10 +54,19 @@ public class StulFragment extends Fragment {
     public void onResume() {
         ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazPopularni();
         stringList.clear();
+        listStul.clear();
         for(int i=0; i < ItemsGrid.size();i++)
-            stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+            stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
         gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+        adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+        listview.setAdapter(adapter);
         super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        System.out.println("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+        super.onPause();
     }
 
     /**
@@ -66,7 +80,8 @@ public class StulFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_stul,
                 container, false);
 
-        Typeface gothamLight = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Light.otf");
+        final Typeface gothamLight = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Light.otf");
+        final Typeface gothamBook = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Book.otf");
         TextView backText = (TextView) view.findViewById(R.id.backText);
         backText.setTypeface(gothamLight);
 
@@ -74,6 +89,10 @@ public class StulFragment extends Fragment {
         zapText.setTypeface(gothamLight);
         TextView zapVseText = (TextView) view.findViewById(R.id.zaplatitVseText);
         zapVseText.setTypeface(gothamLight);
+        tableNumberText = (TextView) view.findViewById(R.id.textTableNumber);
+        tableNumberText.setTypeface(gothamLight);
+        System.out.println(MainActivity.getTableId()+"ooooooooooooooo");
+        tableNumberText.setText("Stůl č. " + MainActivity.getTableId());
 
         //grid
 
@@ -84,22 +103,27 @@ public class StulFragment extends Fragment {
 
 
         //volba kategorie
-        TextView tv1, tv2, tv3, tv4, tv5;
-        tv1 = (TextView) view.findViewById(R.id.textView);
-        tv2 = (TextView) view.findViewById(R.id.textView2);
-        tv3 = (TextView) view.findViewById(R.id.textView3);
-        tv4 = (TextView) view.findViewById(R.id.textView4);
-        tv5 = (TextView) view.findViewById(R.id.textView5);
 
+        tv1 = (TextView) view.findViewById(R.id.textPopular);
+        tv2 = (TextView) view.findViewById(R.id.textKava);
+        tv3 = (TextView) view.findViewById(R.id.textDobroty);
+        tv4 = (TextView) view.findViewById(R.id.textAlkohol);
+        tv5 = (TextView) view.findViewById(R.id.textOstatni);
 
-        //reakce na kliknuti
         tv1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazPopularni();
                 stringList.clear();
-                for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                for(int i=0; i < ItemsGrid.size();i++) {
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
+                }
                 gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //set all other classes gray color
+                tv1.setTextColor(Color.parseColor("#9c2320"));
+                tv2.setTextColor(Color.parseColor("#808080"));
+                tv3.setTextColor(Color.parseColor("#808080"));
+                tv4.setTextColor(Color.parseColor("#808080"));
+                tv5.setTextColor(Color.parseColor("#808080"));
             }
         });
 
@@ -108,8 +132,15 @@ public class StulFragment extends Fragment {
                 ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Kava);
                 stringList.clear();
                 for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
                 gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //set all other classes gray color
+                tv1.setTextColor(Color.parseColor("#808080"));
+                tv2.setTextColor(Color.parseColor("#9c2320"));
+                tv3.setTextColor(Color.parseColor("#808080"));
+                tv4.setTextColor(Color.parseColor("#808080"));
+                tv5.setTextColor(Color.parseColor("#808080"));
+                chosenCategory = Controller.CategoryID.Kava;
             }
         });
 
@@ -118,8 +149,15 @@ public class StulFragment extends Fragment {
                 ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Dobroty);
                 stringList.clear();
                 for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
                 gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //set all other classes gray color
+                tv1.setTextColor(Color.parseColor("#808080"));
+                tv2.setTextColor(Color.parseColor("#808080"));
+                tv3.setTextColor(Color.parseColor("#9c2320"));
+                tv4.setTextColor(Color.parseColor("#808080"));
+                tv5.setTextColor(Color.parseColor("#808080"));
+                chosenCategory = Controller.CategoryID.Dobroty;
             }
         });
 
@@ -128,8 +166,15 @@ public class StulFragment extends Fragment {
                 ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Alkohol);
                 stringList.clear();
                 for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
                 gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //set all other classes gray color
+                tv1.setTextColor(Color.parseColor("#808080"));
+                tv2.setTextColor(Color.parseColor("#808080"));
+                tv3.setTextColor(Color.parseColor("#808080"));
+                tv4.setTextColor(Color.parseColor("#9c2320"));
+                tv5.setTextColor(Color.parseColor("#808080"));
+                chosenCategory = Controller.CategoryID.Alkohol;
             }
         });
 
@@ -138,14 +183,23 @@ public class StulFragment extends Fragment {
                 ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Ostatni);
                 stringList.clear();
                 for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi());
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
                 gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //set all other classes gray color
+                tv1.setTextColor(Color.parseColor("#808080"));
+                tv2.setTextColor(Color.parseColor("#808080"));
+                tv3.setTextColor(Color.parseColor("#808080"));
+                tv4.setTextColor(Color.parseColor("#808080"));
+                tv5.setTextColor(Color.parseColor("#9c2320"));
+                chosenCategory = Controller.CategoryID.Ostatni;
             }
         });
 
 
         listview = (ListView) view.findViewById(R.id.viewStul);
         listStul = new ArrayList<HashMap<String, String>>();
+        listStul.clear();
+        listview.setDivider(null);
 
 
         //klikani v sortimentu vlevo
@@ -158,10 +212,17 @@ public class StulFragment extends Fragment {
                                 .getText().toString(), Toast.LENGTH_SHORT
                 ).show();
 
+                //HashMap tmpMap = new HashMap<"koko","luko">();
+                //if(listStul.contains(new HashMap<"item", "lulo">())) {}
+
+                //((MainActivity)getActivity()).cont.PridejPolozkuStul(1,)
+
                 map = new HashMap<String, String>();
                 map.put("item", ((TextView) v.findViewById(R.id.grid_item_label)).getText().toString());
                 map.put("amount", "2");
-                map.put("price", "250 Kc");
+                map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                        ZobrazPolozkuSeznam(Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
+                                getText().toString())).getCena()) + " Kč");
                 listStul.add(map);
 
                 //listStul.add(((TextView) v.findViewById(R.id.grid_item_label)).getText().toString() + "   5     50kč");
@@ -175,18 +236,13 @@ public class StulFragment extends Fragment {
         //listView
 
 
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };
-
-
         //for (int i = 0; i < values.length; ++i) {
           //  list.add(values[i]);
        // }
         //adapter = new StableArrayAdapter(this.getActivity(), android.R.layout.simple_list_item_1, listStul);
         adapter = new SimpleAdapter(this.getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+        //TextView tv = (TextView)view.findViewById(R.id.listViewItemStulFirstText);
+        //tv.setTypeface(gothamBook);
         listview.setAdapter(adapter);
 
         //list napravo
