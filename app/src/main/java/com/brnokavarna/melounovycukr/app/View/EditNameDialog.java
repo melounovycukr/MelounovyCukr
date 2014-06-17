@@ -35,7 +35,6 @@ import java.util.List;
  */
 public class EditNameDialog extends DialogFragment{
 
-
     private Context context;
     private PrintActivity print;
     private ArrayList<HashMap<String, String>> listStul;
@@ -44,14 +43,6 @@ public class EditNameDialog extends DialogFragment{
     private List<CelkovaTrzba> itemsList;
     private HashMap<String, String> map;
     private Controller.TagKavy tagKavy;
-
-    //hlp
-    private ArrayList<Polozka> listOfItems = new ArrayList<Polozka>();
-    private Polozka jedna = new Polozka("káva na mlýnku",2,50);
-    private Polozka dve = new Polozka("meloun",10,150);
-    private Polozka tri = new Polozka("cukr",2,5);
-
-
 
     public EditNameDialog() {
         // Empty constructor required for DialogFragment
@@ -62,59 +53,20 @@ public class EditNameDialog extends DialogFragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_name, container);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        //getDialog().getWindow().setLayout(200, 300);
-        //getDialog().setTitle("Prodej - 15.4.2014");
-        //getDialog().getWindow().setBackgroundDrawableResource(R.drawable.btn_blue_normal);
-
-
 
         // instance for print recipe
         this.context = this.getActivity();
-        print = new PrintActivity(listOfItems, 205, context);
+        print = new PrintActivity(context);
 
-        //hlp
-        listOfItems.add(jedna);
-        listOfItems.add(dve);
-        listOfItems.add(tri);
-
-        /*final ListView listview = (ListView) view.findViewById(R.id.listview);
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };
-
-        final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }
-        final StableArrayAdapter adapter = new StableArrayAdapter(this.getActivity(), android.R.layout.simple_list_item_1, list);
-        listview.setAdapter(adapter);
-        //listview.setBackgroundColor(Color.BLACK);
-        listview.setDivider(null);
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
-                view.animate().setDuration(100).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getActivity(), "Je libo " + item.toString() + "?", Toast.LENGTH_LONG).show();
-                                //list.remove(item);
-                                adapter.notifyDataSetChanged();
-                                view.setAlpha(1);
-                            };
-                        });
-            }
-
-
-        });*/
 
         ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(1,1,tagKavy.Zadna);
+        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(1,4,tagKavy.Zadna);
+        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(1,2,tagKavy.Zadna);
+        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(2,1,tagKavy.Zadna);
+        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(3,2,tagKavy.Zadna);
+        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(4,5,tagKavy.Zadna);
+
+        // get items from db
         listview = (ListView) view.findViewById(R.id.listview);
         listview.setDivider(null);
 
@@ -162,7 +114,7 @@ public class EditNameDialog extends DialogFragment{
 
             new Thread( new Runnable() {
                 public void run() {
-                    print.printRecipe();
+                    print.printRecipePerDay(listStul);
                 }
             }).start();
             dismiss();

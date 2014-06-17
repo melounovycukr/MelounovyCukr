@@ -28,10 +28,13 @@ import android.widget.Toast;
 //import com.starmicronics.stario.StarPrinterStatus;
 //import com.starmicronics.stario.PortInfo;
 //import com.brnokavarna.melounovycukr.app.R;
+import com.brnokavarna.melounovycukr.app.MainActivity;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.CelkovaTrzba;
 import com.starmicronics.stario.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -47,28 +50,19 @@ public class PrintActivity {
 
     // Setting for print
     private StarIOPort port = null;
-    private String portName = "TCP:192.168.1.103";
+    private String portName = "TCP:192.168.1.226";
     private String portSettings = "";
     private boolean sensorActiveHigh = true;
     private static int printableArea = 576;
     private boolean compressionEnable = true;
     private int source = com.brnokavarna.melounovycukr.app.R.drawable.logo_print_long2;
     private Context context;
-    private Calendar c = Calendar.getInstance();
+    private Calendar c;
 
-    private ArrayList<Polozka> listOfItems = new ArrayList<Polozka>();
-    private int cenaCelkem;
+    public PrintActivity(Context context) {
 
-
-
-
-
-    public PrintActivity(ArrayList<Polozka> listOfItems, int cenaCelkem, Context context) {
-
-        this.listOfItems = listOfItems;
-        this.cenaCelkem = cenaCelkem;
         this.context = context;
-
+        this.c = Calendar.getInstance();
     }
 
 
@@ -350,11 +344,11 @@ public class PrintActivity {
 
 
     // MAKE WHITE SPACES BEFORE
-    private String getWhiteSpaceBefore(Polozka element){
+    private String getWhiteSpaceBefore(String name){
 
         String whiteSpaces = "";
 
-        for(int i = element.getNazev().length(); i < 25; i++){
+        for(int i = name.length(); i < 25; i++){
 
             whiteSpaces += " ";
 
@@ -365,11 +359,11 @@ public class PrintActivity {
 
 
     // MAKE WHITE SPACES AFTER
-    private String getWhiteSpaceAfter(Polozka element){
+    private String getWhiteSpaceAfter(String amount){
 
         String whiteSpaces = "";
 
-        for(int i = (int) Math.log10(element.getMnozstvi()) + 1; i < 10; i++){
+        for(int i = (int) Math.log10(Integer.parseInt(amount)) + 1; i < 10; i++){
 
             whiteSpaces += " ";
 
@@ -379,10 +373,42 @@ public class PrintActivity {
     }
 
 
+    // MAKE STRING OF ITEMS FOR RECIPE
+    private String makeStringOfItems(ArrayList<HashMap<String, String>> allItemsListPerDay){
 
-    //RASTER PRINT
-    public void printRecipe(){
+        String makeStringOfItems = "";
 
+        Iterator<HashMap<String, String>> itr = allItemsListPerDay.iterator();
+        while(itr.hasNext()) {
+            HashMap<String, String> map = itr.next();
+            String[] parts = map.get("price").split(" "); // to get rid of " Kč"
+            String price = parts[0];
+            makeStringOfItems += map.get("item") + getWhiteSpaceBefore(map.get("item")) + map.get("amount") + getWhiteSpaceAfter(map.get("amount")) + price + "\n";
+        }
+
+        return makeStringOfItems;
+    }
+
+    // COUNT AND RETURN TOTAL PRIZE
+    private int getTotalPrice(ArrayList<HashMap<String, String>> allItemsListPerDay){
+
+        int totalprice = 0;
+
+        Iterator<HashMap<String, String>> itr = allItemsListPerDay.iterator();
+        while(itr.hasNext()) {
+            HashMap<String, String> map = itr.next();
+            String[] parts = map.get("price").split(" "); // to get rid of " Kč"
+            String price = parts[0];
+            totalprice += Integer.parseInt(price);
+        }
+
+        return totalprice;
+    }
+
+
+
+    //RASTER PRINT TABLE RECIPE
+    public void printRecipePerTable(ArrayList<HashMap<String, String>> allItemsListPerTable){
 
         Resources res = context.getResources();
 
@@ -447,24 +473,20 @@ public class PrintActivity {
 
         // List of items
         String stringOfItems = "";
-        Iterator<Polozka> itr = listOfItems.iterator();
-        while(itr.hasNext()) {
-            Polozka element = itr.next();
-            stringOfItems += (element.getNazev() + getWhiteSpaceBefore(element) + element.getMnozstvi() + getWhiteSpaceAfter(element) + element.getCena() + "\n");
-        }
+        stringOfItems = makeStringOfItems(allItemsListPerTable);System.out.println("looooooool"+stringOfItems);
 
         commandContent = createRasterCommand(stringOfItems, 12, 0);
         tempList = new Byte[commandContent.length];
         CopyArray(commandContent, tempList);
         list.addAll(Arrays.asList(tempList));
 
-        // Final prize
-        String prize = ("---------------------------------------\nCelkem                         " + cenaCelkem +" Kč");
+        // Final price
+        String prize = ("---------------------------------------\nCelkem                         " + getTotalPrice(allItemsListPerTable) +" Kč");
         commandContent = createRasterCommand(prize, 12, 0);
         tempList = new Byte[commandContent.length];
         CopyArray(commandContent, tempList);
         list.addAll(Arrays.asList(tempList));
-
+        System.out.println("mooooooooool"+getTotalPrice(allItemsListPerTable));
         // Last line
         String line = ("---------------------------------------\n       Děkujeme Vám za návštěvu.");
         commandContent = createRasterCommand(line, 12, 0);
@@ -479,11 +501,74 @@ public class PrintActivity {
         list.addAll(Arrays.asList(tempList));
         list.addAll(Arrays.asList(new Byte[]{0x07}));	// Kick cash drawer
 
-
         // Send ready list for print
         sendCommand(context, portName, portSettings, list);
 
+    }
 
+
+    //RASTER PRINT DAY RECIPE
+    public void printRecipePerDay(ArrayList<HashMap<String, String>> allItemsListPerDay){
+
+        Resources res = context.getResources();
+
+        // Final list of bytes
+        ArrayList<Byte> list = new ArrayList<Byte>();
+        Byte[] tempList;
+
+        // Content print START
+        RasterDocument rasterDocContent = new RasterDocument(RasterDocument.RasSpeed.Medium, RasterDocument.RasPageEndMode.FeedAndFullCut, RasterDocument.RasPageEndMode.FeedAndFullCut, RasterDocument.RasTopMargin.Standard, 0, 0, 0);
+        byte[] commandContent = rasterDocContent.BeginDocumentCommandData();
+        tempList = new Byte[commandContent.length];
+        CopyArray(commandContent, tempList);
+        list.addAll(Arrays.asList(tempList));
+
+        // Date
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int month = c.get(Calendar.MONTH)+1;
+        int year = c.get(Calendar.YEAR);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+        String textToPrint = ("\nDatum: "+day+"."+month+"."+year+"            Čas: "+hour+":"+minute+"\r\n" +
+                "---------------------------------------");
+        commandContent = createRasterCommand(textToPrint, 12, 0);
+        tempList = new Byte[commandContent.length];
+        CopyArray(commandContent, tempList);
+        list.addAll(Arrays.asList(tempList));
+
+        // Head of list
+        String headList = ("NÁZEV                    KUSŮ      CENA\r\n");
+        commandContent = createRasterCommand(headList, 12, Typeface.BOLD);
+        tempList = new Byte[commandContent.length];
+        CopyArray(commandContent, tempList);
+        list.addAll(Arrays.asList(tempList));
+
+        // List of items
+        String stringOfItems = "";
+        stringOfItems = makeStringOfItems(allItemsListPerDay);System.out.println("looooooool"+stringOfItems);
+
+        commandContent = createRasterCommand(stringOfItems, 12, 0);
+        tempList = new Byte[commandContent.length];
+        CopyArray(commandContent, tempList);
+        list.addAll(Arrays.asList(tempList));
+
+        // Final price
+        String prize = ("---------------------------------------\nCelkem                         " + getTotalPrice(allItemsListPerDay) +" Kč");
+        commandContent = createRasterCommand(prize, 12, 0);
+        tempList = new Byte[commandContent.length];
+        CopyArray(commandContent, tempList);
+        list.addAll(Arrays.asList(tempList));
+        System.out.println("mooooooooool"+getTotalPrice(allItemsListPerDay));
+
+        // Content print END
+        commandContent = rasterDocContent.EndDocumentCommandData();
+        tempList = new Byte[commandContent.length];
+        CopyArray(commandContent, tempList);
+        list.addAll(Arrays.asList(tempList));
+        list.addAll(Arrays.asList(new Byte[]{0x07}));	// Kick cash drawer
+
+        // Send ready list for print
+        sendCommand(context, portName, portSettings, list);
     }
 
 
