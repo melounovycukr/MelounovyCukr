@@ -145,12 +145,12 @@ public class Controller implements ControllerInterface {
     {
         Stul current;
 
-        if((current = ZobrazPolozkuStul(idPolozky, idStolu, druhKavy)) != null) {
+        /*if((current = ZobrazPolozkuStul(idPolozky, idStolu, druhKavy)) != null) {
             if(current.getMnozstvi() - 1 <= 0)//kdyz jsme na 0 tak smazat
                 db.deleteItemStul(current.getId());
             else
                 db.updateItemStul(new Stul(current.getId(), idPolozky, idStolu, druhKavy.ordinal(), current.getMnozstvi() - 1));
-        }
+        }*/
 
 
         //pridat do celkove trzby
@@ -172,6 +172,27 @@ public class Controller implements ControllerInterface {
     }
 
     /**
+     * Odstraneni polozek u stolu pri chybe obsluhy
+     * @param idPolozky
+     * @param druhKavy
+     * @param idStolu
+     * @return
+     */
+    public EnumErrors OdstranPolozkuStul(int idStolu, int idPolozky, TagKavy druhKavy)
+    {
+        Stul current;
+
+        if((current = ZobrazPolozkuStul(idPolozky, idStolu, druhKavy)) != null) {
+            if(current.getMnozstvi() - 1 <= 0)//kdyz jsme na 0 tak smazat
+                db.deleteItemStul(current.getId());
+            else
+                db.updateItemStul(new Stul(current.getId(), idPolozky, idStolu, druhKavy.ordinal(), current.getMnozstvi() - 1));
+        }
+
+        return EnumErrors.Success;
+    }
+
+    /**
      * Vypsani celkove denni trzby
      * @return Seznam polozek z denni trzby
      */
@@ -188,6 +209,16 @@ public class Controller implements ControllerInterface {
     public Seznam ZobrazPolozkuSeznam(int idPolozky)
     {
         return db.getItemSeznam(idPolozky);
+    }
+
+    /**
+     * Zobrazi polozku ze sortimentu
+     * @param nazev
+     * @return
+     */
+    public int ZobrazIDPolozkySeznamPodleNazvu(String nazev)
+    {
+        return db.getIDByName(nazev);
     }
 
     /**

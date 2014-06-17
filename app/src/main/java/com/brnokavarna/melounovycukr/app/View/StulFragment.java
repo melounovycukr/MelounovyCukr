@@ -251,33 +251,30 @@ public class StulFragment extends Fragment {
 
         //list napravo
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            /*@Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
-
-                                Toast.makeText(mCtx, "Je libo " + item.toString() + "?", Toast.LENGTH_LONG).show();
-                                list.remove(item);
-
-            }*/
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
+            public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 final HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
-                view.animate().setDuration(100).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getActivity(), "Je libo " + item.toString() + "?", Toast.LENGTH_LONG).show();
-                                adapter.notifyDataSetChanged();
-                                view.setAlpha(1);
-                            };
-                        });
+                System.out.println(item.get("item") + "lululululululu");
+                System.out.println(((MainActivity)getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(item.get("item")));
+                System.out.println(Controller.TagKavy.Zadna);
+                ((MainActivity)getActivity()).cont.OdstranPolozkuStul(stulID,((MainActivity)getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(item.get("item")),
+                        Controller.TagKavy.Zadna);
+
+                listStul.clear();
+                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
+                for(int i=0; i < itemsList.size();i++) {
+                    map = new HashMap<String, String>();
+                    map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
+                    map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+                    map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                            ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
+                    listStul.add(map);
+                }
+
+                adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+                listview.setAdapter(adapter);
+
             }
-
-
         });
 
         //ruzova polozka

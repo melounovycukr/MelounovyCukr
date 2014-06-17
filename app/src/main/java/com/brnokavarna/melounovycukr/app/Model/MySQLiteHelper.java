@@ -174,6 +174,46 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return seznam;
     }
 
+    /**
+     * Get item from database with ID
+     * @param name
+     * @return
+     */
+    public int getIDByName(String name){
+
+        // 1. get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+        Cursor cursor =
+                db.query(TABLE_SEZNAM, // a. table
+                        COLUMNS, // b. column names
+                        " nazev_zbozi = ?", // c. selections
+                        new String[] { name }, // d. selections args
+                        null, // e. group by
+                        null, // f. having
+                        null, // g. order by
+                        null); // h. limit
+
+        // 3. if we got results get the first one
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        return Integer.parseInt(cursor.getString(0));
+        // 4. build book object
+        /*Seznam seznam = new Seznam();
+        seznam.setId(Integer.parseInt(cursor.getString(0)));
+        seznam.setKategorie_id(Integer.parseInt(cursor.getString(1)));
+        seznam.setCena(cursor.getFloat(2));
+        seznam.setNazev_zbozi(cursor.getString(3));
+        seznam.setPopularni((Integer.parseInt(cursor.getString(4)) == 1)? true : false);
+
+        Log.d("getSeznam("+id+")", seznam.toString());
+
+        // 5. return book
+        return seznam;*/
+    }
+
 
     /**
      * Zobrazi vsechny polozky dane kategorie

@@ -14,9 +14,14 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brnokavarna.melounovycukr.app.Controller.Controller;
+import com.brnokavarna.melounovycukr.app.MainActivity;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.CelkovaTrzba;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
 import com.brnokavarna.melounovycukr.app.Print.Polozka;
 import com.brnokavarna.melounovycukr.app.Print.PrintActivity;
 import com.brnokavarna.melounovycukr.app.R;
@@ -33,6 +38,12 @@ public class EditNameDialog extends DialogFragment{
 
     private Context context;
     private PrintActivity print;
+    private ArrayList<HashMap<String, String>> listStul;
+    private SimpleAdapter adapter;
+    private ListView listview;
+    private List<CelkovaTrzba> itemsList;
+    private HashMap<String, String> map;
+    private Controller.TagKavy tagKavy;
 
     //hlp
     private ArrayList<Polozka> listOfItems = new ArrayList<Polozka>();
@@ -66,7 +77,7 @@ public class EditNameDialog extends DialogFragment{
         listOfItems.add(dve);
         listOfItems.add(tri);
 
-        final ListView listview = (ListView) view.findViewById(R.id.listview);
+        /*final ListView listview = (ListView) view.findViewById(R.id.listview);
         String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
                 "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
                 "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
@@ -83,16 +94,6 @@ public class EditNameDialog extends DialogFragment{
         listview.setDivider(null);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            /*@Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
-
-                                Toast.makeText(mCtx, "Je libo " + item.toString() + "?", Toast.LENGTH_LONG).show();
-                                list.remove(item);
-
-            }*/
 
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
@@ -111,7 +112,26 @@ public class EditNameDialog extends DialogFragment{
             }
 
 
-        });
+        });*/
+
+        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(1,1,tagKavy.Zadna);
+        listview = (ListView) view.findViewById(R.id.listview);
+        listview.setDivider(null);
+
+        listStul = new ArrayList<HashMap<String, String>>();
+        listStul.clear();
+        itemsList = ((MainActivity)getActivity()).cont.ZobrazTrzbu();
+        for(int i=0; i < itemsList.size();i++) {
+            map = new HashMap<String, String>();
+            map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
+            map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+            map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                    ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
+            listStul.add(map);
+            //stringList.add(ItemsGrid.get(i).getNazev_zbozi() + ";" + ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
+        }
+        adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+        listview.setAdapter(adapter);
 
         Typeface gothamLight = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Light.otf");
         TextView doneText = (TextView) view.findViewById(R.id.doneText);
