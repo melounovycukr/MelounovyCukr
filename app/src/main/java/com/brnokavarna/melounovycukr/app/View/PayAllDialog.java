@@ -114,6 +114,7 @@ public class PayAllDialog extends DialogFragment{
             FragmentManager fm = (getActivity()).getSupportFragmentManager();
             PrintTableDialog alert = new PrintTableDialog();
             alert.show(fm, "Print table dialog");
+            dismiss();
         }
     };
 

@@ -110,6 +110,17 @@ public class PrintTableDialog extends DialogFragment{
     View.OnClickListener doneListener = new View.OnClickListener() {
         public void onClick(View v) {
             Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
+
+            for(int i=0; i < itemsList.size();i++) {
+                for(int j=itemsList.get(i).getMnozstvi(); j>0;j--) {
+                    ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(((MainActivity)getActivity()).getTableId(),
+                            itemsList.get(i).getId_polozky(),tagKavy.Zadna);
+
+                }
+            }
+
+            dismiss();
+            ((MainActivity)getActivity()).ShowMainHideOthers();
         }
     };
 
@@ -118,6 +129,14 @@ public class PrintTableDialog extends DialogFragment{
 
             Toast.makeText(getActivity(), "Print", Toast.LENGTH_LONG).show();
 
+            for(int i=0; i < itemsList.size();i++) {
+                for(int j=itemsList.get(i).getMnozstvi(); j>0;j--) {
+                    ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(((MainActivity)getActivity()).getTableId(),
+                            itemsList.get(i).getId_polozky(),tagKavy.Zadna);
+
+                }
+            }
+
             new Thread( new Runnable() {
                 public void run() {
                     print.printRecipePerTable(listStul);
@@ -125,6 +144,7 @@ public class PrintTableDialog extends DialogFragment{
             }).start();
 
             dismiss();
+            ((MainActivity)getActivity()).ShowMainHideOthers();
 
         }
     };

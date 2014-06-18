@@ -36,6 +36,7 @@ import java.util.List;
  */
 public class StulFragment extends Fragment {
 
+    PayAllDialog payAllDialog;
     private GridView gridView;
     private ArrayList<HashMap<String, String>> listStul;
     private SimpleAdapter adapter;
@@ -61,6 +62,7 @@ public class StulFragment extends Fragment {
 
     @Override
     public void onResume() {
+        System.out.println("muuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
         ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazPopularni();
         stringList.clear();
         listStul.clear();
@@ -298,8 +300,8 @@ public class StulFragment extends Fragment {
         zaplatitVse.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 FragmentManager fm = ((MainActivity)getActivity()).getSupportFragmentManager();
-                PayAllDialog alert = new PayAllDialog();
-                alert.show(fm, "Pay all dialog");
+                payAllDialog = new PayAllDialog();
+                payAllDialog.show(fm, "Pay all dialog");
             }
         });
 
@@ -308,6 +310,10 @@ public class StulFragment extends Fragment {
 
 
         return view;
+    }
+
+    public void hideDialog() {
+        payAllDialog.dismiss();
     }
 
 
