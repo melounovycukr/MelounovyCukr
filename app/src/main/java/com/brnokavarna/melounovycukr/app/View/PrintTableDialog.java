@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brnokavarna.melounovycukr.app.Controller.Controller;
+import com.brnokavarna.melounovycukr.app.Exceptions.PrintException;
 import com.brnokavarna.melounovycukr.app.MainActivity;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
 import com.brnokavarna.melounovycukr.app.Print.PrintActivity;
@@ -138,26 +139,26 @@ public class PrintTableDialog extends DialogFragment{
                 public void run() {
 
                     try {
+                        // print recipe
                         print.printRecipePerTable(listStul);
-                    } catch(StarIOPortException e) {
-                        printProblemFlag = true;
+
+                        // remove items
+                        for (int i = 0; i < itemsList.size(); i++) {
+                            for (int j = itemsList.get(i).getMnozstvi(); j > 0; j--) {
+                                ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
+                                        itemsList.get(i).getId_polozky(), tagKavy.Zadna);
+
+                            }
+                        }
+
+                    } catch(PrintException e) {
+                        System.out.println(e+"eeeeeeeeeeeeee\n");
                     }
                 }
             }).start();
 
-            if(!printProblemFlag) {
-
-                for (int i = 0; i < itemsList.size(); i++) {
-                    for (int j = itemsList.get(i).getMnozstvi(); j > 0; j--) {
-                        ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
-                                itemsList.get(i).getId_polozky(), tagKavy.Zadna);
-
-                    }
-                }
-
-                dismiss();
-                ((MainActivity) getActivity()).ShowMainHideOthers();
-            }
+            dismiss();
+            ((MainActivity) getActivity()).ShowMainHideOthers();
         }
     };
 

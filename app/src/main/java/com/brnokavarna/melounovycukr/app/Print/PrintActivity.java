@@ -29,6 +29,7 @@ import android.widget.Toast;
 //import com.starmicronics.stario.StarPrinterStatus;
 //import com.starmicronics.stario.PortInfo;
 //import com.brnokavarna.melounovycukr.app.R;
+import com.brnokavarna.melounovycukr.app.Exceptions.PrintException;
 import com.brnokavarna.melounovycukr.app.MainActivity;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.CelkovaTrzba;
 import com.starmicronics.stario.*;
@@ -237,7 +238,7 @@ public class PrintActivity {
 
 
     // SEND COMMAND TO PRINTER
-    private void sendCommand(final Context context, String portName, String portSettings, ArrayList<Byte> byteList) throws StarIOPortException{
+    private void sendCommand(final Context context, String portName, String portSettings, ArrayList<Byte> byteList) throws PrintException{
 
         try
         {
@@ -288,9 +289,11 @@ public class PrintActivity {
                     alert.setMessage(e.getMessage());
                     alert.setCancelable(false);
                     alert.show();
-
                 }
             });
+
+            throw new PrintException(e);
+
         }
         finally
         {
@@ -414,7 +417,7 @@ public class PrintActivity {
 
 
     //RASTER PRINT TABLE RECIPE
-    public void printRecipePerTable(ArrayList<HashMap<String, String>> allItemsListPerTable) throws StarIOPortException{
+    public void printRecipePerTable(ArrayList<HashMap<String, String>> allItemsListPerTable) throws PrintException{
 
         Resources res = context.getResources();
 
@@ -508,13 +511,18 @@ public class PrintActivity {
         list.addAll(Arrays.asList(new Byte[]{0x07}));	// Kick cash drawer
 
         // Send ready list for print
-        sendCommand(context, portName, portSettings, list);
+        try{
+            sendCommand(context, portName, portSettings, list);
+        } catch(PrintException e){
+            throw new PrintException(e);
+        }
+
 
     }
 
 
     //RASTER PRINT DAY RECIPE
-    public void printRecipePerDay(ArrayList<HashMap<String, String>> allItemsListPerDay) throws StarIOPortException{
+    public void printRecipePerDay(ArrayList<HashMap<String, String>> allItemsListPerDay) throws PrintException{
 
         Resources res = context.getResources();
 

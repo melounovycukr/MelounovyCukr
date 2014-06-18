@@ -17,6 +17,7 @@ import android.widget.Toast;
 import android.os.Handler;
 
 import com.brnokavarna.melounovycukr.app.Controller.Controller;
+import com.brnokavarna.melounovycukr.app.Exceptions.PrintException;
 import com.brnokavarna.melounovycukr.app.MainActivity;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.CelkovaTrzba;
 import com.brnokavarna.melounovycukr.app.Print.PrintActivity;
@@ -108,6 +109,9 @@ public class EditNameDialog extends DialogFragment{
         public void onClick(View v) {
 
             Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
+
+            ((MainActivity) getActivity()).cont.VymazTrzbu();
+            dismiss();
         }
     };
 
@@ -120,15 +124,20 @@ public class EditNameDialog extends DialogFragment{
                 public void run() {
 
                     try {
+                        // print recipe
                         print.printRecipePerDay(listStul);
-                    } catch(StarIOPortException e) {
 
+                        // remove items
+                        ((MainActivity) getActivity()).cont.VymazTrzbu();
+
+                    } catch(PrintException e) {
+                        System.out.println(e+"eeeeeeeeeeeeee\n");
                     }
                 }
             }).start();
 
             dismiss();
-
+            ((MainActivity) getActivity()).ShowMainHideOthers();
         }
     };
 
