@@ -54,8 +54,9 @@ public class EditNameDialog extends DialogFragment{
 
         // instance for print recipe
         this.context = this.getActivity();
-        print = new PrintActivity(context, mHandler);
         mHandler = new Handler();
+        print = new PrintActivity(context, mHandler);
+
 
         // get items from db
         listview = (ListView) view.findViewById(R.id.listview);

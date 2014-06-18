@@ -132,6 +132,12 @@ public class PrintTableDialog extends DialogFragment{
 
             Toast.makeText(getActivity(), "Print", Toast.LENGTH_LONG).show();
 
+            new Thread( new Runnable() {
+                public void run() {
+                    print.printRecipePerTable(listStul);
+                }
+            }).start();
+
             for(int i=0; i < itemsList.size();i++) {
                 for(int j=itemsList.get(i).getMnozstvi(); j>0;j--) {
                     ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(((MainActivity)getActivity()).getTableId(),
@@ -139,12 +145,6 @@ public class PrintTableDialog extends DialogFragment{
 
                 }
             }
-
-            new Thread( new Runnable() {
-                public void run() {
-                    print.printRecipePerTable(listStul);
-                }
-            }).start();
 
             dismiss();
             ((MainActivity)getActivity()).ShowMainHideOthers();
