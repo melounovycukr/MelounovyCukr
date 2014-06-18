@@ -15,6 +15,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -57,11 +58,13 @@ public class PrintActivity {
     private boolean compressionEnable = true;
     private int source = com.brnokavarna.melounovycukr.app.R.drawable.logo_print_long2;
     private Context context;
+    private Handler mHandler;
     private Calendar c;
 
-    public PrintActivity(Context context) {
+    public PrintActivity(Context context, Handler mHandler) {
 
         this.context = context;
+        this.mHandler = mHandler;
         this.c = Calendar.getInstance();
     }
 
@@ -234,7 +237,7 @@ public class PrintActivity {
 
 
     // SEND COMMAND TO PRINTER
-    private void sendCommand(Context context, String portName, String portSettings, ArrayList<Byte> byteList) {
+    private void sendCommand(final Context context, String portName, String portSettings, ArrayList<Byte> byteList) {
 
         try
         {
@@ -272,19 +275,22 @@ public class PrintActivity {
                 throw new StarIOPortException("Printer is offline");
             }
         }
-        catch (StarIOPortException e)
+        catch (final StarIOPortException e)
         {
-            System.err.println("\nPrinter or network problem!\n");
 
-            //TODO
+            mHandler.post(new Runnable(){
+                public void run(){
 
-            //AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-            //dialog.setNegativeButton("Ok", null);
-            //AlertDialog alert = dialog.create();
-            //alert.setTitle("Failure");
-            //alert.setMessage(e.getMessage());
-            //alert.setCancelable(false);
-            //alert.show();
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                    dialog.setNegativeButton("Ok", null);
+                    AlertDialog alert = dialog.create();
+                    alert.setTitle("Failure");
+                    alert.setMessage(e.getMessage());
+                    alert.setCancelable(false);
+                    alert.show();
+
+                }
+            });
         }
         finally
         {

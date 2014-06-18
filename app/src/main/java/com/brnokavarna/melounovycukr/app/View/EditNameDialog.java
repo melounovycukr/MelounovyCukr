@@ -1,7 +1,6 @@
 package com.brnokavarna.melounovycukr.app.View;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -9,26 +8,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Handler;
 
 import com.brnokavarna.melounovycukr.app.Controller.Controller;
 import com.brnokavarna.melounovycukr.app.MainActivity;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.CelkovaTrzba;
-import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
-import com.brnokavarna.melounovycukr.app.Print.Polozka;
 import com.brnokavarna.melounovycukr.app.Print.PrintActivity;
 import com.brnokavarna.melounovycukr.app.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 
 /**
  * Created by mpx on 29.4.2014.
@@ -37,6 +34,7 @@ public class EditNameDialog extends DialogFragment{
 
     private Context context;
     private PrintActivity print;
+    private Handler mHandler;
     private ArrayList<HashMap<String, String>> listStul;
     private SimpleAdapter adapter;
     private ListView listview;
@@ -56,7 +54,8 @@ public class EditNameDialog extends DialogFragment{
 
         // instance for print recipe
         this.context = this.getActivity();
-        print = new PrintActivity(context);
+        print = new PrintActivity(context, mHandler);
+        mHandler = new Handler();
 
         // get items from db
         listview = (ListView) view.findViewById(R.id.listview);
@@ -95,6 +94,10 @@ public class EditNameDialog extends DialogFragment{
         titleText.setTypeface(gothamLight);
 
         return view;
+
+
+
+
     }
 
 

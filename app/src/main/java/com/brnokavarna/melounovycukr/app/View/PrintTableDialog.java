@@ -3,6 +3,7 @@ package com.brnokavarna.melounovycukr.app.View;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ public class PrintTableDialog extends DialogFragment{
     private Controller.TagKavy tagKavy;
     private int totalCost;
     private Context context;
+    private Handler mHandler;
     private PrintActivity print;
 
     public PrintTableDialog() {
@@ -59,7 +61,8 @@ public class PrintTableDialog extends DialogFragment{
 
         // instance for print recipe
         this.context = this.getActivity();
-        print = new PrintActivity(context);
+        mHandler = new Handler();
+        print = new PrintActivity(context, mHandler);
 
         listStul = new ArrayList<HashMap<String, String>>();
         listStul.clear();
