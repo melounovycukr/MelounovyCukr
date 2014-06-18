@@ -473,7 +473,7 @@ public class PrintActivity {
 
         // List of items
         String stringOfItems = "";
-        stringOfItems = makeStringOfItems(allItemsListPerTable);System.out.println("looooooool"+stringOfItems);
+        stringOfItems = makeStringOfItems(allItemsListPerTable);
 
         commandContent = createRasterCommand(stringOfItems, 12, 0);
         tempList = new Byte[commandContent.length];
@@ -486,7 +486,7 @@ public class PrintActivity {
         tempList = new Byte[commandContent.length];
         CopyArray(commandContent, tempList);
         list.addAll(Arrays.asList(tempList));
-        System.out.println("mooooooooool"+getTotalPrice(allItemsListPerTable));
+
         // Last line
         String line = ("---------------------------------------\n       Děkujeme Vám za návštěvu.");
         commandContent = createRasterCommand(line, 12, 0);
@@ -545,7 +545,7 @@ public class PrintActivity {
 
         // List of items
         String stringOfItems = "";
-        stringOfItems = makeStringOfItems(allItemsListPerDay);System.out.println("looooooool"+stringOfItems);
+        stringOfItems = makeStringOfItems(allItemsListPerDay);
 
         commandContent = createRasterCommand(stringOfItems, 12, 0);
         tempList = new Byte[commandContent.length];
@@ -558,7 +558,6 @@ public class PrintActivity {
         tempList = new Byte[commandContent.length];
         CopyArray(commandContent, tempList);
         list.addAll(Arrays.asList(tempList));
-        System.out.println("mooooooooool"+getTotalPrice(allItemsListPerDay));
 
         // Content print END
         commandContent = rasterDocContent.EndDocumentCommandData();

@@ -145,12 +145,12 @@ public class Controller implements ControllerInterface {
     {
         Stul current;
 
-        /*if((current = ZobrazPolozkuStul(idPolozky, idStolu, druhKavy)) != null) {
+        if((current = ZobrazPolozkuStul(idPolozky, idStolu, druhKavy)) != null) {
             if(current.getMnozstvi() - 1 <= 0)//kdyz jsme na 0 tak smazat
                 db.deleteItemStul(current.getId());
             else
                 db.updateItemStul(new Stul(current.getId(), idPolozky, idStolu, druhKavy.ordinal(), current.getMnozstvi() - 1));
-        }*/
+        }
 
 
         //pridat do celkove trzby

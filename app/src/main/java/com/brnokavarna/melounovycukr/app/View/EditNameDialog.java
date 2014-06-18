@@ -58,14 +58,6 @@ public class EditNameDialog extends DialogFragment{
         this.context = this.getActivity();
         print = new PrintActivity(context);
 
-
-        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(1,1,tagKavy.Zadna);
-        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(1,4,tagKavy.Zadna);
-        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(1,2,tagKavy.Zadna);
-        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(2,1,tagKavy.Zadna);
-        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(3,2,tagKavy.Zadna);
-        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(4,5,tagKavy.Zadna);
-
         // get items from db
         listview = (ListView) view.findViewById(R.id.listview);
         listview.setDivider(null);
@@ -107,24 +99,26 @@ public class EditNameDialog extends DialogFragment{
 
 
     View.OnClickListener doneListener = new View.OnClickListener() {
+
         public void onClick(View v) {
 
             Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
+        }
+    };
 
+    View.OnClickListener printListener = new View.OnClickListener() {
+        public void onClick(View v) {
+
+            Toast.makeText(getActivity(), "Print", Toast.LENGTH_LONG).show();
 
             new Thread( new Runnable() {
                 public void run() {
                     print.printRecipePerDay(listStul);
                 }
             }).start();
+
             dismiss();
 
-        }
-    };
-
-    View.OnClickListener printListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            Toast.makeText(getActivity(), "Az to hanz dodela, tak mozna neco vytisku :D", Toast.LENGTH_LONG).show();
         }
     };
 
