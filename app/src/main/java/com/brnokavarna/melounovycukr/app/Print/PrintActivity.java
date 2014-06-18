@@ -237,7 +237,7 @@ public class PrintActivity {
 
 
     // SEND COMMAND TO PRINTER
-    private void sendCommand(final Context context, String portName, String portSettings, ArrayList<Byte> byteList) {
+    private void sendCommand(final Context context, String portName, String portSettings, ArrayList<Byte> byteList) throws StarIOPortException{
 
         try
         {
@@ -414,7 +414,7 @@ public class PrintActivity {
 
 
     //RASTER PRINT TABLE RECIPE
-    public void printRecipePerTable(ArrayList<HashMap<String, String>> allItemsListPerTable){
+    public void printRecipePerTable(ArrayList<HashMap<String, String>> allItemsListPerTable) throws StarIOPortException{
 
         Resources res = context.getResources();
 
@@ -514,7 +514,7 @@ public class PrintActivity {
 
 
     //RASTER PRINT DAY RECIPE
-    public void printRecipePerDay(ArrayList<HashMap<String, String>> allItemsListPerDay){
+    public void printRecipePerDay(ArrayList<HashMap<String, String>> allItemsListPerDay) throws StarIOPortException{
 
         Resources res = context.getResources();
 
@@ -574,6 +574,7 @@ public class PrintActivity {
 
         // Send ready list for print
         sendCommand(context, portName, portSettings, list);
+
     }
 
 

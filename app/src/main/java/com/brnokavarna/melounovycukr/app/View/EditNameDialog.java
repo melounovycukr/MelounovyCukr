@@ -21,6 +21,7 @@ import com.brnokavarna.melounovycukr.app.MainActivity;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.CelkovaTrzba;
 import com.brnokavarna.melounovycukr.app.Print.PrintActivity;
 import com.brnokavarna.melounovycukr.app.R;
+import com.starmicronics.stario.StarIOPortException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,7 +118,12 @@ public class EditNameDialog extends DialogFragment{
 
             new Thread( new Runnable() {
                 public void run() {
-                    print.printRecipePerDay(listStul);
+
+                    try {
+                        print.printRecipePerDay(listStul);
+                    } catch(StarIOPortException e) {
+
+                    }
                 }
             }).start();
 

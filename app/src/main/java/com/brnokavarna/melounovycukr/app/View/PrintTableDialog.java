@@ -22,6 +22,7 @@ import com.brnokavarna.melounovycukr.app.MainActivity;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
 import com.brnokavarna.melounovycukr.app.Print.PrintActivity;
 import com.brnokavarna.melounovycukr.app.R;
+import com.starmicronics.stario.StarIOPortException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +43,7 @@ public class PrintTableDialog extends DialogFragment{
     private Context context;
     private Handler mHandler;
     private PrintActivity print;
+    private boolean printProblemFlag = false;
 
     public PrintTableDialog() {
         // Empty constructor required for DialogFragment
@@ -134,21 +136,28 @@ public class PrintTableDialog extends DialogFragment{
 
             new Thread( new Runnable() {
                 public void run() {
-                    print.printRecipePerTable(listStul);
+
+                    try {
+                        print.printRecipePerTable(listStul);
+                    } catch(StarIOPortException e) {
+                        printProblemFlag = true;
+                    }
                 }
             }).start();
 
-            for(int i=0; i < itemsList.size();i++) {
-                for(int j=itemsList.get(i).getMnozstvi(); j>0;j--) {
-                    ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(((MainActivity)getActivity()).getTableId(),
-                            itemsList.get(i).getId_polozky(),tagKavy.Zadna);
+            if(!printProblemFlag) {
 
+                for (int i = 0; i < itemsList.size(); i++) {
+                    for (int j = itemsList.get(i).getMnozstvi(); j > 0; j--) {
+                        ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
+                                itemsList.get(i).getId_polozky(), tagKavy.Zadna);
+
+                    }
                 }
+
+                dismiss();
+                ((MainActivity) getActivity()).ShowMainHideOthers();
             }
-
-            dismiss();
-            ((MainActivity)getActivity()).ShowMainHideOthers();
-
         }
     };
 
