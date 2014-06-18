@@ -17,7 +17,10 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brnokavarna.melounovycukr.app.Controller.Controller;
 import com.brnokavarna.melounovycukr.app.MainActivity;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.CelkovaTrzba;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
 import com.brnokavarna.melounovycukr.app.R;
 
 import java.util.ArrayList;
@@ -28,6 +31,14 @@ import java.util.List;
  * Created by mpx on 29.4.2014.
  */
 public class PayAllDialog extends DialogFragment{
+
+    private ArrayList<HashMap<String, String>> listStul;
+    private SimpleAdapter adapter;
+    private ListView listview;
+    private List<Stul> itemsList;
+    private HashMap<String, String> map;
+    private Controller.TagKavy tagKavy;
+    private int totalCost;
 
     public PayAllDialog() {
         // Empty constructor required for DialogFragment
@@ -42,52 +53,25 @@ public class PayAllDialog extends DialogFragment{
         //getDialog().setTitle("Prodej - 15.4.2014");
         //getDialog().getWindow().setBackgroundDrawableResource(R.drawable.btn_blue_normal);
 
-        final ListView listview = (ListView) view.findViewById(R.id.listview);
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };
-
-        final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }
-        final StableArrayAdapter adapter = new StableArrayAdapter(this.getActivity(), android.R.layout.simple_list_item_1, list);
-        listview.setAdapter(adapter);
-        //listview.setBackgroundColor(Color.BLACK);
+        listview = (ListView) view.findViewById(R.id.listview);
         listview.setDivider(null);
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            /*@Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
-
-                                Toast.makeText(mCtx, "Je libo " + item.toString() + "?", Toast.LENGTH_LONG).show();
-                                list.remove(item);
-
-            }*/
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
-                view.animate().setDuration(100).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getActivity(), "Je libo " + item.toString() + "?", Toast.LENGTH_LONG).show();
-                                //list.remove(item);
-                                adapter.notifyDataSetChanged();
-                                view.setAlpha(1);
-                            };
-                        });
-            }
-
-
-        });
+        listStul = new ArrayList<HashMap<String, String>>();
+        listStul.clear();
+        itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+        for(int i=0; i < itemsList.size();i++) {
+            map = new HashMap<String, String>();
+            map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
+            map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+            int pomCost = (int)((MainActivity)getActivity()).cont.
+                    ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi();
+            totalCost += pomCost;
+            map.put("price", String.valueOf(pomCost) + " Kč");
+            listStul.add(map);
+            //stringList.add(ItemsGrid.get(i).getNazev_zbozi() + ";" + ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
+        }
+        adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+        listview.setAdapter(adapter);
 
         Typeface gothamLight = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Light.otf");
         Typeface gothamBook = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Book.otf");
@@ -96,6 +80,7 @@ public class PayAllDialog extends DialogFragment{
         overallText.setTypeface(gothamBook);
 
         TextView overallCostText = (TextView) view.findViewById(R.id.overallCostText);
+        overallCostText.setText(totalCost + " Kč");
         overallCostText.setTypeface(gothamBook);
 
         TextView backText = (TextView) view.findViewById(R.id.backText);
@@ -111,7 +96,7 @@ public class PayAllDialog extends DialogFragment{
         payText.setTypeface(gothamLight);
 
         TextView titleText = (TextView) view.findViewById(R.id.titleText);
-        titleText.setText("Platba - stůl č.8");
+        titleText.setText("Platba - stůl č." + ((MainActivity)getActivity()).getTableId());
         titleText.setTypeface(gothamLight);
 
         return view;

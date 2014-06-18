@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
     private RelativeLayout layoutSortiment;
     private RelativeLayout layoutStul;
     public Controller cont;
-    private static int tableId;
+    private int tableId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +119,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static int getTableId(){
+    public int getTableId(){
         System.out.println(tableId+"ccccccccccccccc");
         return tableId;
     }
@@ -178,9 +178,9 @@ public class MainActivity extends ActionBarActivity {
 
     public void SetTableNumber(int id){
 
+        this.tableId = id;
         StulFragment fragment = (StulFragment) getFragmentManager().findFragmentById(R.id.stultFragment);
         fragment.zobrazStul(id);
      }
-
 
 }

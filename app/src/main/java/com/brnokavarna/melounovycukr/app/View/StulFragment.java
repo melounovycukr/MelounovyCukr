@@ -100,8 +100,6 @@ public class StulFragment extends Fragment {
         zapVseText.setTypeface(gothamLight);
         tableNumberText = (TextView) view.findViewById(R.id.textTableNumber);
         tableNumberText.setTypeface(gothamLight);
-        System.out.println(MainActivity.getTableId()+"ooooooooooooooo");
-        tableNumberText.setText("Stůl č. " + MainActivity.getTableId());
 
         //grid
 
@@ -254,10 +252,7 @@ public class StulFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 final HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
-                System.out.println(item.get("item") + "lululululululu");
-                System.out.println(((MainActivity)getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(item.get("item")));
-                System.out.println(Controller.TagKavy.Zadna);
-                ((MainActivity)getActivity()).cont.OdstranPolozkuStul(stulID,((MainActivity)getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(item.get("item")),
+                ((MainActivity)getActivity()).cont.OdstranPolozkuStul(stulID, ((MainActivity) getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(item.get("item")),
                         Controller.TagKavy.Zadna);
 
                 listStul.clear();
@@ -392,5 +387,9 @@ public class StulFragment extends Fragment {
                 adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
                 listview.setAdapter(adapter);
 */
+    }
+
+    public int getStulID() {
+        return stulID;
     }
 }
