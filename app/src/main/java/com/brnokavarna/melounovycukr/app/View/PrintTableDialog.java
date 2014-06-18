@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.brnokavarna.melounovycukr.app.Controller.Controller;
 import com.brnokavarna.melounovycukr.app.MainActivity;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
+import com.brnokavarna.melounovycukr.app.Print.PrintActivity;
 import com.brnokavarna.melounovycukr.app.R;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class PrintTableDialog extends DialogFragment{
     private HashMap<String, String> map;
     private Controller.TagKavy tagKavy;
     private int totalCost;
+    private Context context;
+    private PrintActivity print;
 
     public PrintTableDialog() {
         // Empty constructor required for DialogFragment
@@ -53,6 +56,10 @@ public class PrintTableDialog extends DialogFragment{
 
         listview = (ListView) view.findViewById(R.id.listview);
         listview.setDivider(null);
+
+        // instance for print recipe
+        this.context = this.getActivity();
+        print = new PrintActivity(context);
 
         listStul = new ArrayList<HashMap<String, String>>();
         listStul.clear();
@@ -103,13 +110,22 @@ public class PrintTableDialog extends DialogFragment{
     View.OnClickListener doneListener = new View.OnClickListener() {
         public void onClick(View v) {
             Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
-
         }
     };
 
     View.OnClickListener printListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "Az to hanz dodela, tak mozna neco vytisku :D", Toast.LENGTH_LONG).show();
+
+            Toast.makeText(getActivity(), "Print", Toast.LENGTH_LONG).show();
+
+            new Thread( new Runnable() {
+                public void run() {
+                    print.printRecipePerTable(listStul);
+                }
+            }).start();
+
+            dismiss();
+
         }
     };
 
