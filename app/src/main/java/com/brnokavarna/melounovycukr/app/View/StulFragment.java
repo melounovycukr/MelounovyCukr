@@ -37,6 +37,7 @@ import java.util.List;
 public class StulFragment extends Fragment {
 
     PayAllDialog payAllDialog;
+    PayOneDialog payOneDialog;
     private GridView gridView;
     private ArrayList<HashMap<String, String>> listStul;
     private SimpleAdapter adapter;
@@ -49,6 +50,8 @@ public class StulFragment extends Fragment {
     private Controller.CategoryID  chosenCategory = Controller.CategoryID.Kava;
     TextView tableNumberText;
     private Controller.TagKavy tagKavy;
+
+    TextView firstPartOfList;
 
 
     /**
@@ -102,6 +105,9 @@ public class StulFragment extends Fragment {
         zapVseText.setTypeface(gothamLight);
         tableNumberText = (TextView) view.findViewById(R.id.textTableNumber);
         tableNumberText.setTypeface(gothamLight);
+
+        //firstPartOfList = (TextView) view.findViewById(R.id.listViewItemStulFirstText);
+        //firstPartOfList.setTypeface(gothamBook);
 
         //grid
 
@@ -291,7 +297,9 @@ public class StulFragment extends Fragment {
         zaplatit = (ImageView) view.findViewById(R.id.zaplatit);
         zaplatit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                FragmentManager fm = ((MainActivity)getActivity()).getSupportFragmentManager();
+                payOneDialog = new PayOneDialog();
+                payOneDialog.show(fm, "Pay one dialog");
             }
         });
 
@@ -311,11 +319,6 @@ public class StulFragment extends Fragment {
 
         return view;
     }
-
-    public void hideDialog() {
-        payAllDialog.dismiss();
-    }
-
 
     private class StableArrayAdapter extends ArrayAdapter<String> {
 

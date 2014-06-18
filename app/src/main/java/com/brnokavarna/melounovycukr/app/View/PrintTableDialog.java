@@ -69,7 +69,8 @@ public class PrintTableDialog extends DialogFragment{
 
         listStul = new ArrayList<HashMap<String, String>>();
         listStul.clear();
-        itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+        itemsList = ((MainActivity)getActivity()).getListOnePay();
+        //itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
         for(int i=0; i < itemsList.size();i++) {
             map = new HashMap<String, String>();
             map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());

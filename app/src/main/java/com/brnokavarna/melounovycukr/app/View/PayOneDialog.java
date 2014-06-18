@@ -13,19 +13,37 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brnokavarna.melounovycukr.app.Controller.Controller;
+import com.brnokavarna.melounovycukr.app.MainActivity;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
 import com.brnokavarna.melounovycukr.app.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by mpx on 29.4.2014.
  */
 public class PayOneDialog extends DialogFragment{
+
+    private ArrayList<HashMap<String, String>> listStul;
+    private ArrayList<HashMap<String, String>> listStul2;
+    private SimpleAdapter adapter;
+    private SimpleAdapter adapter2;
+    private ListView listview;
+    private ListView listview2;
+    private List<Stul> itemsList;
+    private List<Stul> itemsList2;
+    private HashMap<String, String> map;
+    private HashMap<String, String> map2;
+    private Controller.TagKavy tagKavy;
+    private int totalCost;
 
     public PayOneDialog() {
         // Empty constructor required for DialogFragment
@@ -34,57 +52,95 @@ public class PayOneDialog extends DialogFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_pay_all, container);
+        View view = inflater.inflate(R.layout.fragment_pay_one, container);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         //getDialog().getWindow().setLayout(200, 300);
         //getDialog().setTitle("Prodej - 15.4.2014");
         //getDialog().getWindow().setBackgroundDrawableResource(R.drawable.btn_blue_normal);
+        itemsList2 = new ArrayList<Stul>();
 
-        final ListView listview = (ListView) view.findViewById(R.id.listview);
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };
-
-        final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }
-        final StableArrayAdapter adapter = new StableArrayAdapter(this.getActivity(), android.R.layout.simple_list_item_1, list);
-        listview.setAdapter(adapter);
-        //listview.setBackgroundColor(Color.BLACK);
+        listview = (ListView) view.findViewById(R.id.listview);
+        listview2 = (ListView) view.findViewById(R.id.listview2);
         listview.setDivider(null);
+        listview2.setDivider(null);
 
+        listStul = new ArrayList<HashMap<String, String>>();
+        listStul2 = new ArrayList<HashMap<String, String>>();
+        listStul.clear();
+        listStul2.clear();
+        itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+        for(int i=0; i < itemsList.size();i++) {
+            map = new HashMap<String, String>();
+            map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
+            map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+            int pomCost = (int)((MainActivity)getActivity()).cont.
+                    ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi();
+            totalCost += pomCost;
+            map.put("price", String.valueOf(pomCost) + " Kč");
+            listStul.add(map);
+            //listStul2.add(map);
+            //stringList.add(ItemsGrid.get(i).getNazev_zbozi() + ";" + ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
+        }
+        adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+        listview.setAdapter(adapter);
+        //listview2.setAdapter(adapter);
+
+        //list nalevo
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            /*@Override
-            public void onItemClick(AdapterView<?> parent, final View view,
+            public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
+                final HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
+                ((MainActivity)getActivity()).cont.OdstranPolozkuStul(((MainActivity)getActivity()).getTableId(), ((MainActivity) getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(item.get("item")),
+                        Controller.TagKavy.Zadna);
 
-                                Toast.makeText(mCtx, "Je libo " + item.toString() + "?", Toast.LENGTH_LONG).show();
-                                list.remove(item);
 
-            }*/
+                itemsList2.add(new Stul(((MainActivity) getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(item.get("item")),((MainActivity)getActivity()).getTableId(),
+                        Controller.TagKavy.Zadna.ordinal(),1));
+                map2 = new HashMap<String, String>();
+                map2.put("item", item.get("item"));
+                //map2.put("amount", item.get("amount"));
+                map2.put("price", item.get("price"));
+                int flag = 0;
+                Iterator<HashMap<String, String>> itr = listStul2.iterator();
+                while(itr.hasNext()) {
+                    HashMap<String, String> map = itr.next();
+                    if(map.get("item").equals(item.get("item"))) {
+                        map.put("amount", String.valueOf(Integer.parseInt(map.get("amount"))+1));
+                        String[] parts = map.get("price").split(" "); // to get rid of " Kč"
+                        String price = parts[0];
+                        map.put("price", String.valueOf(Integer.parseInt(price)*Integer.parseInt(map.get("amount"))));
+                        flag = 1;
+                    }
+                }
+                if(flag == 0) {
+                    map2.put("item", item.get("item"));
+                    map2.put("amount", "1");
+                    map2.put("price", item.get("price"));
+                }
+                /*map2.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+                map2.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                        ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");*/
+                listStul2.add(map2);
+                adapter2 = new SimpleAdapter(getActivity(), listStul2, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+                listview2.setAdapter(adapter2);
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
-                view.animate().setDuration(100).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getActivity(), "Je libo " + item.toString() + "?", Toast.LENGTH_LONG).show();
-                                //list.remove(item);
-                                adapter.notifyDataSetChanged();
-                                view.setAlpha(1);
-                            };
-                        });
+                listStul.clear();
+                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+                for(int i=0; i < itemsList.size();i++) {
+                    map = new HashMap<String, String>();
+                    map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
+                    map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+                    map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                            ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
+                    listStul.add(map);
+                }
+
+                adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+                listview.setAdapter(adapter);
+
+
+
             }
-
-
         });
 
         Typeface gothamLight = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Light.otf");
@@ -118,15 +174,17 @@ public class PayOneDialog extends DialogFragment{
     View.OnClickListener backListener = new View.OnClickListener() {
         public void onClick(View v) {
             Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
-
+            dismiss();
         }
     };
 
     View.OnClickListener payListener = new View.OnClickListener() {
         public void onClick(View v) {
+            ((MainActivity)getActivity()).setListOnePay(itemsList2);
             FragmentManager fm = (getActivity()).getSupportFragmentManager();
             PrintTableDialog alert = new PrintTableDialog();
             alert.show(fm, "Print table dialog");
+            dismiss();
         }
     };
 
@@ -139,7 +197,7 @@ public class PayOneDialog extends DialogFragment{
         if (getDialog() == null)
             return;
 
-        int dialogWidth = 430; // specify a value here
+        int dialogWidth = 860; // specify a value here
         int dialogHeight = 650; // specify a value here
 
         getDialog().getWindow().setLayout(dialogWidth, dialogHeight);

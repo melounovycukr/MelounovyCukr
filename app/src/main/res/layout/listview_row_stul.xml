@@ -9,8 +9,10 @@
         android:id="@+id/listViewItemStulFirstText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:text="First"
         android:textSize="18sp"
+        android:textColor="#595959"
         android:layout_weight="2">
     </TextView>
 
@@ -18,7 +20,10 @@
         android:id="@+id/listViewItemStulSecondText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:text="Second"
+        android:textSize="18sp"
+        android:textColor="#595959"
         android:layout_weight="1">
     </TextView>
 
@@ -26,7 +31,10 @@
         android:id="@+id/listViewItemStulThirdText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:text="Third"
+        android:textSize="18sp"
+        android:textColor="#9c2320"
         android:layout_weight="1">
     </TextView>
 

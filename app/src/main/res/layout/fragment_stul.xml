@@ -105,6 +105,8 @@
             android:id="@+id/viewStul"
             android:layout_marginTop="20dp"
             android:layout_width="430dp"
+            android:horizontalSpacing="40dp"
+            android:verticalSpacing="40dp"
             android:layout_height="fill_parent"></ListView>
     </LinearLayout>
         </LinearLayout>

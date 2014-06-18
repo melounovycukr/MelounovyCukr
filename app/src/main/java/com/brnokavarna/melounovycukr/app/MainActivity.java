@@ -19,11 +19,14 @@ import android.widget.Toast;
 
 import com.brnokavarna.melounovycukr.app.Controller.Controller;
 import com.brnokavarna.melounovycukr.app.Model.MySQLiteHelper;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
 import com.brnokavarna.melounovycukr.app.View.EditNameDialog;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 import com.brnokavarna.melounovycukr.app.View.MainScreen;
 import com.brnokavarna.melounovycukr.app.View.SortimentFragment;
 import com.brnokavarna.melounovycukr.app.View.StulFragment;
+
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -36,6 +39,7 @@ public class MainActivity extends ActionBarActivity {
     private RelativeLayout layoutStul;
     public Controller cont;
     private int tableId;
+    private List<Stul> listOnePay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,10 +181,17 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void SetTableNumber(int id){
-
         this.tableId = id;
         StulFragment fragment = (StulFragment) getFragmentManager().findFragmentById(R.id.stultFragment);
         fragment.zobrazStul(id);
      }
+
+    public void setListOnePay(List<Stul> listOnePay) {
+        this.listOnePay = listOnePay;
+    }
+
+    public List<Stul> getListOnePay() {
+        return this.listOnePay;
+    }
 
 }
