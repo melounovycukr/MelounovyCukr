@@ -113,6 +113,7 @@ public class PayAllDialog extends DialogFragment{
     View.OnClickListener payListener = new View.OnClickListener() {
         public void onClick(View v) {
             ((MainActivity)getActivity()).setListOnePay(itemsList);
+            ((MainActivity)getActivity()).setOnePayFlag(false);
             FragmentManager fm = (getActivity()).getSupportFragmentManager();
             PrintTableDialog alert = new PrintTableDialog();
             alert.show(fm, "Print table dialog");

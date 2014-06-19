@@ -70,8 +70,8 @@ public class PrintTableDialog extends DialogFragment{
 
         listStul = new ArrayList<HashMap<String, String>>();
         listStul.clear();
-        //itemsList = ((MainActivity)getActivity()).getListOnePay();
-        itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+        itemsList = ((MainActivity)getActivity()).getListOnePay();
+        //itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
         for(int i=0; i < itemsList.size();i++) {
             map = new HashMap<String, String>();
             map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
@@ -122,8 +122,13 @@ public class PrintTableDialog extends DialogFragment{
             for(int i=0; i < itemsList.size();i++) {
                 for(int j=itemsList.get(i).getMnozstvi(); j>0;j--) {
                     System.out.println("bbbb " + i + " " + j);
-                    ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(((MainActivity)getActivity()).getTableId(),
-                            itemsList.get(i).getId_polozky(),tagKavy.Zadna);
+                    if(((MainActivity)getActivity()).getOnePayFlag()) {
+                        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(33,
+                                itemsList.get(i).getId_polozky(),tagKavy.Zadna);
+                    } else {
+                        ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
+                                itemsList.get(i).getId_polozky(), tagKavy.Zadna);
+                    }
 
                 }
             }

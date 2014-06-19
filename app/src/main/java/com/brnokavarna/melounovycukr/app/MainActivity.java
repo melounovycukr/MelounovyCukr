@@ -40,6 +40,7 @@ public class MainActivity extends ActionBarActivity {
     public Controller cont;
     private int tableId;
     private List<Stul> listOnePay;
+    private boolean flagOnePay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,6 +193,14 @@ public class MainActivity extends ActionBarActivity {
 
     public List<Stul> getListOnePay() {
         return this.listOnePay;
+    }
+
+    public void setOnePayFlag(boolean flagOnePay) {
+        this.flagOnePay = flagOnePay;
+    }
+
+    public boolean getOnePayFlag() {
+        return this.flagOnePay;
     }
 
 }
