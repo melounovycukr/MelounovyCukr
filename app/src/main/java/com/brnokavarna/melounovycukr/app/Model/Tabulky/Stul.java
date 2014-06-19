@@ -78,6 +78,6 @@ public class Stul {
     }
 
     public String toString() {
-        return "Seznam [id=" + id + "stul_id " + id_stul + ", polozka_id=" + id_polozky +"druh_kavy=" + druh_kavy + ", mnozstvi=" + mnozstvi + "]";
+        return "stul [id=" + id + "stul_id " + id_stul + ", polozka_id=" + id_polozky +"druh_kavy=" + druh_kavy + ", mnozstvi=" + mnozstvi + "]";
     }
 }

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,6 +52,8 @@ public class StulFragment extends Fragment {
     private Controller.CategoryID  chosenCategory = Controller.CategoryID.Kava;
     TextView tableNumberText;
     private Controller.TagKavy tagKavy;
+    private int idAktPolozky;
+
 
     TextView firstPartOfList;
 
@@ -236,20 +239,13 @@ public class StulFragment extends Fragment {
 
                 Seznam pomPolozka= ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
                         getText().toString()));
-                int pomStulID= ((MainActivity)getActivity()).getTableId();
                 int pomPolozkaID= Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).getText().toString());
+                idAktPolozky = pomPolozkaID;
 
-                String kavaSuffix = "";
                 if(pomPolozka.getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
                     FragmentManager fm = ((MainActivity) getActivity()).getSupportFragmentManager();
-                    coffeeDialog = new CoffeeDialog();
+                    coffeeDialog = new CoffeeDialog(pomPolozkaID, new DialogFragmentDismissHandler());
                     coffeeDialog.show(fm, "coffee dialog");
-                    //Ethyopie
-                    if(((MainActivity)getActivity()).cont.ZobrazPolozkuStul(pomPolozkaID, pomStulID, Controller.TagKavy.Ethyopie) != null){
-                        kavaSuffix.concat(" - Ethyopie");
-                    }
-                    else
-                        kavaSuffix.concat(" - Kena");
                 }else {
                     ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
                             getText().toString()),Controller.TagKavy.Zadna);
@@ -260,7 +256,7 @@ public class StulFragment extends Fragment {
                 for(int i=0; i < itemsList.size();i++) {
                     map = new HashMap<String, String>();
                     //if()
-                    map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + kavaSuffix);
+                    map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
                     map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
                     map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
                             ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
@@ -298,7 +294,7 @@ public class StulFragment extends Fragment {
                 itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
                 for(int i=0; i < itemsList.size();i++) {
                     map = new HashMap<String, String>();
-                    map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
+                    map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
                     map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
                     map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
                             ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
@@ -407,7 +403,7 @@ public class StulFragment extends Fragment {
         itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(id);
         for(int i=0; i < itemsList.size();i++) {
             map = new HashMap<String, String>();
-            map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
+            map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
             map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
             map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
                     ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
@@ -431,5 +427,45 @@ public class StulFragment extends Fragment {
 
     public int getStulID() {
         return stulID;
+    }
+
+    /**
+     * Dismiss handler
+     */
+    private class DialogFragmentDismissHandler extends android.os.Handler {
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+
+             listStul.clear();
+            itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
+            for(int i=0; i < itemsList.size();i++) {
+                map = new HashMap<String, String>();
+                //if()
+                map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
+                map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+                map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                        ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
+                listStul.add(map);
+            }
+
+            adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+            listview.setAdapter(adapter);
+
+
+
+        }
+    }
+
+    private String vypisDruhKavy(int kava)
+    {
+
+        if (kava == Controller.TagKavy.Kena.ordinal())
+            return " - Kena";
+        else if (kava == Controller.TagKavy.Ethyopie.ordinal())
+            return " - Ethyopie";
+
+        return "";
     }
 }
