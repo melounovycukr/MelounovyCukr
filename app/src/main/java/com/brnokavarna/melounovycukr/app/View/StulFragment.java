@@ -287,8 +287,16 @@ public class StulFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 final HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
-                ((MainActivity)getActivity()).cont.OdstranPolozkuStul(stulID, ((MainActivity) getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(item.get("item")),
-                        Controller.TagKavy.Zadna);
+                String[] parts = item.get("item").split(" ");
+                int idPol = ((MainActivity) getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(parts[0]);
+                if(((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idPol).getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
+                    ((MainActivity)getActivity()).cont.OdstranPolozkuStul(stulID,idPol ,
+                            Controller.TagKavy.valueOf(parts[2]));
+                } else {
+                    ((MainActivity)getActivity()).cont.OdstranPolozkuStul(stulID,idPol ,
+                            Controller.TagKavy.Zadna);
+                }
+
 
                 listStul.clear();
                 itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
@@ -461,10 +469,10 @@ public class StulFragment extends Fragment {
     private String vypisDruhKavy(int kava)
     {
 
-        if (kava == Controller.TagKavy.Kena.ordinal())
-            return " - Kena";
-        else if (kava == Controller.TagKavy.Ethyopie.ordinal())
-            return " - Ethyopie";
+        if (kava == Controller.TagKavy.Keňa.ordinal())
+            return " - Keňa";
+        else if (kava == Controller.TagKavy.Ethyopia.ordinal())
+            return " - Ethyopia";
 
         return "";
     }

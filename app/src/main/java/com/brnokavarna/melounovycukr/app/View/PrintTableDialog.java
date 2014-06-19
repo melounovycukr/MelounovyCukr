@@ -74,7 +74,7 @@ public class PrintTableDialog extends DialogFragment{
         //itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
         for(int i=0; i < itemsList.size();i++) {
             map = new HashMap<String, String>();
-            map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
+            map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
             map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
             int pomCost = (int)((MainActivity)getActivity()).cont.
                     ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi();
@@ -193,6 +193,17 @@ public class PrintTableDialog extends DialogFragment{
         getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
 
         // ... other stuff you want to do in your onStart() method
+    }
+
+    private String vypisDruhKavy(int kava)
+    {
+
+        if (kava == Controller.TagKavy.Keňa.ordinal())
+            return " - Kena";
+        else if (kava == Controller.TagKavy.Ethyopia.ordinal())
+            return " - Ethyopie";
+
+        return "";
     }
 
     /*public void onResume()

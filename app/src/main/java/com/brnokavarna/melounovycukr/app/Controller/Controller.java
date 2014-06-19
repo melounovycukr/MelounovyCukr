@@ -40,8 +40,8 @@ public class Controller implements ControllerInterface {
      * Tag pro druh kavy
      */
     public enum TagKavy{
-        Ethyopie,
-        Kena,
+        Ethyopia,
+        Keňa,
         Zadna;//kdyz polozka neni kafe
     }
 
