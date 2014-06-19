@@ -143,6 +143,8 @@ public class MainActivity extends ActionBarActivity {
         layoutSortiment.setVisibility(View.GONE);
         ft.hide(stulFragment);
         layoutStul.setVisibility(View.GONE);
+        //ft.detach(mainScreenFragment);
+       // ft.attach(mainScreenFragment);
         ft.show(mainScreenFragment);
         layoutMainScreen.setVisibility(View.VISIBLE);
         ft.commit();
@@ -186,6 +188,12 @@ public class MainActivity extends ActionBarActivity {
         StulFragment fragment = (StulFragment) getFragmentManager().findFragmentById(R.id.stultFragment);
         fragment.zobrazStul(id);
      }
+
+    public void SetTableDefault(int id)
+    {
+        MainScreen fragment = (MainScreen) getFragmentManager().findFragmentById(R.id.mainScreenFragment);
+        fragment.setTableNormalColor(id);
+    }
 
     public void setListOnePay(List<Stul> listOnePay) {
         this.listOnePay = listOnePay;
