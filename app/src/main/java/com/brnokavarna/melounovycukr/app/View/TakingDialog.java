@@ -25,6 +25,7 @@ import com.brnokavarna.melounovycukr.app.R;
 import com.starmicronics.stario.StarIOPortException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class TakingDialog extends DialogFragment{
     private HashMap<String, String> map;
     private Controller.TagKavy tagKavy;
     private boolean printProblemFlag = false;
+    private Calendar c;
 
     public TakingDialog() {
         // Empty constructor required for DialogFragment
@@ -55,6 +57,7 @@ public class TakingDialog extends DialogFragment{
         View view = inflater.inflate(R.layout.fragment_edit_name, container);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
+        this.c = Calendar.getInstance();
         // instance for print recipe
         this.context = this.getActivity();
         mHandler = new Handler();
@@ -94,7 +97,10 @@ public class TakingDialog extends DialogFragment{
         printText.setTypeface(gothamLight);
 
         TextView titleText = (TextView) view.findViewById(R.id.titleText);
-        titleText.setText("Prodej - 15.4.2014");
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int month = c.get(Calendar.MONTH)+1;
+        int year = c.get(Calendar.YEAR);
+        titleText.setText("Prodej - "+day+"."+month+"."+year);
         titleText.setTypeface(gothamLight);
 
         return view;

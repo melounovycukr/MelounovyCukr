@@ -157,8 +157,10 @@ public class PayOneDialog extends DialogFragment{
                     map2 = new HashMap<String, String>();
                     map2.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList2.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList2.get(i).getDruh_kavy()));
                     map2.put("amount", String.valueOf(itemsList2.get(i).getMnozstvi()));
-                    map2.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
-                            ZobrazPolozkuSeznam(itemsList2.get(i).getId_polozky()).getCena()*itemsList2.get(i).getMnozstvi()) + " Kč");
+                    int pomCost = (int)((MainActivity)getActivity()).cont.
+                            ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList2.get(i).getMnozstvi();
+                    totalCost += pomCost;
+                    map2.put("price", String.valueOf(pomCost) + " Kč");
                     listStul2.add(map2);
                 }
                 adapter2 = new SimpleAdapter(getActivity(), listStul2, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
@@ -233,8 +235,10 @@ public class PayOneDialog extends DialogFragment{
                     map2 = new HashMap<String, String>();
                     map2.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList2.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList2.get(i).getDruh_kavy()));
                     map2.put("amount", String.valueOf(itemsList2.get(i).getMnozstvi()));
-                    map2.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
-                            ZobrazPolozkuSeznam(itemsList2.get(i).getId_polozky()).getCena()*itemsList2.get(i).getMnozstvi()) + " Kč");
+                    int pomCost = (int)((MainActivity)getActivity()).cont.
+                            ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList2.get(i).getMnozstvi();
+                    totalCost += pomCost;
+                    map2.put("price", String.valueOf(pomCost) + " Kč");
                     listStul2.add(map2);
                 }
                 adapter2 = new SimpleAdapter(getActivity(), listStul2, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
@@ -250,6 +254,7 @@ public class PayOneDialog extends DialogFragment{
         overallText.setTypeface(gothamBook);
 
         TextView overallCostText = (TextView) view.findViewById(R.id.overallCostText);
+        overallCostText.setText(totalCost + " Kč");
         overallCostText.setTypeface(gothamBook);
 
         TextView backText = (TextView) view.findViewById(R.id.backText);
