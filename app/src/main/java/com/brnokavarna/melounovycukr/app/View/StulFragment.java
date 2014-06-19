@@ -234,12 +234,22 @@ public class StulFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                Seznam pomStul = ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
+                Seznam pomPolozka= ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
                         getText().toString()));
-                if(pomStul.getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
+                int pomStulID= ((MainActivity)getActivity()).getTableId();
+                int pomPolozkaID= Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).getText().toString());
+
+                String kavaSuffix = "";
+                if(pomPolozka.getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
                     FragmentManager fm = ((MainActivity) getActivity()).getSupportFragmentManager();
                     coffeeDialog = new CoffeeDialog();
                     coffeeDialog.show(fm, "coffee dialog");
+                    //Ethyopie
+                    if(((MainActivity)getActivity()).cont.ZobrazPolozkuStul(pomPolozkaID, pomStulID, Controller.TagKavy.Ethyopie) != null){
+                        kavaSuffix.concat(" - Ethyopie");
+                    }
+                    else
+                        kavaSuffix.concat(" - Kena");
                 }else {
                     ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
                             getText().toString()),Controller.TagKavy.Zadna);
@@ -250,7 +260,7 @@ public class StulFragment extends Fragment {
                 for(int i=0; i < itemsList.size();i++) {
                     map = new HashMap<String, String>();
                     //if()
-                    map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
+                    map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + kavaSuffix);
                     map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
                     map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
                             ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
