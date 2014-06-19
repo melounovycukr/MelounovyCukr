@@ -324,6 +324,9 @@ public class StulFragment extends Fragment {
         zpetImage = (ImageView) view.findViewById(R.id.backStul);
         zpetImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                //empty list not red
+                if(itemsList.size() < 1)
+                    ((MainActivity) getActivity()).SetTableDefault (stulID);
                 ((MainActivity)getActivity()).ShowMainHideOthers();
             }
         });
