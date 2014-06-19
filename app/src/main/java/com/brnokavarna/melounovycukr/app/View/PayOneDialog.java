@@ -45,6 +45,7 @@ public class PayOneDialog extends DialogFragment{
     private HashMap<String, String> map2;
     private Controller.TagKavy tagKavy;
     private int totalCost;
+    TextView overallCostText;
 
     public PayOneDialog() {
         // Empty constructor required for DialogFragment
@@ -75,10 +76,8 @@ public class PayOneDialog extends DialogFragment{
             map = new HashMap<String, String>();
             map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
             map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
-            int pomCost = (int)((MainActivity)getActivity()).cont.
-                    ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi();
-            totalCost += pomCost;
-            map.put("price", String.valueOf(pomCost) + " Kč");
+            map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                    ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
             listStul.add(map);
             //listStul2.add(map);
             //stringList.add(ItemsGrid.get(i).getNazev_zbozi() + ";" + ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
@@ -153,18 +152,21 @@ public class PayOneDialog extends DialogFragment{
 
                 listStul2.clear();
                 itemsList2 = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(33);
+                int pomCost2 = (int)((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idPol).getCena();
+                totalCost += pomCost2;
                 for(int i=0; i < itemsList2.size();i++) {
                     map2 = new HashMap<String, String>();
                     map2.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList2.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList2.get(i).getDruh_kavy()));
                     map2.put("amount", String.valueOf(itemsList2.get(i).getMnozstvi()));
                     int pomCost = (int)((MainActivity)getActivity()).cont.
-                            ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList2.get(i).getMnozstvi();
-                    totalCost += pomCost;
-                    map2.put("price", String.valueOf(pomCost) + " Kč");
+                            ZobrazPolozkuSeznam(itemsList2.get(i).getId_polozky()).getCena();
+
+                    map2.put("price", String.valueOf(pomCost*itemsList2.get(i).getMnozstvi()) + " Kč");
                     listStul2.add(map2);
                 }
                 adapter2 = new SimpleAdapter(getActivity(), listStul2, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
                 listview2.setAdapter(adapter2);
+                overallCostText.setText(totalCost + " Kč");
 
             }
         });
@@ -229,6 +231,9 @@ public class PayOneDialog extends DialogFragment{
                 adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
                 listview.setAdapter(adapter);
 
+                int pomCost2 = (int)((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idPol).getCena();
+                totalCost -= pomCost2;
+
                 listStul2.clear();
                 itemsList2 = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(33);
                 for(int i=0; i < itemsList2.size();i++) {
@@ -236,13 +241,13 @@ public class PayOneDialog extends DialogFragment{
                     map2.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList2.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList2.get(i).getDruh_kavy()));
                     map2.put("amount", String.valueOf(itemsList2.get(i).getMnozstvi()));
                     int pomCost = (int)((MainActivity)getActivity()).cont.
-                            ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList2.get(i).getMnozstvi();
-                    totalCost += pomCost;
-                    map2.put("price", String.valueOf(pomCost) + " Kč");
+                            ZobrazPolozkuSeznam(itemsList2.get(i).getId_polozky()).getCena();
+                    map2.put("price", String.valueOf(pomCost*itemsList2.get(i).getMnozstvi()) + " Kč");
                     listStul2.add(map2);
                 }
                 adapter2 = new SimpleAdapter(getActivity(), listStul2, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
                 listview2.setAdapter(adapter2);
+                overallCostText.setText(totalCost + " Kč");
 
             }
         });
@@ -253,7 +258,7 @@ public class PayOneDialog extends DialogFragment{
         TextView overallText = (TextView) view.findViewById(R.id.overallText);
         overallText.setTypeface(gothamBook);
 
-        TextView overallCostText = (TextView) view.findViewById(R.id.overallCostText);
+        overallCostText = (TextView) view.findViewById(R.id.overallCostText);
         overallCostText.setText(totalCost + " Kč");
         overallCostText.setTypeface(gothamBook);
 
@@ -282,8 +287,17 @@ public class PayOneDialog extends DialogFragment{
             for (int i = 0; i < itemsList2.size(); i++) {
                 for (int j = itemsList2.get(i).getMnozstvi(); j > 0; j--) {
                     System.out.println("bbbb " + i + " " + j);
-                    ((MainActivity) getActivity()).cont.OdstranPolozkuStul(33, itemsList2.get(i).getId_polozky(), tagKavy.Zadna);
-                    ((MainActivity) getActivity()).cont.PridejPolozkuStul(((MainActivity) getActivity()).getTableId(), itemsList2.get(i).getId_polozky(), tagKavy.Zadna);
+                    if(itemsList2.get(i).getDruh_kavy() == Controller.TagKavy.Keňa.ordinal()) {
+                        ((MainActivity) getActivity()).cont.OdstranPolozkuStul(33, itemsList2.get(i).getId_polozky(), tagKavy.Keňa);
+                        ((MainActivity) getActivity()).cont.PridejPolozkuStul(((MainActivity) getActivity()).getTableId(), itemsList2.get(i).getId_polozky(), tagKavy.Keňa);
+                    } else if(itemsList2.get(i).getDruh_kavy() == Controller.TagKavy.Ethyopia.ordinal()) {
+                        ((MainActivity) getActivity()).cont.OdstranPolozkuStul(33, itemsList2.get(i).getId_polozky(), tagKavy.Ethyopia);
+                        ((MainActivity) getActivity()).cont.PridejPolozkuStul(((MainActivity) getActivity()).getTableId(), itemsList2.get(i).getId_polozky(), tagKavy.Ethyopia);
+                    } else {
+                        ((MainActivity) getActivity()).cont.OdstranPolozkuStul(33, itemsList2.get(i).getId_polozky(), tagKavy.Zadna);
+                        ((MainActivity) getActivity()).cont.PridejPolozkuStul(((MainActivity) getActivity()).getTableId(), itemsList2.get(i).getId_polozky(), tagKavy.Zadna);
+                    }
+
                 }
             }
             dismiss();

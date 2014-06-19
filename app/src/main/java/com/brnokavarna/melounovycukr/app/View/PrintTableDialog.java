@@ -299,7 +299,6 @@ public class PrintTableDialog extends DialogFragment{
                 ((MainActivity) getActivity()).SetTableDefault (((MainActivity) getActivity()).getTableId());
                 dismiss();
                 ((MainActivity) getActivity()).ShowMainHideOthers();
-
             }
             printProblemFlag = false;
         }
