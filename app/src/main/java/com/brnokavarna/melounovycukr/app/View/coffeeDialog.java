@@ -90,7 +90,6 @@ public class CoffeeDialog extends DialogFragment{
         int dialogWidth = 700; // specify a value here
         int dialogHeight = 320; // specify a value here
         getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
-        // ... other stuff you want to do in your onStart() method
     }
     /**
      * Dismiss handler
