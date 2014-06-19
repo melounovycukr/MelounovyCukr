@@ -51,6 +51,90 @@ public class PrintTableDialog extends DialogFragment{
         // Empty constructor required for DialogFragment
     }
 
+
+    /**
+     * Odznaceni stolu po zaplaceni
+     * @param id
+     */
+    public void OdznacStul(int id)
+    {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.main_screen, null, true);
+        ImageView table;
+
+        switch(id){
+            case 1:
+                table = (ImageView) view.findViewById(R.id.table1);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 2:
+                table = (ImageView) view.findViewById(R.id.table2);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 3:
+                table = (ImageView) view.findViewById(R.id.table3);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 4:
+                table = (ImageView) view.findViewById(R.id.table4);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 5:
+                table = (ImageView) view.findViewById(R.id.table5);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 6:
+                table = (ImageView) view.findViewById(R.id.table6);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 7:
+                table = (ImageView) view.findViewById(R.id.table7);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 8:
+                table = (ImageView) view.findViewById(R.id.table8);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 9:
+                table = (ImageView) view.findViewById(R.id.table9);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 10:
+                table = (ImageView) view.findViewById(R.id.table10);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 11:
+                table = (ImageView) view.findViewById(R.id.table11);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 12:
+                table = (ImageView) view.findViewById(R.id.table12);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 13:
+                table = (ImageView) view.findViewById(R.id.table13);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 14:
+                table = (ImageView) view.findViewById(R.id.bar1);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 15:
+                table = (ImageView) view.findViewById(R.id.bar2);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 16:
+                table = (ImageView) view.findViewById(R.id.bar3);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+            case 17:
+                table = (ImageView) view.findViewById(R.id.bar4);
+                table.setImageResource(R.drawable.table_normal);
+                break;
+        }
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -133,6 +217,8 @@ public class PrintTableDialog extends DialogFragment{
                 }
             }
 
+
+            OdznacStul(((MainActivity) getActivity()).getTableId());
             dismiss();
             ((MainActivity)getActivity()).ShowMainHideOthers();
         }
@@ -170,6 +256,7 @@ public class PrintTableDialog extends DialogFragment{
                                 itemsList.get(i).getId_polozky(), tagKavy.Zadna);
                     }
                 }
+                OdznacStul(((MainActivity) getActivity()).getTableId());
                 dismiss();
                 ((MainActivity) getActivity()).ShowMainHideOthers();
 
@@ -252,7 +339,6 @@ public class PrintTableDialog extends DialogFragment{
         public void doneMethod(View view){
             Toast.makeText(getActivity(), "it's done", Toast.LENGTH_LONG).show();
         }
-
 
 
     }
