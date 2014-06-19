@@ -235,7 +235,7 @@ public class PrintTableDialog extends DialogFragment{
             }
 
 
-            OdznacStul(((MainActivity) getActivity()).getTableId());
+            ((MainActivity) getActivity()).SetTableDefault (((MainActivity) getActivity()).getTableId());
             dismiss();
             ((MainActivity)getActivity()).ShowMainHideOthers();
         }
@@ -296,7 +296,7 @@ public class PrintTableDialog extends DialogFragment{
 
                     }
                 }
-                OdznacStul(((MainActivity) getActivity()).getTableId());
+                ((MainActivity) getActivity()).SetTableDefault (((MainActivity) getActivity()).getTableId());
                 dismiss();
                 ((MainActivity) getActivity()).ShowMainHideOthers();
 
