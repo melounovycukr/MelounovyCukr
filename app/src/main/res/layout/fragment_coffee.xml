@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_name"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:layout_gravity="center" android:orientation="vertical"
+    >
+
+    <ImageView
+        android:id="@+id/titleSpace"
+        android:layout_width="700dp"
+        android:layout_height="65dp"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/actionbar_bg"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/titleSpace"
+        android:layout_alignTop="@+id/titleSpace"
+        android:layout_alignBottom="@+id/titleSpace"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textColor="#9c2320" />
+
+    <ImageView
+        android:id="@+id/bottomSpace"
+        android:layout_width="700dp"
+        android:layout_height="90dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/actionbar_bg"
+        android:scaleType="fitXY" />
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/btn_grey_normal"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/backText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/back"
+        android:layout_alignTop="@+id/back"
+        android:layout_alignRight="@+id/back"
+        android:layout_alignBottom="@+id/back"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text="ZPĚT"
+        android:textSize="20sp"
+        android:textColor="#000000" />
+
+    <ImageView
+        android:id="@+id/Ethyopie"
+        android:layout_width="310dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="105dp"
+        android:src="@drawable/btn_green_normal"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/EthyopieText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Ethyopie"
+        android:layout_alignTop="@+id/Ethyopie"
+        android:layout_alignRight="@+id/Ethyopie"
+        android:layout_alignBottom="@+id/Ethyopie"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="#ffffff"
+        android:text="Ethyopie"
+        android:scaleType="fitXY" />
+
+    <ImageView
+        android:id="@+id/Kena"
+        android:layout_width="310dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="105dp"
+        android:src="@drawable/btn_green_normal"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/KenaText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Kena"
+        android:layout_alignTop="@+id/Kena"
+        android:layout_alignRight="@+id/Kena"
+        android:layout_alignBottom="@+id/Kena"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text="Keňa"
+        android:textSize="18sp"
+        android:textColor="#ffffff"
+        android:scaleType="fitXY" />
+
+</RelativeLayout>

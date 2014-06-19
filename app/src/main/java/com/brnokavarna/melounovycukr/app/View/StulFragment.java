@@ -38,6 +38,7 @@ public class StulFragment extends Fragment {
 
     PayAllDialog payAllDialog;
     PayOneDialog payOneDialog;
+    CoffeeDialog coffeeDialog;
     private GridView gridView;
     private ArrayList<HashMap<String, String>> listStul;
     private SimpleAdapter adapter;
@@ -106,8 +107,19 @@ public class StulFragment extends Fragment {
         tableNumberText = (TextView) view.findViewById(R.id.textTableNumber);
         tableNumberText.setTypeface(gothamLight);
 
-        //firstPartOfList = (TextView) view.findViewById(R.id.listViewItemStulFirstText);
-        //firstPartOfList.setTypeface(gothamBook);
+        TextView listItemFirst;
+        TextView listItemSecond;
+        TextView listItemThird;
+
+        LayoutInflater inflaterRow = getActivity().getLayoutInflater();
+        View rowView;
+        rowView = inflaterRow.inflate(R.layout.listview_row_stul, null, true);
+        listItemFirst = (TextView) rowView.findViewById(R.id.listViewItemStulFirstText);
+        listItemSecond = (TextView) rowView.findViewById(R.id.listViewItemStulSecondText);
+        listItemThird = (TextView) rowView.findViewById(R.id.listViewItemStulThirdText);
+        listItemFirst.setTypeface(gothamBook);
+        listItemSecond.setTypeface(gothamBook);
+        listItemThird.setTypeface(gothamBook);
 
         //grid
 
@@ -222,13 +234,22 @@ public class StulFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
-                        getText().toString()),Controller.TagKavy.Zadna);
+                Seznam pomStul = ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
+                        getText().toString()));
+                if(pomStul.getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
+                    FragmentManager fm = ((MainActivity) getActivity()).getSupportFragmentManager();
+                    coffeeDialog = new CoffeeDialog();
+                    coffeeDialog.show(fm, "coffee dialog");
+                }else {
+                    ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
+                            getText().toString()),Controller.TagKavy.Zadna);
+                }
 
                 listStul.clear();
                 itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
                 for(int i=0; i < itemsList.size();i++) {
                     map = new HashMap<String, String>();
+                    //if()
                     map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
                     map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
                     map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.

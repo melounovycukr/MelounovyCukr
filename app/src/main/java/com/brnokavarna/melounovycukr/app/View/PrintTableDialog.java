@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,8 +70,8 @@ public class PrintTableDialog extends DialogFragment{
 
         listStul = new ArrayList<HashMap<String, String>>();
         listStul.clear();
-        itemsList = ((MainActivity)getActivity()).getListOnePay();
-        //itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+        //itemsList = ((MainActivity)getActivity()).getListOnePay();
+        itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
         for(int i=0; i < itemsList.size();i++) {
             map = new HashMap<String, String>();
             map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi());
@@ -120,6 +121,7 @@ public class PrintTableDialog extends DialogFragment{
 
             for(int i=0; i < itemsList.size();i++) {
                 for(int j=itemsList.get(i).getMnozstvi(); j>0;j--) {
+                    System.out.println("bbbb " + i + " " + j);
                     ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(((MainActivity)getActivity()).getTableId(),
                             itemsList.get(i).getId_polozky(),tagKavy.Zadna);
 
@@ -136,30 +138,38 @@ public class PrintTableDialog extends DialogFragment{
 
             Toast.makeText(getActivity(), "Print", Toast.LENGTH_LONG).show();
 
-            new Thread( new Runnable() {
+            Thread  temp = new Thread( new Runnable() {
                 public void run() {
 
                     try {
                         // print recipe
                         print.printRecipePerTable(listStul);
 
-                        // remove items
-                        for (int i = 0; i < itemsList.size(); i++) {
-                            for (int j = itemsList.get(i).getMnozstvi(); j > 0; j--) {
-                                ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
-                                        itemsList.get(i).getId_polozky(), tagKavy.Zadna);
-
-                            }
-                        }
-
                     } catch(PrintException e) {
                         System.out.println(e+"eeeeeeeeeeeeee\n");
+                        printProblemFlag = true;
                     }
                 }
-            }).start();
+            });
+            temp.start();
+            try {
+                temp.join();
+            }catch (InterruptedException e)
+            {}
 
-            dismiss();
-            ((MainActivity) getActivity()).ShowMainHideOthers();
+            if(printProblemFlag == false) {
+                for (int i = 0; i < itemsList.size(); i++) {
+                    for (int j = itemsList.get(i).getMnozstvi(); j > 0; j--) {
+                        System.out.println("bbbb " + i + " " + j);
+                        ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
+                                itemsList.get(i).getId_polozky(), tagKavy.Zadna);
+                    }
+                }
+                dismiss();
+                ((MainActivity) getActivity()).ShowMainHideOthers();
+
+            }
+            printProblemFlag = false;
         }
     };
 

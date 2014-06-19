@@ -43,6 +43,7 @@ public class EditNameDialog extends DialogFragment{
     private List<CelkovaTrzba> itemsList;
     private HashMap<String, String> map;
     private Controller.TagKavy tagKavy;
+    private boolean printProblemFlag = false;
 
     public EditNameDialog() {
         // Empty constructor required for DialogFragment
@@ -120,24 +121,32 @@ public class EditNameDialog extends DialogFragment{
 
             Toast.makeText(getActivity(), "Print", Toast.LENGTH_LONG).show();
 
-            new Thread( new Runnable() {
+            Thread  temp = new Thread( new Runnable() {
                 public void run() {
 
                     try {
                         // print recipe
                         print.printRecipePerDay(listStul);
 
-                        // remove items
-                        ((MainActivity) getActivity()).cont.VymazTrzbu();
-
                     } catch(PrintException e) {
                         System.out.println(e+"eeeeeeeeeeeeee\n");
+                        printProblemFlag = true;
                     }
                 }
-            }).start();
+            });
+            temp.start();
+            try {
+                temp.join();
+            }catch (InterruptedException e)
+            {}
 
-            dismiss();
-            ((MainActivity) getActivity()).ShowMainHideOthers();
+            if(printProblemFlag == false) {
+                // remove items
+                ((MainActivity) getActivity()).cont.VymazTrzbu();
+                dismiss();
+                ((MainActivity) getActivity()).ShowMainHideOthers();
+            }
+            printProblemFlag = false;
         }
     };
 
