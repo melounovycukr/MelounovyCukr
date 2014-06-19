@@ -205,13 +205,30 @@ public class PrintTableDialog extends DialogFragment{
 
             for(int i=0; i < itemsList.size();i++) {
                 for(int j=itemsList.get(i).getMnozstvi(); j>0;j--) {
-                    System.out.println("bbbb " + i + " " + j);
-                    if(((MainActivity)getActivity()).getOnePayFlag()) {
-                        ((MainActivity)getActivity()).cont.ZaplatPolozkuStul(33,
-                                itemsList.get(i).getId_polozky(),tagKavy.Zadna);
+                    if(itemsList.get(i).getDruh_kavy() == Controller.TagKavy.Keňa.ordinal()) {
+                        if (((MainActivity) getActivity()).getOnePayFlag()) {
+                            ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(33,
+                                    itemsList.get(i).getId_polozky(), tagKavy.Keňa);
+                        } else {
+                            ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
+                                    itemsList.get(i).getId_polozky(), tagKavy.Keňa);
+                        }
+                    } else if(itemsList.get(i).getDruh_kavy() == Controller.TagKavy.Ethyopia.ordinal()) {
+                        if (((MainActivity) getActivity()).getOnePayFlag()) {
+                            ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(33,
+                                    itemsList.get(i).getId_polozky(), tagKavy.Ethyopia);
+                        } else {
+                            ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
+                                    itemsList.get(i).getId_polozky(), tagKavy.Ethyopia);
+                        }
                     } else {
-                        ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
-                                itemsList.get(i).getId_polozky(), tagKavy.Zadna);
+                        if (((MainActivity) getActivity()).getOnePayFlag()) {
+                            ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(33,
+                                    itemsList.get(i).getId_polozky(), tagKavy.Zadna);
+                        } else {
+                            ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
+                                    itemsList.get(i).getId_polozky(), tagKavy.Zadna);
+                        }
                     }
 
                 }
@@ -286,9 +303,9 @@ public class PrintTableDialog extends DialogFragment{
     {
 
         if (kava == Controller.TagKavy.Keňa.ordinal())
-            return " - Kena";
+            return " - Keňa";
         else if (kava == Controller.TagKavy.Ethyopia.ordinal())
-            return " - Ethyopie";
+            return " - Ethyopia";
 
         return "";
     }

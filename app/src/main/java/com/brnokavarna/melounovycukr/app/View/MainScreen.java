@@ -3,22 +3,17 @@ package com.brnokavarna.melounovycukr.app.View;
 /**
  * Created by mpx on 5.5.2014.
  */
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.brnokavarna.melounovycukr.app.MainActivity;
-import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 import com.brnokavarna.melounovycukr.app.R;
 
 public class MainScreen extends Fragment {
@@ -338,8 +333,8 @@ public class MainScreen extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager fm = ((MainActivity)getActivity()).getSupportFragmentManager();
-                EditNameDialog editNameDialog = new EditNameDialog();
-                editNameDialog.show(fm, "fragment_edit_name");
+                TakingDialog takingDialog = new TakingDialog();
+                takingDialog.show(fm, "fragment_edit_name");
             }
         });
 
