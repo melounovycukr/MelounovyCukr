@@ -234,8 +234,11 @@ public class PrintTableDialog extends DialogFragment{
                 }
             }
 
-
-            ((MainActivity) getActivity()).SetTableDefault (((MainActivity) getActivity()).getTableId());
+            List<Stul> itemsList;
+            itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+            if(itemsList.size() < 1)
+                ((MainActivity) getActivity()).SetTableDefault (((MainActivity)getActivity()).getTableId());
+            //((MainActivity) getActivity()).SetTableDefault (((MainActivity) getActivity()).getTableId());
             dismiss();
             ((MainActivity)getActivity()).ShowMainHideOthers();
         }
@@ -296,7 +299,11 @@ public class PrintTableDialog extends DialogFragment{
 
                     }
                 }
-                ((MainActivity) getActivity()).SetTableDefault (((MainActivity) getActivity()).getTableId());
+                //((MainActivity) getActivity()).SetTableDefault (((MainActivity) getActivity()).getTableId());
+                List<Stul> itemsList;
+                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+                if(itemsList.size() < 1)
+                    ((MainActivity) getActivity()).SetTableDefault (((MainActivity)getActivity()).getTableId());
                 dismiss();
                 ((MainActivity) getActivity()).ShowMainHideOthers();
             }

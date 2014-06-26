@@ -325,8 +325,10 @@ public class StulFragment extends Fragment {
         zpetImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //empty list not red
+                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
                 if(itemsList.size() < 1)
                     ((MainActivity) getActivity()).SetTableDefault (stulID);
+
                 ((MainActivity)getActivity()).ShowMainHideOthers();
             }
         });
