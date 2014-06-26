@@ -14,7 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.brnokavarna.melounovycukr.app.MainActivity;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
 import com.brnokavarna.melounovycukr.app.R;
+
+import java.util.List;
 
 public class MainScreen extends Fragment {
 
@@ -41,6 +44,20 @@ public class MainScreen extends Fragment {
                     + " must implement OnHeadlineSelectedListener");
         }
     }*/
+
+    @Override
+    public void onResume()
+    {
+        //setting occupied tables to red
+        List<Stul> itemsList;
+        for(int i = 1; i <= 17; i++)
+        {
+            itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(i);
+            if(itemsList.size() > 0)
+                setTableRedColor(i);
+        }
+        super.onResume();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -342,6 +359,91 @@ public class MainScreen extends Fragment {
         return view;
     }
 
+    /**
+     * Set table as occupied
+     * @param id
+     */
+    public void setTableRedColor(int id)
+    {
+        ImageView table;
+        switch(id){
+            case 1:
+                table = (ImageView) getView().findViewById(R.id.table1);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 2:
+                table = (ImageView) getView().findViewById(R.id.table2);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 3:
+                table = (ImageView) getView().findViewById(R.id.table3);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 4:
+                table = (ImageView) getView().findViewById(R.id.table4);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 5:
+                table = (ImageView) getView().findViewById(R.id.table5);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 6:
+                table = (ImageView) getView().findViewById(R.id.table6);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 7:
+                table = (ImageView) getView().findViewById(R.id.table7);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 8:
+                table = (ImageView) getView().findViewById(R.id.table8);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 9:
+                table = (ImageView) getView().findViewById(R.id.table9);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 10:
+                table = (ImageView) getView().findViewById(R.id.table10);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 11:
+                table = (ImageView) getView().findViewById(R.id.table11);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 12:
+                table = (ImageView) getView().findViewById(R.id.table12);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 13:
+                table = (ImageView) getView().findViewById(R.id.table13);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 14:
+                table = (ImageView) getView().findViewById(R.id.bar1);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 15:
+                table = (ImageView) getView().findViewById(R.id.bar2);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 16:
+                table = (ImageView) getView().findViewById(R.id.bar3);
+                table.setImageResource(R.drawable.table_active);
+                break;
+            case 17:
+                table = (ImageView) getView().findViewById(R.id.bar4);
+                table.setImageResource(R.drawable.table_active);
+                break;
+        }
+    }
+
+
+
+    /**
+     * Setting table to normal color
+     * @param id
+     */
     public void setTableNormalColor(int id)
     {
         ImageView table;
