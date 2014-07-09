@@ -14,8 +14,8 @@
             android:orientation="horizontal"
             android:layout_width="1196dp"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="25dp">
 
 
             <TextView
@@ -62,13 +62,11 @@
         <GridView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:numColumns="6"
             android:gravity="center"
-            android:layout_marginTop="70dp"
-            android:layout_marginBottom="85dp"
-            android:verticalSpacing="8dp"
-            android:horizontalSpacing="4dp"
+            android:layout_marginTop="90dp"
+            android:verticalSpacing="10dp"
             android:stretchMode="columnWidth"
             android:listSelector="@android:color/transparent"
             android:id="@+id/gridViewSortiment" />
@@ -88,7 +86,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="30dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/btn_grey_normal"
+        android:background="@drawable/btn_grey_normal"
         android:scaleType="fitXY" />
 
     <TextView
@@ -113,7 +111,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/btn_green_normal"
+        android:background="@drawable/btn_green_normal"
+        android:visibility="gone"
         android:scaleType="fitXY" />
 
     <TextView

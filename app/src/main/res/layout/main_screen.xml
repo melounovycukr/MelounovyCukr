@@ -271,7 +271,7 @@
         android:id="@+id/goods"
         android:layout_width="430dp"
         android:layout_height="100dp"
-        android:src="@drawable/btn_blue_normal"
+        android:background="@drawable/btn_blue_normal"
         android:scaleType="fitXY" />
 
     <TextView
@@ -293,7 +293,7 @@
         android:layout_width="430dp"
         android:layout_height="100dp"
         android:layout_marginTop="110dp"
-        android:src="@drawable/btn_blue_normal"
+        android:background="@drawable/btn_blue_normal"
         android:onClick="createTakingDialog"
         android:scaleType="fitXY" />
 

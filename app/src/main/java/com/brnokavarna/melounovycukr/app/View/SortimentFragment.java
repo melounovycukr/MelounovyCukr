@@ -69,19 +69,19 @@ public class SortimentFragment extends Fragment {
 
         //Nastaveni fontu
         Typeface gothamLight = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Light.otf");
-        Typeface gothamBook = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Medium.otf");
+        Typeface gothamMedium = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Medium.otf");
         TextView backText = (TextView) view.findViewById(R.id.backText);
         backText.setTypeface(gothamLight);
         TextView tempText = (TextView) view.findViewById(R.id.textPopular);
-        tempText.setTypeface(gothamBook);
+        tempText.setTypeface(gothamMedium);
         tempText = (TextView) view.findViewById(R.id.textKava);
-        tempText.setTypeface(gothamBook);
+        tempText.setTypeface(gothamMedium);
         tempText = (TextView) view.findViewById(R.id.textAlkohol);
-        tempText.setTypeface(gothamBook);
+        tempText.setTypeface(gothamMedium);
         tempText = (TextView) view.findViewById(R.id.textDobroty);
-        tempText.setTypeface(gothamBook);
+        tempText.setTypeface(gothamMedium);
         tempText = (TextView) view.findViewById(R.id.textOstatni);
-        tempText.setTypeface(gothamBook);
+        tempText.setTypeface(gothamMedium);
         TextView addText = (TextView) view.findViewById(R.id.addText);
         addText.setTypeface(gothamLight);
 
@@ -90,6 +90,55 @@ public class SortimentFragment extends Fragment {
        // ArrayList<ClipData.Item> gridArray = new ArrayList<ClipData.Item>();
         gridView = (GridView) view.findViewById(R.id.gridViewSortiment);
         stringList = new ArrayList<String>();
+
+        //vraceni zpet do mainu
+        final ImageView zpetImage;
+        zpetImage = (ImageView) view.findViewById(R.id.backSortiment);
+        zpetImage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).ShowMainHideOthers();
+            }
+        });
+
+        zpetImage.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    zpetImage.setBackground(getResources().getDrawable(R.drawable.btn_grey_hover));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    zpetImage.setBackground(getResources().getDrawable(R.drawable.btn_grey_normal));
+                }
+                return false;
+            }
+        });
+
+        //pridani sortimentu
+        final ImageView addSortiment;
+        addSortiment = (ImageView) view.findViewById(R.id.addSortiment);
+        addSortiment.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                FragmentManager fm = ((MainActivity)getActivity()).getSupportFragmentManager();
+                AddSortimentDialog alert = new AddSortimentDialog(chosenCategory, new DialogFragmentDismissHandler());
+                alert.show(fm, "Add sortiment dialog");
+            }
+        });
+
+        addSortiment.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    addSortiment.setBackground(getResources().getDrawable(R.drawable.btn_green_hover));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    addSortiment.setBackground(getResources().getDrawable(R.drawable.btn_green_normal));
+                }
+                return false;
+            }
+        });
+
 
         //volba kategorie
 
@@ -113,6 +162,8 @@ public class SortimentFragment extends Fragment {
                 tv3.setTextColor(Color.parseColor("#808080"));
                 tv4.setTextColor(Color.parseColor("#808080"));
                 tv5.setTextColor(Color.parseColor("#808080"));
+
+                addSortiment.setVisibility(View.GONE);
             }
         });
 
@@ -130,6 +181,8 @@ public class SortimentFragment extends Fragment {
                 tv4.setTextColor(Color.parseColor("#808080"));
                 tv5.setTextColor(Color.parseColor("#808080"));
                 chosenCategory = Controller.CategoryID.Kava;
+
+                addSortiment.setVisibility(View.VISIBLE);
               }
         });
 
@@ -147,6 +200,8 @@ public class SortimentFragment extends Fragment {
                 tv4.setTextColor(Color.parseColor("#808080"));
                 tv5.setTextColor(Color.parseColor("#808080"));
                 chosenCategory = Controller.CategoryID.Dobroty;
+
+                addSortiment.setVisibility(View.VISIBLE);
             }
         });
 
@@ -164,6 +219,8 @@ public class SortimentFragment extends Fragment {
                 tv4.setTextColor(Color.parseColor("#9c2320"));
                 tv5.setTextColor(Color.parseColor("#808080"));
                 chosenCategory = Controller.CategoryID.Alkohol;
+
+                addSortiment.setVisibility(View.VISIBLE);
             }
         });
 
@@ -181,6 +238,8 @@ public class SortimentFragment extends Fragment {
                 tv4.setTextColor(Color.parseColor("#808080"));
                 tv5.setTextColor(Color.parseColor("#9c2320"));
                 chosenCategory = Controller.CategoryID.Ostatni;
+
+                addSortiment.setVisibility(View.VISIBLE);
             }
         });
 
@@ -201,29 +260,6 @@ public class SortimentFragment extends Fragment {
 
             }
         });
-
-        //vraceni zpet do mainu
-        ImageView zpetImage;
-        zpetImage = (ImageView) view.findViewById(R.id.backSortiment);
-        zpetImage.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).ShowMainHideOthers();
-            }
-        });
-
-
-        //pridani sortimentu
-        ImageView addSortiment;
-        addSortiment = (ImageView) view.findViewById(R.id.addSortiment);
-        addSortiment.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                FragmentManager fm = ((MainActivity)getActivity()).getSupportFragmentManager();
-                AddSortimentDialog alert = new AddSortimentDialog(chosenCategory, new DialogFragmentDismissHandler());
-                alert.show(fm, "Add sortiment dialog");
-            }
-        });
-
-
 
         return view;
     }

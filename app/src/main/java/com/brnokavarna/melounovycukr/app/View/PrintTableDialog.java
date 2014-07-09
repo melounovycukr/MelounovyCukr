@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -140,6 +141,7 @@ public class PrintTableDialog extends DialogFragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_print_table, container);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        getDialog().setCanceledOnTouchOutside(false);
         //getDialog().getWindow().setLayout(200, 300);
         //getDialog().setTitle("Prodej - 15.4.2014");
         //getDialog().getWindow().setBackgroundDrawableResource(R.drawable.btn_blue_normal);
@@ -183,11 +185,39 @@ public class PrintTableDialog extends DialogFragment{
         TextView doneText = (TextView) view.findViewById(R.id.doneText);
         doneText.setTypeface(gothamLight);
 
-        ImageView done = (ImageView) view.findViewById(R.id.done);
+        final ImageView done = (ImageView) view.findViewById(R.id.done);
         done.setOnClickListener(doneListener);
 
-        ImageView print = (ImageView) view.findViewById(R.id.print);
+        done.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    done.setBackground(getResources().getDrawable(R.drawable.btn_grey_hover));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    done.setBackground(getResources().getDrawable(R.drawable.btn_grey_normal));
+                }
+                return false;
+            }
+        });
+
+        final ImageView print = (ImageView) view.findViewById(R.id.print);
         print.setOnClickListener(printListener);
+
+        print.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    print.setBackground(getResources().getDrawable(R.drawable.btn_green_hover));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    print.setBackground(getResources().getDrawable(R.drawable.btn_green_normal));
+                }
+                return false;
+            }
+        });
 
         TextView printText = (TextView) view.findViewById(R.id.printText);
         printText.setTypeface(gothamLight);

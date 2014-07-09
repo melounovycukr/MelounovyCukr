@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -86,11 +87,39 @@ public class PayAllDialog extends DialogFragment{
         TextView backText = (TextView) view.findViewById(R.id.backText);
         backText.setTypeface(gothamLight);
 
-        ImageView back = (ImageView) view.findViewById(R.id.back);
+        final ImageView back = (ImageView) view.findViewById(R.id.back);
         back.setOnClickListener(backListener);
 
-        ImageView pay = (ImageView) view.findViewById(R.id.pay);
+        back.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    back.setBackground(getResources().getDrawable(R.drawable.btn_grey_hover));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    back.setBackground(getResources().getDrawable(R.drawable.btn_grey_normal));
+                }
+                return false;
+            }
+        });
+
+        final ImageView pay = (ImageView) view.findViewById(R.id.pay);
         pay.setOnClickListener(payListener);
+
+        pay.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    pay.setBackground(getResources().getDrawable(R.drawable.btn_green_hover));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    pay.setBackground(getResources().getDrawable(R.drawable.btn_green_normal));
+                }
+                return false;
+            }
+        });
 
         TextView payText = (TextView) view.findViewById(R.id.payText);
         payText.setTypeface(gothamLight);

@@ -52,7 +52,7 @@ public class PrintActivity {
 
     // Setting for print
     private StarIOPort port = null;
-    private String portName = "TCP:147.251.47.171";
+    private String portName = "TCP:10.0.0.45";
     private String portSettings = "";
     private boolean sensorActiveHigh = true;
     private static int printableArea = 576;

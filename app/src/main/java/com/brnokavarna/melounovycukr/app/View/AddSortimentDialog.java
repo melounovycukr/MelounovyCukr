@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -64,11 +65,39 @@ public class AddSortimentDialog extends DialogFragment{
         TextView addText = (TextView) view.findViewById(R.id.addText);
         addText.setTypeface(gothamLight);
 
-        ImageView add = (ImageView) view.findViewById(R.id.add);
+        final ImageView add = (ImageView) view.findViewById(R.id.add);
         add.setOnClickListener(doneListener);
 
-        ImageView back = (ImageView) view.findViewById(R.id.back);
-        back.setOnClickListener(printListener);
+        add.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    add.setBackground(getResources().getDrawable(R.drawable.btn_green_hover));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    add.setBackground(getResources().getDrawable(R.drawable.btn_green_normal));
+                }
+                return false;
+            }
+        });
+
+        final ImageView back = (ImageView) view.findViewById(R.id.back);
+        back.setOnClickListener(backListener);
+
+        back.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    back.setBackground(getResources().getDrawable(R.drawable.btn_grey_hover));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    back.setBackground(getResources().getDrawable(R.drawable.btn_grey_normal));
+                }
+                return false;
+            }
+        });
 
         TextView backText = (TextView) view.findViewById(R.id.backText);
         backText.setTypeface(gothamLight);
@@ -110,7 +139,7 @@ public class AddSortimentDialog extends DialogFragment{
         }
     };
 
-    View.OnClickListener printListener = new View.OnClickListener() {
+    View.OnClickListener backListener = new View.OnClickListener() {
         public void onClick(View v) {
             //close
             getDialog().dismiss();

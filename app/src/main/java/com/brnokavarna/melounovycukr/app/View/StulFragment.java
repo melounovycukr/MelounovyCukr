@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -100,6 +101,7 @@ public class StulFragment extends Fragment {
 
         final Typeface gothamLight = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Light.otf");
         final Typeface gothamBook = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Book.otf");
+        Typeface gothamMedium = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Medium.otf");
         TextView backText = (TextView) view.findViewById(R.id.backText);
         backText.setTypeface(gothamLight);
 
@@ -109,6 +111,17 @@ public class StulFragment extends Fragment {
         zapVseText.setTypeface(gothamLight);
         tableNumberText = (TextView) view.findViewById(R.id.textTableNumber);
         tableNumberText.setTypeface(gothamLight);
+
+        TextView tempText = (TextView) view.findViewById(R.id.textPopular);
+        tempText.setTypeface(gothamMedium);
+        tempText = (TextView) view.findViewById(R.id.textKava);
+        tempText.setTypeface(gothamMedium);
+        tempText = (TextView) view.findViewById(R.id.textAlkohol);
+        tempText.setTypeface(gothamMedium);
+        tempText = (TextView) view.findViewById(R.id.textDobroty);
+        tempText.setTypeface(gothamMedium);
+        tempText = (TextView) view.findViewById(R.id.textOstatni);
+        tempText.setTypeface(gothamMedium);
 
         TextView listItemFirst;
         TextView listItemSecond;
@@ -320,7 +333,7 @@ public class StulFragment extends Fragment {
         // imageView.setImageResource(R.drawable.item_pink);
 
 
-        ImageView zpetImage;
+        final ImageView zpetImage;
         zpetImage = (ImageView) view.findViewById(R.id.backStul);
         zpetImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -333,7 +346,21 @@ public class StulFragment extends Fragment {
             }
         });
 
-        ImageView zaplatit;
+        zpetImage.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    zpetImage.setBackground(getResources().getDrawable(R.drawable.btn_grey_hover));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    zpetImage.setBackground(getResources().getDrawable(R.drawable.btn_grey_normal));
+                }
+                return false;
+            }
+        });
+
+        final ImageView zaplatit;
         zaplatit = (ImageView) view.findViewById(R.id.zaplatit);
         zaplatit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -343,7 +370,21 @@ public class StulFragment extends Fragment {
             }
         });
 
-        ImageView zaplatitVse;
+        zaplatit.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    zaplatit.setBackground(getResources().getDrawable(R.drawable.btn_green_hover));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    zaplatit.setBackground(getResources().getDrawable(R.drawable.btn_green_normal));
+                }
+                return false;
+            }
+        });
+
+        final ImageView zaplatitVse;
         zaplatitVse = (ImageView) view.findViewById(R.id.zaplatitVse);
         zaplatitVse.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -352,6 +393,22 @@ public class StulFragment extends Fragment {
                 payAllDialog.show(fm, "Pay all dialog");
             }
         });
+
+        zaplatitVse.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    zaplatitVse.setBackground(getResources().getDrawable(R.drawable.btn_green_hover));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    zaplatitVse.setBackground(getResources().getDrawable(R.drawable.btn_green_normal));
+                }
+                return false;
+            }
+        });
+
+
 
         //gridArray.add(new ClipData.Item(pinkIcon,"test"));
 

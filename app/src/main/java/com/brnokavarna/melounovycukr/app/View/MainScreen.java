@@ -5,9 +5,11 @@ package com.brnokavarna.melounovycukr.app.View;
  */
 import android.app.Fragment;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -345,6 +347,20 @@ public class MainScreen extends Fragment {
             }
         });
 
+        sortiment.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    sortiment.setBackground(getResources().getDrawable(R.drawable.btn_blue_hover));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    sortiment.setBackground(getResources().getDrawable(R.drawable.btn_blue_normal));
+                }
+                return false;
+            }
+        });
+
         final ImageView taking = (ImageView) view.findViewById(R.id.taking);
         taking.setOnClickListener(new View.OnClickListener() {
 
@@ -353,6 +369,20 @@ public class MainScreen extends Fragment {
                 FragmentManager fm = ((MainActivity)getActivity()).getSupportFragmentManager();
                 TakingDialog takingDialog = new TakingDialog();
                 takingDialog.show(fm, "fragment_edit_name");
+            }
+        });
+
+        taking.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    taking.setBackground(getResources().getDrawable(R.drawable.btn_blue_hover));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    taking.setBackground(getResources().getDrawable(R.drawable.btn_blue_normal));
+                }
+                return false;
             }
         });
 
