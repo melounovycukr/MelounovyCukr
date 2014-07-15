@@ -57,7 +57,7 @@ public class PrintActivity {
     private boolean sensorActiveHigh = true;
     private static int printableArea = 576;
     private boolean compressionEnable = true;
-    private int source = com.brnokavarna.melounovycukr.app.R.drawable.logo_print_long2;
+    private int source = com.brnokavarna.melounovycukr.app.R.drawable.logo_print;
     private Context context;
     private Handler mHandler;
     private Calendar c;
