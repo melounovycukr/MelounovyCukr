@@ -16,8 +16,12 @@ import android.widget.Toast;
 
 
 import com.brnokavarna.melounovycukr.app.MainActivity;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.CelkovaTrzba;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
 import com.brnokavarna.melounovycukr.app.R;
+
+import java.util.List;
 
 /**
  * Created by Seky on 12.6.2014.
@@ -119,9 +123,48 @@ public class EditSortimentDialog  extends DialogFragment {
      */
     View.OnClickListener deleteListener = new View.OnClickListener() {
         public void onClick(View v) {
-            ((MainActivity)getActivity()).cont.SmazPolozkuSeznam(idItem);
-            Toast.makeText(getActivity(), "Položka smazána", Toast.LENGTH_LONG).show();
-            getDialog().dismiss();
+            List<CelkovaTrzba> trzbaList;
+            List<Stul> stul;
+            boolean corrFlag = true;
+
+            //Table check
+            for (int i = 1; i <= 17; i++)
+            {
+                stul = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(i);
+                for (int x = 0; x < stul.size(); x++)
+                {
+                    if (stul.get(x).getId_polozky() == idItem)
+                    {
+                        Toast.makeText(getActivity(), "Položka je obsazena u stolu číslo "+i+". Nelze ji odstranit!", Toast.LENGTH_LONG).show();
+                        corrFlag = false;
+                        break;
+                    }
+                }
+
+                if(!corrFlag)
+                    break;
+            }
+
+            //Revenue check
+            if(corrFlag) {
+                trzbaList = ((MainActivity) getActivity()).cont.ZobrazTrzbu();
+                for (int i = 0; i < trzbaList.size(); i++)
+                {
+                    if( trzbaList.get(i).getId_polozky() == idItem) {
+                        Toast.makeText(getActivity(), "Položka je obsažna v tržbě. Nelze ji odstranit!", Toast.LENGTH_LONG).show();
+                        corrFlag = false;
+                        break;
+                    }
+
+                }
+            }
+
+
+            if(corrFlag) {
+                ((MainActivity) getActivity()).cont.SmazPolozkuSeznam(idItem);
+                Toast.makeText(getActivity(), "Položka smazána", Toast.LENGTH_LONG).show();
+                getDialog().dismiss();
+            }
         }
     };
 
