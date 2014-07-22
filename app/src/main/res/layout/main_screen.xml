@@ -522,7 +522,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/table12"
         android:layout_marginTop="220dp"
-        android:layout_marginLeft="110dp"
+        android:layout_marginLeft="120dp"
         android:onClick="tableMark"
         android:src="@drawable/table_normal" />
 

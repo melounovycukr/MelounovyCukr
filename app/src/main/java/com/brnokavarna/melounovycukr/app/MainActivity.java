@@ -68,19 +68,9 @@ public class MainActivity extends ActionBarActivity {
         // add the custom view to the action bar
         ActionBar actionBar = getActionBar();
         actionBar.setCustomView(R.layout.actionbar_item);
-        TextView odhlasit = (TextView) actionBar.getCustomView().findViewById(R.id.odhlasit);
         TextView title = (TextView) actionBar.getCustomView().findViewById(R.id.title);
-        odhlasit.setTypeface(gothamBook);
         title.setTypeface(gothamBook);
 
-        odhlasit.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Nooooooooooooooooooooooooo!!!!!!!!!! Don't do this!!! Don't leave meeee!!!!!!",
-                        Toast.LENGTH_LONG).show();
-            }
-        });
 
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 

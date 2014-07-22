@@ -70,7 +70,6 @@ public class StulFragment extends Fragment {
 
     @Override
     public void onResume() {
-        System.out.println("muuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
         ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazPopularni();
         stringList.clear();
         listStul.clear();
@@ -84,7 +83,6 @@ public class StulFragment extends Fragment {
 
     @Override
     public void onPause() {
-        System.out.println("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
         super.onPause();
     }
 

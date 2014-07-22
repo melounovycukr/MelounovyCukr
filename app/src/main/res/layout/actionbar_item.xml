@@ -3,25 +3,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="9dp"
+        android:background="@drawable/logo"
+        android:scaleType="fitXY"/>
+
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Melounová pokladna"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="47dp"
         android:layout_marginTop="12dp"
         android:textSize="24sp"
         android:textColor="#595959"/>
-
-    <TextView
-        android:id="@+id/odhlasit"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Odhlásit"
-        android:layout_marginLeft="1133dp"
-        android:layout_marginTop="15dp"
-        android:textSize="20sp"
-        android:textColor="#595959"
-        />
 
 </RelativeLayout>

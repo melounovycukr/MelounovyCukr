@@ -11,7 +11,7 @@
         parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/actionbar_bg</item>
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
-
+        <item name="android:icon">@android:color/transparent</item>
     </style>
 
     <style name="MyActionBarTitleText"

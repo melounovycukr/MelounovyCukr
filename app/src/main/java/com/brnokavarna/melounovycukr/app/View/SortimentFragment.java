@@ -163,7 +163,7 @@ public class SortimentFragment extends Fragment {
                 tv4.setTextColor(Color.parseColor("#808080"));
                 tv5.setTextColor(Color.parseColor("#808080"));
 
-                addSortiment.setVisibility(View.GONE);
+                addSortiment.setVisibility(View.INVISIBLE);
             }
         });
 
