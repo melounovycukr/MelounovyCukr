@@ -298,11 +298,11 @@ public class StulFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 final HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
-                String[] parts = item.get("item").split(" ");
+                String[] parts = item.get("item").split(" - ");
                 int idPol = ((MainActivity) getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(parts[0]);
                 if(((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idPol).getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
                     ((MainActivity)getActivity()).cont.OdstranPolozkuStul(stulID,idPol ,
-                            Controller.TagKavy.valueOf(parts[2]));
+                            Controller.TagKavy.valueOf(parts[1]));
                 } else {
                     ((MainActivity)getActivity()).cont.OdstranPolozkuStul(stulID,idPol ,
                             Controller.TagKavy.Zadna);

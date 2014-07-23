@@ -91,13 +91,20 @@ public class PayOneDialog extends DialogFragment{
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 final HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
-                String[] parts = item.get("item").split(" ");
+                System.out.println("oooooooooooo" + item + "oooooooooooooo");
+                System.out.println("oooooooooooo" + item.get("item") + "oooooooooooooo");
+                String[] parts = item.get("item").split(" - ");
+                System.out.println("oooooooooooo" + parts + "oooooooooooooo");
+                System.out.println("oooooooooooo" + parts[0] + "oooooooooooooo");
+
                 int idPol = ((MainActivity) getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(parts[0]);
                 if(((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idPol).getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
+                    System.out.println("aaaaaaaaaaaaaaaaaa" + parts[1] + "aaaaaaaaa");
+                    //System.out.println("aaaaaaaaaaaaaaaaaa" + parts[2] + "aaaaaaaaa");
                     ((MainActivity)getActivity()).cont.OdstranPolozkuStul(((MainActivity)getActivity()).getTableId(),idPol ,
-                            Controller.TagKavy.valueOf(parts[2]));
+                            Controller.TagKavy.valueOf(parts[1]));
 
-                    ((MainActivity)getActivity()).cont.PridejPolozkuStul(33,idPol,Controller.TagKavy.valueOf(parts[2]));
+                    ((MainActivity)getActivity()).cont.PridejPolozkuStul(33,idPol,Controller.TagKavy.valueOf(parts[1]));
                 } else {
                     ((MainActivity)getActivity()).cont.OdstranPolozkuStul(((MainActivity)getActivity()).getTableId(), idPol,
                             Controller.TagKavy.Zadna);
@@ -175,12 +182,12 @@ public class PayOneDialog extends DialogFragment{
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 final HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
-                String[] parts = item.get("item").split(" ");
+                String[] parts = item.get("item").split(" - ");
                 int idPol = ((MainActivity) getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(parts[0]);
                 if(((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idPol).getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
-                    ((MainActivity)getActivity()).cont.OdstranPolozkuStul(33,idPol ,Controller.TagKavy.valueOf(parts[2]));
+                    ((MainActivity)getActivity()).cont.OdstranPolozkuStul(33,idPol ,Controller.TagKavy.valueOf(parts[1]));
 
-                    ((MainActivity)getActivity()).cont.PridejPolozkuStul(((MainActivity)getActivity()).getTableId(),idPol,Controller.TagKavy.valueOf(parts[2]));
+                    ((MainActivity)getActivity()).cont.PridejPolozkuStul(((MainActivity)getActivity()).getTableId(),idPol,Controller.TagKavy.valueOf(parts[1]));
                 } else {
                     ((MainActivity)getActivity()).cont.OdstranPolozkuStul(33,idPol,Controller.TagKavy.Zadna);
 
