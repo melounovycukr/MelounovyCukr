@@ -91,16 +91,10 @@ public class PayOneDialog extends DialogFragment{
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 final HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
-                System.out.println("oooooooooooo" + item + "oooooooooooooo");
-                System.out.println("oooooooooooo" + item.get("item") + "oooooooooooooo");
                 String[] parts = item.get("item").split(" - ");
-                System.out.println("oooooooooooo" + parts + "oooooooooooooo");
-                System.out.println("oooooooooooo" + parts[0] + "oooooooooooooo");
 
                 int idPol = ((MainActivity) getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(parts[0]);
                 if(((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idPol).getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
-                    System.out.println("aaaaaaaaaaaaaaaaaa" + parts[1] + "aaaaaaaaa");
-                    //System.out.println("aaaaaaaaaaaaaaaaaa" + parts[2] + "aaaaaaaaa");
                     ((MainActivity)getActivity()).cont.OdstranPolozkuStul(((MainActivity)getActivity()).getTableId(),idPol ,
                             Controller.TagKavy.valueOf(parts[1]));
 
@@ -321,7 +315,6 @@ public class PayOneDialog extends DialogFragment{
             Toast.makeText(getActivity(), "Back", Toast.LENGTH_LONG).show();
             for (int i = 0; i < itemsList2.size(); i++) {
                 for (int j = itemsList2.get(i).getMnozstvi(); j > 0; j--) {
-                    System.out.println("bbbb " + i + " " + j);
                     if(itemsList2.get(i).getDruh_kavy() == Controller.TagKavy.Keňa.ordinal()) {
                         ((MainActivity) getActivity()).cont.OdstranPolozkuStul(33, itemsList2.get(i).getId_polozky(), tagKavy.Keňa);
                         ((MainActivity) getActivity()).cont.PridejPolozkuStul(((MainActivity) getActivity()).getTableId(), itemsList2.get(i).getId_polozky(), tagKavy.Keňa);
@@ -355,10 +348,8 @@ public class PayOneDialog extends DialogFragment{
     {
 
         if(event.getAction() == MotionEvent.ACTION_OUTSIDE){
-            System.out.println("TOuch outside the dialog ******************** ");
             for (int i = 0; i < itemsList2.size(); i++) {
                 for (int j = itemsList2.get(i).getMnozstvi(); j > 0; j--) {
-                    System.out.println("bbbb " + i + " " + j);
                     ((MainActivity) getActivity()).cont.OdstranPolozkuStul(33, itemsList2.get(i).getId_polozky(), tagKavy.Zadna);
                     ((MainActivity) getActivity()).cont.PridejPolozkuStul(((MainActivity) getActivity()).getTableId(), itemsList2.get(i).getId_polozky(), tagKavy.Zadna);
                 }

@@ -287,7 +287,6 @@ public class PrintTableDialog extends DialogFragment{
                         print.printRecipePerTable(listStul);
 
                     } catch(PrintException e) {
-                        System.out.println(e+"eeeeeeeeeeeeee\n");
                         printProblemFlag = true;
                     }
                 }

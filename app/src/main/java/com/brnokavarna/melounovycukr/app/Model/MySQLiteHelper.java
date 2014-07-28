@@ -115,7 +115,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String[] COLUMNS = {KEY_ID, KEY_KATEGORY, KEY_CENA, KEY_NAZEV_ZBOZI, KEY_POPULARNI};
 
     public void addSeznam(Seznam seznam){
-        Log.d("addSeznam", seznam.toString());
+        //Log.d("addSeznam", seznam.toString());
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -168,7 +168,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         seznam.setNazev_zbozi(cursor.getString(3));
         seznam.setPopularni((Integer.parseInt(cursor.getString(4)) == 1)? true : false);
 
-        Log.d("getSeznam("+id+")", seznam.toString());
+        //Log.d("getSeznam("+id+")", seznam.toString());
 
         // 5. return book
         return seznam;
@@ -246,7 +246,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        Log.d("getAllItems()", items.toString());
+        //Log.d("getAllItems()", items.toString());
 
         // return books
         return items;
@@ -303,7 +303,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 3. close
         db.close();
 
-        Log.d("deleteItem", "ID = "+itemID);
+        //Log.d("deleteItem", "ID = "+itemID);
 
     }
 
@@ -324,7 +324,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String[] COLUMNS_STUL = {KEY_ID, KEY_POLOZKA, KEY_DRUH_KAVY, KEY_ID_STUL, KEY_MNOZSTVI};
 
     public void addStul(Stul stul){
-        Log.d("addStul", stul.toString());
+        //Log.d("addStul", stul.toString());
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -377,7 +377,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         stul.setDruh_kavy(Integer.parseInt(cursor.getString(3)));
         stul.setMnozstvi(Integer.parseInt(cursor.getString(4)));
 
-        Log.d("getStul("+id+")", stul.toString());
+        //Log.d("getStul("+id+")", stul.toString());
 
         // 5. return book
         return stul;
@@ -413,7 +413,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        Log.d("getAllItems()", items.toString());
+        //Log.d("getAllItems()", items.toString());
 
         // return books
         return items;
@@ -467,7 +467,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 3. close
         db.close();
 
-        Log.d("deleteItem", "ID = "+itemID);
+        //Log.d("deleteItem", "ID = "+itemID);
 
     }
 
@@ -504,7 +504,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String[] COLUMNS_TRZBA = {KEY_ID_TRZBA, KEY_DRUH_KAVY, KEY_POLOZKA, KEY_MNOZSTVI};
 
     public void addTrzba(CelkovaTrzba stul){
-        Log.d("addTrzba", stul.toString());
+        //Log.d("addTrzba", stul.toString());
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -555,7 +555,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         stul.setDruh_kavy(Integer.parseInt(cursor.getString(2)));
         stul.setMnozstvi(Integer.parseInt(cursor.getString(3)));
 
-        Log.d("getTrzba("+id+")", stul.toString());
+        //Log.d("getTrzba("+id+")", stul.toString());
 
         // 5. return book
         return stul;
@@ -589,7 +589,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        Log.d("getAllItems()", items.toString());
+        //Log.d("getAllItems()", items.toString());
 
         // return books
         return items;
@@ -642,7 +642,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 3. close
         db.close();
 
-        Log.d("deleteItem", "ID = "+itemID);
+        //Log.d("deleteItem", "ID = "+itemID);
 
     }
 
@@ -673,7 +673,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
      * @param stul tag
      */
     public void addTag(Tagy stul){
-        Log.d("addTag", stul.toString());
+        //Log.d("addTag", stul.toString());
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -744,7 +744,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
      * @param stul tag seznam vazba
      */
     public void addTagSeznam(TagSeznam stul){
-        Log.d("addTag", stul.toString());
+        //Log.d("addTag", stul.toString());
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -780,7 +780,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 3. close
         db.close();
 
-        Log.d("deleteItem", "ID = "+itemID);
+        //Log.d("deleteItem", "ID = "+itemID);
     }
 
     /**
@@ -813,7 +813,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        Log.d("getAllItems()", items.toString());
+        //Log.d("getAllItems()", items.toString());
 
         // return books
         return items;

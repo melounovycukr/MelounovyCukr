@@ -3,29 +3,19 @@ package com.brnokavarna.melounovycukr.app.View;
 /**
  * Created by mpx on 5.5.2014.
  */
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.app.SearchManager;
-import android.content.ClipData;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +26,6 @@ import com.brnokavarna.melounovycukr.app.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 public class SortimentFragment extends Fragment {
 
@@ -45,6 +34,7 @@ public class SortimentFragment extends Fragment {
     private List<String> stringList;
     private TextView tv1, tv2, tv3, tv4, tv5;
     private Controller.CategoryID  chosenCategory = Controller.CategoryID.Kava;
+    private ImageView addSortiment;
 
 
     public SortimentFragment() {
@@ -52,12 +42,21 @@ public class SortimentFragment extends Fragment {
 
     @Override
     public void onResume() {
+        super.onResume();
+
         ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazPopularni();
         stringList.clear();
         for(int i=0; i < ItemsGrid.size();i++)
             stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
         gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
-        super.onResume();
+
+        tv1.setTextColor(Color.parseColor("#9c2320"));
+        tv2.setTextColor(Color.parseColor("#808080"));
+        tv3.setTextColor(Color.parseColor("#808080"));
+        tv4.setTextColor(Color.parseColor("#808080"));
+        tv5.setTextColor(Color.parseColor("#808080"));
+
+        addSortiment.setVisibility(View.INVISIBLE);
     }
 
 
@@ -115,7 +114,6 @@ public class SortimentFragment extends Fragment {
         });
 
         //pridani sortimentu
-        final ImageView addSortiment;
         addSortiment = (ImageView) view.findViewById(R.id.addSortiment);
         addSortiment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -276,7 +274,6 @@ public class SortimentFragment extends Fragment {
             for(int i=0; i < ItemsGrid.size();i++)
                 stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
             gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
-            Log.d("aa","aa");
 
         }
     }

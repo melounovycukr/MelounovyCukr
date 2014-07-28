@@ -164,7 +164,6 @@ public class TakingDialog extends DialogFragment{
                         print.printRecipePerDay(listStul);
 
                     } catch(PrintException e) {
-                        System.out.println(e+"eeeeeeeeeeeeee\n");
                         printProblemFlag = true;
                     }
                 }

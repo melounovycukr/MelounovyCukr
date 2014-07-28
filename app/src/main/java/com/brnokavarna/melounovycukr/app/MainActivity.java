@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.brnokavarna.melounovycukr.app.Controller.Controller;
 import com.brnokavarna.melounovycukr.app.Model.MySQLiteHelper;
+import com.brnokavarna.melounovycukr.app.Model.Tabulky.Seznam;
 import com.brnokavarna.melounovycukr.app.Model.Tabulky.Stul;
 import com.brnokavarna.melounovycukr.app.View.MainScreen;
 import com.brnokavarna.melounovycukr.app.View.SortimentFragment;
@@ -74,8 +75,7 @@ public class MainActivity extends ActionBarActivity {
 
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 
-
-
+        this.cont.PridejPolozkuSeznam(new Seznam(1,35,"jjj",true));
 
     }
 
@@ -109,12 +109,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public int getTableId(){
-        System.out.println(tableId + "ccccccccccccccc");
         return tableId;
-    }
-
-    public void printMethod(View view){
-        Toast.makeText(MainActivity.this, "Az to hanz dodela, ta mozna neco vytisku :D", Toast.LENGTH_LONG).show();
     }
 
     /**
