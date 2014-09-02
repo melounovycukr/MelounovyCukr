@@ -33,7 +33,8 @@ public class Controller implements ControllerInterface {
         Kava,
         Dobroty,
         Alkohol,
-        Ostatni;
+        Ostatni,
+        Popularni;
     }
 
     /**

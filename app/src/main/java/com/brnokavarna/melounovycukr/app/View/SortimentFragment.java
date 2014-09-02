@@ -160,6 +160,7 @@ public class SortimentFragment extends Fragment {
                 tv3.setTextColor(Color.parseColor("#808080"));
                 tv4.setTextColor(Color.parseColor("#808080"));
                 tv5.setTextColor(Color.parseColor("#808080"));
+                chosenCategory = Controller.CategoryID.Popularni;
 
                 addSortiment.setVisibility(View.INVISIBLE);
             }
@@ -269,11 +270,23 @@ public class SortimentFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(chosenCategory);
-            stringList.clear();
-            for(int i=0; i < ItemsGrid.size();i++)
-                stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
-            gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+
+            if(chosenCategory ==  Controller.CategoryID.Popularni)
+            {
+                ItemsGrid = ((MainActivity) getActivity()).cont.ZobrazPopularni();
+                stringList.clear();
+                for (int i = 0; i < ItemsGrid.size(); i++)
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() + ";" + ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
+                gridView.setAdapter(new CustomGridViewAdapter(getActivity(), stringList));
+
+            }
+            else {
+                ItemsGrid = ((MainActivity) getActivity()).cont.ZobrazKategoriiSeznam(chosenCategory);
+                stringList.clear();
+                for (int i = 0; i < ItemsGrid.size(); i++)
+                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() + ";" + ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
+                gridView.setAdapter(new CustomGridViewAdapter(getActivity(), stringList));
+            }
 
         }
     }
