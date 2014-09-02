@@ -49,10 +49,24 @@ public class EditSortimentDialog  extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_edit_sortiment, container);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
+
         Typeface gothamLight = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Light.otf");
         Typeface gothamBook = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Book.otf");
         TextView addText = (TextView) view.findViewById(R.id.doneTextEditSortiment);
         addText.setTypeface(gothamLight);
+
+        //check if item is popular
+        Seznam temp = ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idItem);
+        if(temp.isPopularni())
+        {
+            TextView popularText = (TextView) view.findViewById(R.id.addRemovovePopularText);
+            popularText.setText("Z POPULÁRNÍ");
+        }
+        else
+        {
+            TextView popularText = (TextView) view.findViewById(R.id.addRemovovePopularText);
+            popularText.setText("DO POPULÁRNÍ");
+        }
 
         ImageView add = (ImageView) view.findViewById(R.id.doneEditSortiment);
         add.setOnClickListener(doneListener);
@@ -63,10 +77,15 @@ public class EditSortimentDialog  extends DialogFragment {
         ImageView delete = (ImageView) view.findViewById(R.id.deleteEditSortiment);
         delete.setOnClickListener(deleteListener);
 
+        ImageView popular = (ImageView) view.findViewById(R.id.addRemovovePopular);
+        popular.setOnClickListener(popularListener);
+
         TextView backText = (TextView) view.findViewById(R.id.backTextEditSortiment);
         backText.setTypeface(gothamLight);
         TextView deleteText = (TextView) view.findViewById(R.id.deleteTextEditSortiment);
         deleteText.setTypeface(gothamLight);
+        TextView popularText = (TextView) view.findViewById(R.id.addRemovovePopularText);
+        popularText.setTypeface(gothamLight);
 
         TextView titleText = (TextView) view.findViewById(R.id.titleTextEditSortiment);
         titleText.setText("Sortiment");
@@ -115,6 +134,27 @@ public class EditSortimentDialog  extends DialogFragment {
                 Toast.makeText(getActivity(), "Špatně zadaná cena!", Toast.LENGTH_LONG).show();
             }
 
+        }
+    };
+
+    /**
+     * Popular  listener
+     */
+    View.OnClickListener popularListener = new View.OnClickListener() {
+        public void onClick(View v) {
+
+                Seznam temp = ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idItem);
+                if(temp.isPopularni())
+                {
+                    ((MainActivity)getActivity()).cont.SmazPopularni(idItem);
+                    Toast.makeText(getActivity(), "Odebrano z popularnich.", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    ((MainActivity)getActivity()).cont.PridejPopularni(idItem);
+                    Toast.makeText(getActivity(), "Pridano do popularnich.", Toast.LENGTH_LONG).show();
+                }
+            getDialog().dismiss();
         }
     };
 
@@ -185,7 +225,7 @@ public class EditSortimentDialog  extends DialogFragment {
         if (getDialog() == null)
             return;
 
-        int dialogWidth = 700; // specify a value here
+        int dialogWidth = 1015; // specify a value here
         int dialogHeight = 320; // specify a value here
 
         getDialog().getWindow().setLayout(dialogWidth, dialogHeight);

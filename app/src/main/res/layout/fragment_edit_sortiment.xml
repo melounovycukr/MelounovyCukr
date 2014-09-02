@@ -8,7 +8,7 @@
 
     <ImageView
         android:id="@+id/titleSpace"
-        android:layout_width="700dp"
+        android:layout_width="1015dp"
         android:layout_height="65dp"
         android:layout_alignParentTop="true"
         android:src="@drawable/actionbar_bg"
@@ -34,14 +34,14 @@
         android:scaleType="fitXY" />
 
     <ImageView
-        android:id="@+id/backEditSortiment"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginBottom="15dp"
-        android:src="@drawable/btn_grey_normal"
-        android:scaleType="fitXY" />
+    android:id="@+id/backEditSortiment"
+    android:layout_width="180dp"
+    android:layout_height="60dp"
+    android:layout_alignParentBottom="true"
+    android:layout_marginLeft="25dp"
+    android:layout_marginBottom="15dp"
+    android:src="@drawable/btn_grey_normal"
+    android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/backTextEditSortiment"
@@ -54,6 +54,30 @@
         android:layout_margin="1dp"
         android:gravity="center"
         android:text="ZPĚT"
+        android:textSize="20sp"
+        android:textColor="#000000" />
+
+    <ImageView
+        android:id="@+id/addRemovovePopular"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="410dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/btn_grey_normal"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/addRemovovePopularText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/addRemovovePopular"
+        android:layout_alignTop="@+id/addRemovovePopular"
+        android:layout_alignRight="@+id/addRemovovePopular"
+        android:layout_alignBottom="@+id/addRemovovePopular"
+        android:layout_margin="1dp"
+        android:gravity="center"
+        android:text=""
         android:textSize="20sp"
         android:textColor="#000000" />
 
