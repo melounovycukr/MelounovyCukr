@@ -144,8 +144,6 @@ public class TakingDialog extends DialogFragment{
 
         public void onClick(View v) {
 
-            Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
-
             ((MainActivity) getActivity()).cont.VymazTrzbu();
             dismiss();
         }

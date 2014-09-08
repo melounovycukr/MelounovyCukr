@@ -27,7 +27,7 @@
         android:textColor="#9c2320" />
 
     <ImageView
-        android:layout_width="700dp"
+        android:layout_width="1015dp"
         android:layout_height="90dp"
         android:layout_alignParentBottom="true"
         android:src="@drawable/actionbar_bg"
@@ -166,7 +166,7 @@
         android:id="@+id/sortimentCostEditSortiment"
         android:layout_width="170dp"
         android:layout_height="70dp"
-        android:layout_marginLeft="490dp"
+        android:layout_marginLeft="805dp"
         android:layout_marginTop="120dp"
         android:src="@drawable/input"
         android:scaleType="fitXY" />
@@ -175,7 +175,7 @@
         android:id="@+id/sortimentCostEditTextEditSortiment"
         android:layout_width="140dp"
         android:layout_height="60dp"
-        android:layout_marginLeft="510dp"
+        android:layout_marginLeft="820dp"
         android:layout_marginTop="125dp"
         android:textSize="18sp"
         android:textColor="#595959"
@@ -186,7 +186,7 @@
         android:id="@+id/sortimentCostTextEditSortiment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="510dp"
+        android:layout_marginLeft="820dp"
         android:layout_marginTop="85dp"
         android:text="Cena"
         android:textSize="18sp"
