@@ -52,7 +52,7 @@ public class PrintActivity {
 
     // Setting for print
     private StarIOPort port = null;
-    private String portName = "TCP:192.168.0.13";
+    private String portName = "TCP:192.168.0.16";
     private String portSettings = "";
     private boolean sensorActiveHigh = true;
     private static int printableArea = 576;
@@ -357,7 +357,7 @@ public class PrintActivity {
 
         String whiteSpaces = "";
 
-        for(int i = name.length(); i < 25; i++){
+        for(int i = name.length(); i < 26; i++){
 
             whiteSpaces += " ";
 
@@ -370,10 +370,14 @@ public class PrintActivity {
     // MAKE WHITE SPACES AFTER
     private String getWhiteSpaceAfter(String amount, String price){
 
+        int count;
         String whiteSpaces = "";
+        if(price.length() >= 4){
+            count = 39 - 26 - (int)Math.log10(Integer.parseInt(amount)) - (int)Math.log10(Integer.parseInt(price)) - 6;
+        } else {
 
-        int count = 39 - 25 - (int)Math.log10(Integer.parseInt(amount)) - (int)Math.log10(Integer.parseInt(price)) - 5;
-
+            count = 39 - 26 - (int) Math.log10(Integer.parseInt(amount)) - (int) Math.log10(Integer.parseInt(price)) - 5;
+        }
         for(int i = 0; i < count; i++){
 
             whiteSpaces += " ";
@@ -385,8 +389,16 @@ public class PrintActivity {
     String getWhiteSpacesTotal(int totalPrice){
 
         String whiteSpaces = "";
+        int count = 0;
 
-        int count = 34 - 15 - (int)(Math.log10(totalPrice)+1) - 3;
+        if (((int)(Math.log10(totalPrice)+1) == 4) || ((int)(Math.log10(totalPrice)+1) == 5)){
+            count = 34 - 15 - (int)(Math.log10(totalPrice)+1) - 4;
+        } else if(((int)(Math.log10(totalPrice)+1) == 6)) {
+            count = 34 - 15 - (int)(Math.log10(totalPrice)+1) - 5;
+        }
+        else {count = 34 - 15 - (int)(Math.log10(totalPrice)+1) - 3;}
+
+        //int count = 34 - 15 - (int)(Math.log10(totalPrice)+1) - 3;
 
         for(int i = 0; i < count; i++){
 
@@ -422,7 +434,24 @@ public class PrintActivity {
             HashMap<String, String> map = itr.next();
             String[] parts = map.get("price").split(" "); // to get rid of " Kč"
             String price = parts[0];
-            makeStringOfItems += map.get("item") + getWhiteSpaceBefore(map.get("item")) + map.get("amount") + getWhiteSpaceAfter(map.get("amount"), price) + price + " Kč\n";
+
+            String cenaUpravena = "";
+            if(price.length() == 4) {
+                String sub = price.substring(0,1);
+                String suf = price.substring(1,4);
+                cenaUpravena = sub + " " + suf;
+
+            } else if (price.length() == 5) {
+                String sub = price.substring(0,2);
+                String suf = price.substring(2,5);
+                cenaUpravena = sub + " " + suf;
+            }
+
+            if(cenaUpravena.equals("")){
+                cenaUpravena = price;
+            }
+
+            makeStringOfItems += map.get("item") + getWhiteSpaceBefore(map.get("item")) + map.get("amount") + getWhiteSpaceAfter(map.get("amount"), price) + cenaUpravena + " Kč\n";
         }
 
         return makeStringOfItems;
@@ -516,7 +545,25 @@ public class PrintActivity {
         list.addAll(Arrays.asList(tempList));
 
         // Final price
-        String prize = ("Celkem to dělá:" + getWhiteSpacesTotal(getTotalPrice(allItemsListPerTable))+ getTotalPrice(allItemsListPerTable) +" Kč");
+        int tmp_price = getTotalPrice(allItemsListPerTable);
+        String cena = Integer.toString(tmp_price);
+
+        String cenaUpravena = "";
+        if(cena.length() == 4) {
+            String sub = cena.substring(0,1);
+            String suf = cena.substring(1,4);
+            cenaUpravena = sub + " " + suf;
+
+        } else if (cena.length() == 5) {
+            String sub = cena.substring(0,2);
+            String suf = cena.substring(2,5);
+            cenaUpravena = sub + " " + suf;
+        }
+
+        if(cenaUpravena.equals("")){
+            cenaUpravena = cena;
+        }
+        String prize = ("Celkem to dělá:" + getWhiteSpacesTotal(tmp_price)+ cenaUpravena +" Kč");
         commandContent = createRasterCommand(prize, 14, 1);
         tempList = new Byte[commandContent.length];
         CopyArray(commandContent, tempList);
@@ -536,7 +583,7 @@ public class PrintActivity {
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
         //String textToPrint = ("\nDatum: "+day+"."+month+"."+year+ getWhitespacesDate(day,month,year,hour,minute) + "Čas: "+hour+":"+minute+"\r\n");
-        String textToPrint = ("\n"+ getWhitespacesDate(day,month,year,hour,minute) + day + ". " + month + ". " + year + " - " + hour + "." + minute + "\r\n");
+        String textToPrint = ("\n"+ getWhitespacesDate(day,month,year,hour,minute) + day + ". " + month + ". " + year + " - " + hour + "." + (((int)(Math.log10(minute)+1))==1 ? "0"+minute : minute ) + "\r\n");
         commandContent = createRasterCommand(textToPrint, 12, 0);
         tempList = new Byte[commandContent.length];
         CopyArray(commandContent, tempList);
@@ -582,7 +629,7 @@ public class PrintActivity {
         int year = c.get(Calendar.YEAR);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
-        String textToPrint = ("\nDatum: "+day+"."+month+"."+year+"            Čas: "+hour+":"+minute+"\r\n" +
+        String textToPrint = ("\nDatum: "+day+"."+month+"."+year+"            Čas: "+hour+":"+(((int)(Math.log10(minute)+1))==1 ? "0"+minute : minute )+"\r\n" +
                 "---------------------------------------");
         commandContent = createRasterCommand(textToPrint, 12, 0);
         tempList = new Byte[commandContent.length];
@@ -606,8 +653,34 @@ public class PrintActivity {
         list.addAll(Arrays.asList(tempList));
 
         // Final price
-        String prize = ("---------------------------------------\nCelkem                         " + getTotalPrice(allItemsListPerDay) +" Kč");
-        commandContent = createRasterCommand(prize, 12, 0);
+        //String prize = ("---------------------------------------\nCelkem                         " + getTotalPrice(allItemsListPerDay) +" Kč");
+
+        // Final price
+        int tmp_price = getTotalPrice(allItemsListPerDay);
+        String cena = Integer.toString(tmp_price);
+
+        String cenaUpravena = "";
+        if(cena.length() == 4) {
+            String sub = cena.substring(0,1);
+            String suf = cena.substring(1,4);
+            cenaUpravena = sub + " " + suf;
+
+        } else if (cena.length() == 5) {
+            String sub = cena.substring(0,2);
+            String suf = cena.substring(2,5);
+            cenaUpravena = sub + " " + suf;
+        } else if (cena.length() == 6) {
+            String sub = cena.substring(0,3);
+            String suf = cena.substring(3,6);
+            cenaUpravena = sub + " " + suf;
+        }
+
+        if(cenaUpravena.equals("")){
+            cenaUpravena = cena;
+        }
+
+        String prize = ("Celkem to dělá:" + getWhiteSpacesTotal(tmp_price)+ cenaUpravena +" Kč");
+        commandContent = createRasterCommand(prize, 14, 1);
         tempList = new Byte[commandContent.length];
         CopyArray(commandContent, tempList);
         list.addAll(Arrays.asList(tempList));

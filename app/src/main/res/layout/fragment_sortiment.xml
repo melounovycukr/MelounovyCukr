@@ -66,6 +66,7 @@
             android:numColumns="6"
             android:gravity="center"
             android:layout_marginTop="90dp"
+            android:layout_marginBottom="90dp"
             android:verticalSpacing="10dp"
             android:stretchMode="columnWidth"
             android:listSelector="@android:color/transparent"

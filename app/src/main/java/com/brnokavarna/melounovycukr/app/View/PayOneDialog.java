@@ -91,7 +91,7 @@ public class PayOneDialog extends DialogFragment{
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 final HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
-                String[] parts = item.get("item").split(" - ");
+                String[] parts = item.get("item").split("_");
 
                 int idPol = ((MainActivity) getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(parts[0]);
                 if(((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idPol).getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
@@ -176,7 +176,7 @@ public class PayOneDialog extends DialogFragment{
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 final HashMap<String, String> item = (HashMap<String, String>) parent.getItemAtPosition(position);
-                String[] parts = item.get("item").split(" - ");
+                String[] parts = item.get("item").split("_");
                 int idPol = ((MainActivity) getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(parts[0]);
                 if(((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idPol).getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
                     ((MainActivity)getActivity()).cont.OdstranPolozkuStul(33,idPol ,Controller.TagKavy.valueOf(parts[1]));
@@ -381,9 +381,9 @@ public class PayOneDialog extends DialogFragment{
     {
 
         if (kava == Controller.TagKavy.Keňa.ordinal())
-            return " - Keňa";
+            return "_Keňa";
         else if (kava == Controller.TagKavy.Ethyopia.ordinal())
-            return " - Ethyopia";
+            return "_Ethyopia";
 
         return "";
     }

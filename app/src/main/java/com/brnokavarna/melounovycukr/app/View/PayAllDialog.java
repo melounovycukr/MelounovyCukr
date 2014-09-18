@@ -171,9 +171,9 @@ public class PayAllDialog extends DialogFragment{
     {
 
         if (kava == Controller.TagKavy.Keňa.ordinal())
-            return " - Keňa";
+            return "_Keňa";
         else if (kava == Controller.TagKavy.Ethyopia.ordinal())
-            return " - Ethyopia";
+            return "_Ethyopia";
 
         return "";
     }

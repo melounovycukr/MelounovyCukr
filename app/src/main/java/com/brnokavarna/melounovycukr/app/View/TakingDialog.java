@@ -74,7 +74,12 @@ public class TakingDialog extends DialogFragment{
         itemsList = ((MainActivity)getActivity()).cont.ZobrazTrzbu();
         for(int i=0; i < itemsList.size();i++) {
             map = new HashMap<String, String>();
-            map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
+            String pom = ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy());
+            if(pom.length() >= 25){
+                pom = pom.substring(0,24) + new String(Character.toChars(8230));
+
+            }
+            map.put("item",pom);
             map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
             map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
                     ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");

@@ -123,9 +123,15 @@ public class AddSortimentDialog extends DialogFragment{
         return view;
     }
 
+
+
     View.OnClickListener doneListener = new View.OnClickListener() {
         public void onClick(View v) {
             try{
+
+
+                String pom = "";
+                pom = sortimentNameEditText.getText().toString();
                 float temp = Float.parseFloat(sortimentCostEditText.getText().toString());
                 ((MainActivity)getActivity()).cont.PridejPolozkuSeznam(new Seznam(chosenCategory.ordinal(),
                         temp,
