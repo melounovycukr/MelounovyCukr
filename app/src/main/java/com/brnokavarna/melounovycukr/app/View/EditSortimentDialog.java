@@ -126,7 +126,7 @@ public class EditSortimentDialog  extends DialogFragment {
                 Seznam temp = ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idItem);
                 ((MainActivity)getActivity()).cont.EditujPolozkuSeznam(new Seznam(idItem ,temp.getKategorie_id(),
                         tempFloat,
-                        sortimentNameEditText.getText().toString(),true));
+                        sortimentNameEditText.getText().toString(),false));
                 Toast.makeText(getActivity(), "Položka editována", Toast.LENGTH_LONG).show();
                 getDialog().dismiss();
             }
