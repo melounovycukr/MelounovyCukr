@@ -5,6 +5,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -47,9 +50,10 @@ public class PrintTableDialog extends DialogFragment{
     private Handler mHandler;
     private PrintActivity print;
     private boolean printProblemFlag = false;
+    int stulID;
 
     public PrintTableDialog() {
-        // Empty constructor required for DialogFragment
+
     }
 
 
@@ -61,6 +65,7 @@ public class PrintTableDialog extends DialogFragment{
     {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.main_screen, null, true);
+
         ImageView table;
 
         switch(id){
@@ -142,6 +147,10 @@ public class PrintTableDialog extends DialogFragment{
         View view = inflater.inflate(R.layout.fragment_print_table, container);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCanceledOnTouchOutside(false);
+
+
+        Bundle arguments = this.getArguments();
+        this.stulID = arguments.getInt("table");
         //getDialog().getWindow().setLayout(200, 300);
         //getDialog().setTitle("Prodej - 15.4.2014");
         //getDialog().getWindow().setBackgroundDrawableResource(R.drawable.btn_blue_normal);
@@ -228,7 +237,7 @@ public class PrintTableDialog extends DialogFragment{
         printText.setTypeface(gothamLight);
 
         TextView titleText = (TextView) view.findViewById(R.id.titleText);
-        titleText.setText("Platba - stůl č." + ((MainActivity)getActivity()).getTableId());
+        titleText.setText("Platba - stůl č." + stulID);
         titleText.setTypeface(gothamLight);
 
         return view;
@@ -236,7 +245,6 @@ public class PrintTableDialog extends DialogFragment{
 
     View.OnClickListener doneListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
 
             for(int i=0; i < itemsList.size();i++) {
                 for(int j=itemsList.get(i).getMnozstvi(); j>0;j--) {
@@ -245,7 +253,7 @@ public class PrintTableDialog extends DialogFragment{
                             ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(33,
                                     itemsList.get(i).getId_polozky(), tagKavy.Keňa);
                         } else {
-                            ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
+                            ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(stulID,
                                     itemsList.get(i).getId_polozky(), tagKavy.Keňa);
                         }
                     } else if(itemsList.get(i).getDruh_kavy() == Controller.TagKavy.Ethyopia.ordinal()) {
@@ -253,7 +261,7 @@ public class PrintTableDialog extends DialogFragment{
                             ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(33,
                                     itemsList.get(i).getId_polozky(), tagKavy.Ethyopia);
                         } else {
-                            ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
+                            ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(stulID,
                                     itemsList.get(i).getId_polozky(), tagKavy.Ethyopia);
                         }
                     } else {
@@ -261,7 +269,7 @@ public class PrintTableDialog extends DialogFragment{
                             ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(33,
                                     itemsList.get(i).getId_polozky(), tagKavy.Zadna);
                         } else {
-                            ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
+                            ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(stulID,
                                     itemsList.get(i).getId_polozky(), tagKavy.Zadna);
                         }
                     }
@@ -269,20 +277,24 @@ public class PrintTableDialog extends DialogFragment{
                 }
             }
 
-            List<Stul> itemsList;
-            itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
-            if(itemsList.size() < 1)
-                ((MainActivity) getActivity()).SetTableDefault (((MainActivity)getActivity()).getTableId());
+//            List<Stul> itemsList;
+//            itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+//            if(itemsList.size() < 1)
+//                ((MainActivity) getActivity()).SetTableDefault (((MainActivity)getActivity()).getTableId());
             //((MainActivity) getActivity()).SetTableDefault (((MainActivity) getActivity()).getTableId());
             dismiss();
-            ((MainActivity)getActivity()).ShowMainHideOthers();
+            Fragment mainScreenFragmentt = new MainScreen();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction ff = fragmentManager.beginTransaction();
+            ff.replace(R.id.container, mainScreenFragmentt);
+            ff.addToBackStack(null);
+            ff.commit();
+            //((MainActivity)getActivity()).ShowMainHideOthers();
         }
     };
 
     View.OnClickListener printListener = new View.OnClickListener() {
         public void onClick(View v) {
-
-            Toast.makeText(getActivity(), "Print", Toast.LENGTH_LONG).show();
 
             Thread  temp = new Thread( new Runnable() {
                 public void run() {
@@ -310,7 +322,7 @@ public class PrintTableDialog extends DialogFragment{
                                 ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(33,
                                         itemsList.get(i).getId_polozky(), tagKavy.Keňa);
                             } else {
-                                ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
+                                ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(stulID,
                                         itemsList.get(i).getId_polozky(), tagKavy.Keňa);
                             }
                         } else if(itemsList.get(i).getDruh_kavy() == Controller.TagKavy.Ethyopia.ordinal()) {
@@ -318,7 +330,7 @@ public class PrintTableDialog extends DialogFragment{
                                 ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(33,
                                         itemsList.get(i).getId_polozky(), tagKavy.Ethyopia);
                             } else {
-                                ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
+                                ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(stulID,
                                         itemsList.get(i).getId_polozky(), tagKavy.Ethyopia);
                             }
                         } else {
@@ -326,7 +338,7 @@ public class PrintTableDialog extends DialogFragment{
                                 ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(33,
                                         itemsList.get(i).getId_polozky(), tagKavy.Zadna);
                             } else {
-                                ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(((MainActivity) getActivity()).getTableId(),
+                                ((MainActivity) getActivity()).cont.ZaplatPolozkuStul(stulID,
                                         itemsList.get(i).getId_polozky(), tagKavy.Zadna);
                             }
                         }
@@ -334,12 +346,12 @@ public class PrintTableDialog extends DialogFragment{
                     }
                 }
                 //((MainActivity) getActivity()).SetTableDefault (((MainActivity) getActivity()).getTableId());
-                List<Stul> itemsList;
-                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
-                if(itemsList.size() < 1)
-                    ((MainActivity) getActivity()).SetTableDefault (((MainActivity)getActivity()).getTableId());
+//                List<Stul> itemsList;
+//                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+//                if(itemsList.size() < 1)
+//                    ((MainActivity) getActivity()).SetTableDefault (((MainActivity)getActivity()).getTableId());
                 dismiss();
-                ((MainActivity) getActivity()).ShowMainHideOthers();
+                //((MainActivity) getActivity()).ShowMainHideOthers();
             }
             printProblemFlag = false;
         }

@@ -46,9 +46,10 @@ public class PayOneDialog extends DialogFragment{
     private Controller.TagKavy tagKavy;
     private int totalCost;
     TextView overallCostText;
+    int stulID;
 
     public PayOneDialog() {
-        // Empty constructor required for DialogFragment
+
     }
 
     @Override
@@ -57,6 +58,9 @@ public class PayOneDialog extends DialogFragment{
         View view = inflater.inflate(R.layout.fragment_pay_one, container);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCanceledOnTouchOutside(false);
+
+        Bundle arguments = this.getArguments();
+        this.stulID = arguments.getInt("table");
         //getDialog().getWindow().setLayout(200, 300);
         //getDialog().setTitle("Prodej - 15.4.2014");
         //getDialog().getWindow().setBackgroundDrawableResource(R.drawable.btn_blue_normal);
@@ -71,7 +75,7 @@ public class PayOneDialog extends DialogFragment{
         listStul2 = new ArrayList<HashMap<String, String>>();
         listStul.clear();
         listStul2.clear();
-        itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+        itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
         for(int i=0; i < itemsList.size();i++) {
             map = new HashMap<String, String>();
             map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
@@ -95,12 +99,12 @@ public class PayOneDialog extends DialogFragment{
 
                 int idPol = ((MainActivity) getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(parts[0]);
                 if(((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idPol).getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
-                    ((MainActivity)getActivity()).cont.OdstranPolozkuStul(((MainActivity)getActivity()).getTableId(),idPol ,
+                    ((MainActivity)getActivity()).cont.OdstranPolozkuStul(stulID,idPol ,
                             Controller.TagKavy.valueOf(parts[1]));
 
                     ((MainActivity)getActivity()).cont.PridejPolozkuStul(33,idPol,Controller.TagKavy.valueOf(parts[1]));
                 } else {
-                    ((MainActivity)getActivity()).cont.OdstranPolozkuStul(((MainActivity)getActivity()).getTableId(), idPol,
+                    ((MainActivity)getActivity()).cont.OdstranPolozkuStul(stulID, idPol,
                             Controller.TagKavy.Zadna);
 
                     ((MainActivity)getActivity()).cont.PridejPolozkuStul(33,idPol,Controller.TagKavy.Zadna);
@@ -138,7 +142,7 @@ public class PayOneDialog extends DialogFragment{
                 listview2.setAdapter(adapter2);*/
 
                 listStul.clear();
-                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
                 for(int i=0; i < itemsList.size();i++) {
                     map = new HashMap<String, String>();
                     map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
@@ -181,11 +185,11 @@ public class PayOneDialog extends DialogFragment{
                 if(((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(idPol).getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
                     ((MainActivity)getActivity()).cont.OdstranPolozkuStul(33,idPol ,Controller.TagKavy.valueOf(parts[1]));
 
-                    ((MainActivity)getActivity()).cont.PridejPolozkuStul(((MainActivity)getActivity()).getTableId(),idPol,Controller.TagKavy.valueOf(parts[1]));
+                    ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,idPol,Controller.TagKavy.valueOf(parts[1]));
                 } else {
                     ((MainActivity)getActivity()).cont.OdstranPolozkuStul(33,idPol,Controller.TagKavy.Zadna);
 
-                    ((MainActivity)getActivity()).cont.PridejPolozkuStul(((MainActivity)getActivity()).getTableId(),idPol,Controller.TagKavy.Zadna);
+                    ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,idPol,Controller.TagKavy.Zadna);
                 }
 
                 /*itemsList2.add(new Stul(((MainActivity) getActivity()).cont.ZobrazIDPolozkySeznamPodleNazvu(item.get("item")),((MainActivity)getActivity()).getTableId(),
@@ -219,7 +223,7 @@ public class PayOneDialog extends DialogFragment{
                 listview2.setAdapter(adapter2);*/
 
                 listStul.clear();
-                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
                 for(int i=0; i < itemsList.size();i++) {
                     map = new HashMap<String, String>();
                     map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
@@ -317,13 +321,13 @@ public class PayOneDialog extends DialogFragment{
                 for (int j = itemsList2.get(i).getMnozstvi(); j > 0; j--) {
                     if(itemsList2.get(i).getDruh_kavy() == Controller.TagKavy.Keňa.ordinal()) {
                         ((MainActivity) getActivity()).cont.OdstranPolozkuStul(33, itemsList2.get(i).getId_polozky(), tagKavy.Keňa);
-                        ((MainActivity) getActivity()).cont.PridejPolozkuStul(((MainActivity) getActivity()).getTableId(), itemsList2.get(i).getId_polozky(), tagKavy.Keňa);
+                        ((MainActivity) getActivity()).cont.PridejPolozkuStul(stulID, itemsList2.get(i).getId_polozky(), tagKavy.Keňa);
                     } else if(itemsList2.get(i).getDruh_kavy() == Controller.TagKavy.Ethyopia.ordinal()) {
                         ((MainActivity) getActivity()).cont.OdstranPolozkuStul(33, itemsList2.get(i).getId_polozky(), tagKavy.Ethyopia);
-                        ((MainActivity) getActivity()).cont.PridejPolozkuStul(((MainActivity) getActivity()).getTableId(), itemsList2.get(i).getId_polozky(), tagKavy.Ethyopia);
+                        ((MainActivity) getActivity()).cont.PridejPolozkuStul(stulID, itemsList2.get(i).getId_polozky(), tagKavy.Ethyopia);
                     } else {
                         ((MainActivity) getActivity()).cont.OdstranPolozkuStul(33, itemsList2.get(i).getId_polozky(), tagKavy.Zadna);
-                        ((MainActivity) getActivity()).cont.PridejPolozkuStul(((MainActivity) getActivity()).getTableId(), itemsList2.get(i).getId_polozky(), tagKavy.Zadna);
+                        ((MainActivity) getActivity()).cont.PridejPolozkuStul(stulID, itemsList2.get(i).getId_polozky(), tagKavy.Zadna);
                     }
 
                 }
@@ -338,6 +342,9 @@ public class PayOneDialog extends DialogFragment{
             ((MainActivity)getActivity()).setOnePayFlag(true);
             FragmentManager fm = (getActivity()).getSupportFragmentManager();
             PrintTableDialog alert = new PrintTableDialog();
+            Bundle bundle = new Bundle();
+            bundle.putInt("table",stulID);
+            alert.setArguments(bundle);
             alert.show(fm, "Print table dialog");
             dismiss();
         }
@@ -351,7 +358,7 @@ public class PayOneDialog extends DialogFragment{
             for (int i = 0; i < itemsList2.size(); i++) {
                 for (int j = itemsList2.get(i).getMnozstvi(); j > 0; j--) {
                     ((MainActivity) getActivity()).cont.OdstranPolozkuStul(33, itemsList2.get(i).getId_polozky(), tagKavy.Zadna);
-                    ((MainActivity) getActivity()).cont.PridejPolozkuStul(((MainActivity) getActivity()).getTableId(), itemsList2.get(i).getId_polozky(), tagKavy.Zadna);
+                    ((MainActivity) getActivity()).cont.PridejPolozkuStul(stulID, itemsList2.get(i).getId_polozky(), tagKavy.Zadna);
                 }
             }
             this.dismiss();

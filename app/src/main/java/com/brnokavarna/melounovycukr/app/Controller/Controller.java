@@ -13,7 +13,7 @@ import java.util.List;
  * Spojuje datovy model s pohledem
  */
 public class Controller implements ControllerInterface {
-    private MySQLiteHelper db;
+    public MySQLiteHelper db;
 
     /**
      * Chyby

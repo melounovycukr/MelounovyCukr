@@ -1,11 +1,14 @@
 package com.brnokavarna.melounovycukr.app;
 
 import android.app.ActionBar;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,20 +49,20 @@ public class MainActivity extends ActionBarActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-
-        MySQLiteHelper db = new MySQLiteHelper(this);
         cont = new Controller(this);
+        System.out.println("1");
+        //mainScreenFragment = new MainScreen();
+        //layoutMainScreen = (RelativeLayout) findViewById(R.id.mainScreenFragment);
 
-        mainScreenFragment = new MainScreen();
-        layoutMainScreen = (RelativeLayout) findViewById(R.id.mainScreenFragment);
 
-        sortimentFragment = new SortimentFragment();
-        layoutSortiment = (RelativeLayout) findViewById(R.id.sortimentFragment);
 
-        stulFragment = new StulFragment();
-        layoutStul = (RelativeLayout) findViewById(R.id.stultFragment);
+//        sortimentFragment = new SortimentFragment();
+//        layoutSortiment = (RelativeLayout) findViewById(R.id.sortimentFragment);
+//
+//        stulFragment = new StulFragment();
+//        layoutStul = (RelativeLayout) findViewById(R.id.stultFragment);
 
-        ShowMainHideOthers();
+        //ShowMainHideOthers();
 
         Typeface gothamBook = Typeface.createFromAsset(getAssets(), "Gotham-Book.otf");
         int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
@@ -75,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
 
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 
-//        // Kava ------------------------------------------------------------------------------------
+        // Kava ------------------------------------------------------------------------------------
 //        this.cont.PridejPolozkuSeznam(new Seznam(0,39,"Espresso",false));
 //        this.cont.PridejPolozkuSeznam(new Seznam(0,55,"Espresso Doppio",false));
 //        this.cont.PridejPolozkuSeznam(new Seznam(0,42,"Espresso Macchiato",false));
@@ -202,10 +205,19 @@ public class MainActivity extends ActionBarActivity {
 //        this.cont.PridejPolozkuSeznam(new Seznam(1,58,"Pomazánka z česneku",false));
 //        this.cont.PridejPolozkuSeznam(new Seznam(1,63,"Pomazánka z šunky",false));
 //        this.cont.PridejPolozkuSeznam(new Seznam(1,58,"Tapenáda z oliv",false));
+//
+//        cont.db.close();
 
 
-
-
+        Log.d("lala", "lolo");
+        Fragment mainScreenFragmentt = new MainScreen();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ff = fragmentManager.beginTransaction();
+        Log.d("lala", "lulu");
+        ff.replace(R.id.container, mainScreenFragmentt);
+        ff.addToBackStack(null);
+        ff.commit();
+        Log.d("lala", "lele");
 
     }
 
@@ -238,71 +250,67 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public int getTableId(){
-        return tableId;
-    }
-
     /**
      * Zobrazi hlavni fragment a schova ostatni
      */
-    public void ShowMainHideOthers()
-    {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.hide(sortimentFragment);
-        layoutSortiment.setVisibility(View.GONE);
-        ft.hide(stulFragment);
-        layoutStul.setVisibility(View.GONE);
-        //ft.detach(mainScreenFragment);
-       // ft.attach(mainScreenFragment);
-        ft.show(mainScreenFragment);
-        layoutMainScreen.setVisibility(View.VISIBLE);
-        ft.commit();
+//    public void ShowMainHideOthers()
+//    {
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.hide(sortimentFragment);
+//        layoutSortiment.setVisibility(View.GONE);
+//        ft.hide(stulFragment);
+//        layoutStul.setVisibility(View.GONE);
+//        //ft.detach(mainScreenFragment);
+//       // ft.attach(mainScreenFragment);
+//        ft.show(mainScreenFragment);
+//        layoutMainScreen.setVisibility(View.VISIBLE);
+//        ft.commit();
+//
+//    }
+//
+//    /**
+//     * Zobrazi hlavni fragment a schova ostatni
+//     */
+//    public void ShowTableHideOthers()
+//    {
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.hide(sortimentFragment);
+//        layoutSortiment.setVisibility(View.GONE);
+//        ft.hide(mainScreenFragment);
+//        layoutMainScreen.setVisibility(View.GONE);
+//        ft.show(stulFragment);
+//        layoutStul.setVisibility(View.VISIBLE);
+//        ft.commit();
+//
+//    }
+//
+//    /**
+//     * Zobrazi hlavni fragment a schova ostatni
+//     */
+//    public void ShowSortimentHideOthers()
+//    {
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.hide(stulFragment);
+//        layoutStul.setVisibility(View.GONE);
+//        ft.hide(mainScreenFragment);
+//        layoutMainScreen.setVisibility(View.GONE);
+//        ft.show(sortimentFragment);
+//        layoutSortiment.setVisibility(View.VISIBLE);
+//        ft.commit();
+//
+//    }
 
-    }
-
-    /**
-     * Zobrazi hlavni fragment a schova ostatni
-     */
-    public void ShowTableHideOthers()
-    {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.hide(sortimentFragment);
-        layoutSortiment.setVisibility(View.GONE);
-        ft.hide(mainScreenFragment);
-        layoutMainScreen.setVisibility(View.GONE);
-        ft.show(stulFragment);
-        layoutStul.setVisibility(View.VISIBLE);
-        ft.commit();
-
-    }
-
-    /**
-     * Zobrazi hlavni fragment a schova ostatni
-     */
-    public void ShowSortimentHideOthers()
-    {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.hide(stulFragment);
-        layoutStul.setVisibility(View.GONE);
-        ft.hide(mainScreenFragment);
-        layoutMainScreen.setVisibility(View.GONE);
-        ft.show(sortimentFragment);
-        layoutSortiment.setVisibility(View.VISIBLE);
-        ft.commit();
-
-    }
-
-    public void SetTableNumber(int id){
-        this.tableId = id;
-        StulFragment fragment = (StulFragment) getFragmentManager().findFragmentById(R.id.stultFragment);
-        fragment.zobrazStul(id);
-     }
-
-    public void SetTableDefault(int id)
-    {
-        MainScreen fragment = (MainScreen) getFragmentManager().findFragmentById(R.id.mainScreenFragment);
-        fragment.setTableNormalColor(id);
-    }
+//    public void SetTableNumber(int id){
+//        this.tableId = id;
+//        StulFragment fragment = (StulFragment) getFragmentManager().findFragmentById(R.id.stultFragment);
+//        fragment.zobrazStul(id);
+//     }
+//
+//    public void SetTableDefault(int id)
+//    {
+//        MainScreen fragment = (MainScreen) getFragmentManager().findFragmentById(R.id.mainScreenFragment);
+//        fragment.setTableNormalColor(id);
+//    }
 
     public void setListOnePay(List<Stul> listOnePay) {
         this.listOnePay = listOnePay;

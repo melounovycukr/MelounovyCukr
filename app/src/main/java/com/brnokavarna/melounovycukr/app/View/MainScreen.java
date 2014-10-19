@@ -3,11 +3,13 @@ package com.brnokavarna.melounovycukr.app.View;
 /**
  * Created by mpx on 5.5.2014.
  */
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +27,7 @@ public class MainScreen extends Fragment {
 
     private int tableId;
     private View globa;
+    private Fragment mFragment;
 
     View.OnClickListener listener;
     /*OnHeadlineSelectedListener mCallback;
@@ -51,6 +54,7 @@ public class MainScreen extends Fragment {
     public void onResume()
     {
         //setting occupied tables to red
+        System.out.println("3");
         List<Stul> itemsList;
         for(int i = 1; i <= 17; i++)
         {
@@ -66,6 +70,10 @@ public class MainScreen extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_screen,
                 container, false);
+
+        System.out.println("lalalala");
+        Log.d("su","tu");
+        mFragment = this;
 
         Typeface gothamBook = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Book.otf");
 
@@ -125,8 +133,15 @@ public class MainScreen extends Fragment {
                 tableId = 1;
                 table1.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(1);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",1);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -138,8 +153,15 @@ public class MainScreen extends Fragment {
                 tableId = 2;
                 table2.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(2);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",2);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -151,8 +173,15 @@ public class MainScreen extends Fragment {
                 tableId = 3;
                 table3.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(3);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",3);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -164,8 +193,15 @@ public class MainScreen extends Fragment {
                 tableId = 4;
                 table4.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(4);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",4);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -177,8 +213,15 @@ public class MainScreen extends Fragment {
                 tableId = 5;
                 table5.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(5);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",5);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -190,8 +233,15 @@ public class MainScreen extends Fragment {
                 tableId = 6;
                 table6.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(6);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",6);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -203,8 +253,15 @@ public class MainScreen extends Fragment {
                 tableId = 7;
                 table7.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(7);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",7);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -216,8 +273,15 @@ public class MainScreen extends Fragment {
                 tableId = 8;
                 table8.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(8);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",8);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -229,8 +293,15 @@ public class MainScreen extends Fragment {
                 tableId = 9;
                 table9.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(9);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",9);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -242,8 +313,15 @@ public class MainScreen extends Fragment {
                 tableId = 10;
                 table10.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(10);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",10);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -255,8 +333,15 @@ public class MainScreen extends Fragment {
                 tableId = 11;
                 table11.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(11);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",11);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -268,8 +353,15 @@ public class MainScreen extends Fragment {
                 tableId = 12;
                 table12.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(12);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",12);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -281,8 +373,15 @@ public class MainScreen extends Fragment {
                 tableId = 13;
                 table13.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(13);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",13);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -294,8 +393,15 @@ public class MainScreen extends Fragment {
                 tableId = 14;
                 bar1.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(14);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",14);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -307,8 +413,15 @@ public class MainScreen extends Fragment {
                 tableId = 15;
                 bar2.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(15);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",15);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -320,8 +433,15 @@ public class MainScreen extends Fragment {
                 tableId = 16;
                 bar3.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(16);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",16);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -333,8 +453,15 @@ public class MainScreen extends Fragment {
                 tableId = 17;
                 bar4.setImageResource(R.drawable.table_active);
 
-                ((MainActivity)getActivity()).SetTableNumber(17);
-                ((MainActivity)getActivity()).ShowTableHideOthers();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",17);
+                StulFragment myFragment = new StulFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                myFragment.setArguments(bundle);
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 
@@ -343,7 +470,12 @@ public class MainScreen extends Fragment {
 
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).ShowSortimentHideOthers();
+                SortimentFragment myFragment = new SortimentFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(mFragment.getId(),myFragment,"myFragment");
+                fragmentTransaction.addToBackStack("myFragment");
+                fragmentTransaction.commit();
             }
         });
 

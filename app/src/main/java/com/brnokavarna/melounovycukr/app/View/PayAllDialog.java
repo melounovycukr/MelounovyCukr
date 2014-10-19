@@ -40,9 +40,10 @@ public class PayAllDialog extends DialogFragment{
     private HashMap<String, String> map;
     private Controller.TagKavy tagKavy;
     private int totalCost;
+    int stulID;
 
     public PayAllDialog() {
-        // Empty constructor required for DialogFragment
+
     }
 
     @Override
@@ -50,6 +51,9 @@ public class PayAllDialog extends DialogFragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pay_all, container);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
+        Bundle arguments = this.getArguments();
+        this.stulID = arguments.getInt("table");
         //getDialog().getWindow().setLayout(200, 300);
         //getDialog().setTitle("Prodej - 15.4.2014");
         //getDialog().getWindow().setBackgroundDrawableResource(R.drawable.btn_blue_normal);
@@ -59,7 +63,7 @@ public class PayAllDialog extends DialogFragment{
 
         listStul = new ArrayList<HashMap<String, String>>();
         listStul.clear();
-        itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(((MainActivity)getActivity()).getTableId());
+        itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
         for(int i=0; i < itemsList.size();i++) {
             map = new HashMap<String, String>();
             map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
@@ -125,7 +129,7 @@ public class PayAllDialog extends DialogFragment{
         payText.setTypeface(gothamLight);
 
         TextView titleText = (TextView) view.findViewById(R.id.titleText);
-        titleText.setText("Platba - stůl č." + ((MainActivity)getActivity()).getTableId());
+        titleText.setText("Platba - stůl č." + stulID);
         titleText.setTypeface(gothamLight);
 
         return view;
@@ -133,7 +137,6 @@ public class PayAllDialog extends DialogFragment{
 
     View.OnClickListener backListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "Done", Toast.LENGTH_LONG).show();
             dismiss();
 
         }
@@ -144,7 +147,11 @@ public class PayAllDialog extends DialogFragment{
             ((MainActivity)getActivity()).setListOnePay(itemsList);
             ((MainActivity)getActivity()).setOnePayFlag(false);
             FragmentManager fm = (getActivity()).getSupportFragmentManager();
+
             PrintTableDialog alert = new PrintTableDialog();
+            Bundle bundle = new Bundle();
+            bundle.putInt("table",stulID);
+            alert.setArguments(bundle);
             alert.show(fm, "Print table dialog");
             dismiss();
         }

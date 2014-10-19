@@ -135,7 +135,7 @@ public class AddSortimentDialog extends DialogFragment{
                 float temp = Float.parseFloat(sortimentCostEditText.getText().toString());
                 ((MainActivity)getActivity()).cont.PridejPolozkuSeznam(new Seznam(chosenCategory.ordinal(),
                         temp,
-                        sortimentNameEditText.getText().toString(),true));
+                        sortimentNameEditText.getText().toString(),false));
                 Toast.makeText(getActivity(), "Položka přídána", Toast.LENGTH_LONG).show();
                 getDialog().dismiss();
             }

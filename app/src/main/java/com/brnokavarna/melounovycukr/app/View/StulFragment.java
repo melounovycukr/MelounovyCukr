@@ -1,7 +1,7 @@
 package com.brnokavarna.melounovycukr.app.View;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Color;
@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -41,14 +42,26 @@ public class StulFragment extends Fragment {
     PayAllDialog payAllDialog;
     PayOneDialog payOneDialog;
     CoffeeDialog coffeeDialog;
-    private GridView gridView;
+    private GridView gridView1;
+    private GridView gridView2;
+    private GridView gridView3;
+    private GridView gridView4;
+    private GridView gridView5;
     private ArrayList<HashMap<String, String>> listStul;
     private SimpleAdapter adapter;
     private ListView listview;
-    private List<Seznam> ItemsGrid;
+    private List<Seznam> ItemsGridPopularni;
+    private List<Seznam> ItemsGridKava;
+    private List<Seznam> ItemsGridDobroty;
+    private List<Seznam> ItemsGridAlkohol;
+    private List<Seznam> ItemsGridOstatni;
     private List<Stul> itemsList;
     private HashMap<String, String> map;
-    private List<String> stringList;
+    private List<String> stringListPopularni = new ArrayList<String>();
+    private List<String> stringListKava = new ArrayList<String>();
+    private List<String> stringListDobroty = new ArrayList<String>();
+    private List<String> stringListAlkohol = new ArrayList<String>();
+    private List<String> stringListOstatni = new ArrayList<String>();
     private TextView tv1, tv2, tv3, tv4, tv5;
     private Controller.CategoryID  chosenCategory = Controller.CategoryID.Kava;
     TextView tableNumberText;
@@ -70,15 +83,55 @@ public class StulFragment extends Fragment {
 
     @Override
     public void onResume() {
-        ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazPopularni();
-        stringList.clear();
-        listStul.clear();
-        for(int i=0; i < ItemsGrid.size();i++)
-            stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
-        gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+        super.onResume();
+        ItemsGridPopularni = ((MainActivity) getActivity()).cont.ZobrazPopularni();
+        ItemsGridKava = ((MainActivity) getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Kava);
+        ItemsGridDobroty = ((MainActivity) getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Dobroty);
+        ItemsGridAlkohol = ((MainActivity) getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Alkohol);
+        ItemsGridOstatni = ((MainActivity) getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Ostatni);
+        stringListPopularni.clear();
+        stringListKava.clear();
+        stringListDobroty.clear();
+        stringListAlkohol.clear();
+        stringListOstatni.clear();
+
+        for (int i = 0; i < ItemsGridPopularni.size(); i++) {
+            stringListPopularni.add(ItemsGridPopularni.get(i).getNazev_zbozi() + ";" + ItemsGridPopularni.get(i).getKategorie_id() + "|" + ItemsGridPopularni.get(i).getId());
+        }
+        for (int i = 0; i < ItemsGridKava.size(); i++){
+            stringListKava.add(ItemsGridKava.get(i).getNazev_zbozi() + ";" + ItemsGridKava.get(i).getKategorie_id() + "|" + ItemsGridKava.get(i).getId());
+        }
+        for(int i=0; i < ItemsGridDobroty.size();i++){
+            stringListDobroty.add(ItemsGridDobroty.get(i).getNazev_zbozi() +";"+ ItemsGridDobroty.get(i).getKategorie_id() + "|" + ItemsGridDobroty.get(i).getId());
+        }
+        for(int i=0; i < ItemsGridAlkohol.size();i++){
+            stringListAlkohol.add(ItemsGridAlkohol.get(i).getNazev_zbozi() +";"+ ItemsGridAlkohol.get(i).getKategorie_id() + "|" + ItemsGridAlkohol.get(i).getId());
+        }
+        for(int i=0; i < ItemsGridOstatni.size();i++){
+            stringListOstatni.add(ItemsGridOstatni.get(i).getNazev_zbozi() +";"+ ItemsGridOstatni.get(i).getKategorie_id() + "|" + ItemsGridOstatni.get(i).getId());
+        }
+
+        gridView1.setAdapter(new CustomGridViewAdapterr(getActivity(),stringListPopularni));
+        gridView2.setAdapter(new CustomGridViewAdapterr(getActivity(),stringListKava));
+        gridView3.setAdapter(new CustomGridViewAdapterr(getActivity(),stringListDobroty));
+        gridView4.setAdapter(new CustomGridViewAdapterr(getActivity(),stringListAlkohol));
+        gridView5.setAdapter(new CustomGridViewAdapterr(getActivity(),stringListOstatni));
+
+        gridView1.setVisibility(View.VISIBLE);
+        gridView2.setVisibility(View.GONE);
+        gridView3.setVisibility(View.GONE);
+        gridView4.setVisibility(View.GONE);
+        gridView5.setVisibility(View.GONE);
+
+        tv1.setTextColor(Color.parseColor("#9c2320"));
+        tv2.setTextColor(Color.parseColor("#808080"));
+        tv3.setTextColor(Color.parseColor("#808080"));
+        tv4.setTextColor(Color.parseColor("#808080"));
+        tv5.setTextColor(Color.parseColor("#808080"));
+
         adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
         listview.setAdapter(adapter);
-        super.onResume();
+
     }
 
     @Override
@@ -138,8 +191,12 @@ public class StulFragment extends Fragment {
         //grid
 
         ArrayList<ClipData.Item> gridArray = new ArrayList<ClipData.Item>();
-        gridView = (GridView) view.findViewById(R.id.gridViewSortiment);
-        stringList = new ArrayList<String>();
+        gridView1 = (GridView) view.findViewById(R.id.gridViewSortiment5);
+        gridView2 = (GridView) view.findViewById(R.id.gridViewSortiment4);
+        gridView3 = (GridView) view.findViewById(R.id.gridViewSortiment3);
+        gridView4 = (GridView) view.findViewById(R.id.gridViewSortiment2);
+        gridView5 = (GridView) view.findViewById(R.id.gridViewSortiment);
+
 
 
 
@@ -153,12 +210,12 @@ public class StulFragment extends Fragment {
 
         tv1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazPopularni();
-                stringList.clear();
-                for(int i=0; i < ItemsGrid.size();i++) {
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
-                }
-                gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+
+                gridView1.setVisibility(View.VISIBLE);
+                gridView2.setVisibility(View.GONE);
+                gridView3.setVisibility(View.GONE);
+                gridView4.setVisibility(View.GONE);
+                gridView5.setVisibility(View.GONE);
                 //set all other classes gray color
                 tv1.setTextColor(Color.parseColor("#9c2320"));
                 tv2.setTextColor(Color.parseColor("#808080"));
@@ -170,11 +227,13 @@ public class StulFragment extends Fragment {
 
         tv2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Kava);
-                stringList.clear();
-                for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
-                gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Kava);
+
+                gridView1.setVisibility(View.GONE);
+                gridView2.setVisibility(View.VISIBLE);
+                gridView3.setVisibility(View.GONE);
+                gridView4.setVisibility(View.GONE);
+                gridView5.setVisibility(View.GONE);
                 //set all other classes gray color
                 tv1.setTextColor(Color.parseColor("#808080"));
                 tv2.setTextColor(Color.parseColor("#9c2320"));
@@ -187,11 +246,13 @@ public class StulFragment extends Fragment {
 
         tv3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Dobroty);
-                stringList.clear();
-                for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
-                gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Dobroty);
+
+                gridView1.setVisibility(View.GONE);
+                gridView2.setVisibility(View.GONE);
+                gridView3.setVisibility(View.VISIBLE);
+                gridView4.setVisibility(View.GONE);
+                gridView5.setVisibility(View.GONE);
                 //set all other classes gray color
                 tv1.setTextColor(Color.parseColor("#808080"));
                 tv2.setTextColor(Color.parseColor("#808080"));
@@ -204,11 +265,13 @@ public class StulFragment extends Fragment {
 
         tv4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Alkohol);
-                stringList.clear();
-                for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
-                gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Alkohol);
+
+                gridView1.setVisibility(View.GONE);
+                gridView2.setVisibility(View.GONE);
+                gridView3.setVisibility(View.GONE);
+                gridView4.setVisibility(View.VISIBLE);
+                gridView5.setVisibility(View.GONE);
                 //set all other classes gray color
                 tv1.setTextColor(Color.parseColor("#808080"));
                 tv2.setTextColor(Color.parseColor("#808080"));
@@ -221,11 +284,13 @@ public class StulFragment extends Fragment {
 
         tv5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(Controller.CategoryID.Ostatni);
-                stringList.clear();
-                for(int i=0; i < ItemsGrid.size();i++)
-                    stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
-                gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
+                //ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazKategoriiSeznam(
+
+                gridView1.setVisibility(View.GONE);
+                gridView2.setVisibility(View.GONE);
+                gridView3.setVisibility(View.GONE);
+                gridView4.setVisibility(View.GONE);
+                gridView5.setVisibility(View.VISIBLE);
                 //set all other classes gray color
                 tv1.setTextColor(Color.parseColor("#808080"));
                 tv2.setTextColor(Color.parseColor("#808080"));
@@ -244,7 +309,7 @@ public class StulFragment extends Fragment {
 
 
         //klikani v sortimentu vlevo
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
@@ -255,7 +320,155 @@ public class StulFragment extends Fragment {
 
                 if(pomPolozka.getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
                     FragmentManager fm = ((MainActivity) getActivity()).getSupportFragmentManager();
-                    coffeeDialog = new CoffeeDialog(pomPolozkaID, new DialogFragmentDismissHandler());
+                    coffeeDialog = new CoffeeDialog(stulID,pomPolozkaID, new DialogFragmentDismissHandler());
+                    coffeeDialog.show(fm, "coffee dialog");
+                }else {
+                    ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
+                            getText().toString()),Controller.TagKavy.Zadna);
+                }
+
+                listStul.clear();
+                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
+                for(int i=0; i < itemsList.size();i++) {
+                    map = new HashMap<String, String>();
+                    //if()
+                    map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
+                    map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+                    map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                            ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
+                    listStul.add(map);
+                }
+
+                adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+                listview.setAdapter(adapter);
+
+            }
+        });
+
+        //klikani v sortimentu vlevo
+        gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                Seznam pomPolozka= ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
+                        getText().toString()));
+                int pomPolozkaID= Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).getText().toString());
+                idAktPolozky = pomPolozkaID;
+
+                if(pomPolozka.getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
+                    FragmentManager fm = ((MainActivity) getActivity()).getSupportFragmentManager();
+                    coffeeDialog = new CoffeeDialog(stulID,pomPolozkaID, new DialogFragmentDismissHandler());
+                    coffeeDialog.show(fm, "coffee dialog");
+                }else {
+                    ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
+                            getText().toString()),Controller.TagKavy.Zadna);
+                }
+
+                listStul.clear();
+                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
+                for(int i=0; i < itemsList.size();i++) {
+                    map = new HashMap<String, String>();
+                    //if()
+                    map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
+                    map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+                    map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                            ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
+                    listStul.add(map);
+                }
+
+                adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+                listview.setAdapter(adapter);
+
+            }
+        });
+
+        //klikani v sortimentu vlevo
+        gridView3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                Seznam pomPolozka= ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
+                        getText().toString()));
+                int pomPolozkaID= Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).getText().toString());
+                idAktPolozky = pomPolozkaID;
+
+                if(pomPolozka.getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
+                    FragmentManager fm = ((MainActivity) getActivity()).getSupportFragmentManager();
+                    coffeeDialog = new CoffeeDialog(stulID,pomPolozkaID, new DialogFragmentDismissHandler());
+                    coffeeDialog.show(fm, "coffee dialog");
+                }else {
+                    ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
+                            getText().toString()),Controller.TagKavy.Zadna);
+                }
+
+                listStul.clear();
+                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
+                for(int i=0; i < itemsList.size();i++) {
+                    map = new HashMap<String, String>();
+                    //if()
+                    map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
+                    map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+                    map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                            ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
+                    listStul.add(map);
+                }
+
+                adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+                listview.setAdapter(adapter);
+
+            }
+        });
+
+        //klikani v sortimentu vlevo
+        gridView4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                Seznam pomPolozka= ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
+                        getText().toString()));
+                int pomPolozkaID= Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).getText().toString());
+                idAktPolozky = pomPolozkaID;
+
+                if(pomPolozka.getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
+                    FragmentManager fm = ((MainActivity) getActivity()).getSupportFragmentManager();
+                    coffeeDialog = new CoffeeDialog(stulID,pomPolozkaID, new DialogFragmentDismissHandler());
+                    coffeeDialog.show(fm, "coffee dialog");
+                }else {
+                    ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
+                            getText().toString()),Controller.TagKavy.Zadna);
+                }
+
+                listStul.clear();
+                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
+                for(int i=0; i < itemsList.size();i++) {
+                    map = new HashMap<String, String>();
+                    //if()
+                    map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
+                    map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+                    map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                            ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
+                    listStul.add(map);
+                }
+
+                adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+                listview.setAdapter(adapter);
+
+            }
+        });
+
+        //klikani v sortimentu vlevo
+        gridView5.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                Seznam pomPolozka= ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
+                        getText().toString()));
+                int pomPolozkaID= Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).getText().toString());
+                idAktPolozky = pomPolozkaID;
+
+                if(pomPolozka.getKategorie_id() == Controller.CategoryID.Kava.ordinal()) {
+                    FragmentManager fm = ((MainActivity) getActivity()).getSupportFragmentManager();
+                    coffeeDialog = new CoffeeDialog(stulID,pomPolozkaID, new DialogFragmentDismissHandler());
                     coffeeDialog.show(fm, "coffee dialog");
                 }else {
                     ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,Integer.parseInt(((TextView) v.findViewById(R.id.grid_item_hidden_id)).
@@ -336,11 +549,11 @@ public class StulFragment extends Fragment {
         zpetImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //empty list not red
-                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
-                if(itemsList.size() < 1)
-                    ((MainActivity) getActivity()).SetTableDefault (stulID);
+//                itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(stulID);
+//                if(itemsList.size() < 1)
+//                    ((MainActivity) getActivity()).SetTableDefault (stulID);
 
-                ((MainActivity)getActivity()).ShowMainHideOthers();
+                getActivity().onBackPressed();
             }
         });
 
@@ -364,6 +577,9 @@ public class StulFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fm = ((MainActivity)getActivity()).getSupportFragmentManager();
                 payOneDialog = new PayOneDialog();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",stulID);
+                payOneDialog.setArguments(bundle);
                 payOneDialog.show(fm, "Pay one dialog");
             }
         });
@@ -388,6 +604,9 @@ public class StulFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fm = ((MainActivity)getActivity()).getSupportFragmentManager();
                 payAllDialog = new PayAllDialog();
+                Bundle bundle = new Bundle();
+                bundle.putInt("table",stulID);
+                payAllDialog.setArguments(bundle);
                 payAllDialog.show(fm, "Pay all dialog");
             }
         });
@@ -407,8 +626,24 @@ public class StulFragment extends Fragment {
         });
 
 
+        Bundle arguments = this.getArguments();
+        this.stulID = arguments.getInt("table");
+        tableNumberText.setText("Stůl č. " + this.stulID);
 
-        //gridArray.add(new ClipData.Item(pinkIcon,"test"));
+
+        listStul.clear();
+        itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(this.stulID);
+        for(int i=0; i < itemsList.size();i++) {
+            map = new HashMap<String, String>();
+            map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
+            map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
+            map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
+                    ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
+            listStul.add(map);
+            //stringList.add(ItemsGrid.get(i).getNazev_zbozi() + ";" + ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
+        }
+        adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
+        listview.setAdapter(adapter);
 
 
 
@@ -451,35 +686,7 @@ public class StulFragment extends Fragment {
      * Nastaveni kliknuteho stolu
      */
     public void zobrazStul(int id){
-        this.stulID = id;
-        tableNumberText.setText("Stůl č. " + id);
 
-        ItemsGrid = ((MainActivity)getActivity()).cont.ZobrazPopularni();
-        stringList.clear();
-        for(int i=0; i < ItemsGrid.size();i++)
-            stringList.add(ItemsGrid.get(i).getNazev_zbozi() +";"+ ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
-        gridView.setAdapter(new CustomGridViewAdapter(getActivity(),stringList));
-
-        tv1.setTextColor(Color.parseColor("#9c2320"));
-        tv2.setTextColor(Color.parseColor("#808080"));
-        tv3.setTextColor(Color.parseColor("#808080"));
-        tv4.setTextColor(Color.parseColor("#808080"));
-        tv5.setTextColor(Color.parseColor("#808080"));
-        //TADy pak udelas to naplneni z DB..novym adapterem
-
-        listStul.clear();
-        itemsList = ((MainActivity)getActivity()).cont.ZobrazVsechnyPolozkyStul(id);
-        for(int i=0; i < itemsList.size();i++) {
-            map = new HashMap<String, String>();
-            map.put("item", ((MainActivity)getActivity()).cont.ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getNazev_zbozi() + vypisDruhKavy(itemsList.get(i).getDruh_kavy()));
-            map.put("amount", String.valueOf(itemsList.get(i).getMnozstvi()));
-            map.put("price", String.valueOf((int)((MainActivity)getActivity()).cont.
-                    ZobrazPolozkuSeznam(itemsList.get(i).getId_polozky()).getCena()*itemsList.get(i).getMnozstvi()) + " Kč");
-            listStul.add(map);
-            //stringList.add(ItemsGrid.get(i).getNazev_zbozi() + ";" + ItemsGrid.get(i).getKategorie_id() + "|" + ItemsGrid.get(i).getId());
-        }
-        adapter = new SimpleAdapter(getActivity(), listStul, R.layout.listview_row_stul, new String[] {"item", "amount", "price"},new int[]{R.id.listViewItemStulFirstText, R.id.listViewItemStulSecondText, R.id.listViewItemStulThirdText});
-        listview.setAdapter(adapter);
 /*
         map = new HashMap<String, String>();
                 map.put("item", "pepa");
@@ -534,5 +741,85 @@ public class StulFragment extends Fragment {
         else if (kava == Controller.TagKavy.Ethyopia.ordinal()){
             return "_Ethyopia";}
         return "";
+    }
+
+    public class CustomGridViewAdapterr extends BaseAdapter {
+        private  List<String> itemsValues;
+        private LayoutInflater inflater;
+
+        public CustomGridViewAdapterr(Context context, List<String> itemsValues) {
+            this.itemsValues = itemsValues;
+            inflater = (LayoutInflater) getActivity()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final ViewHolder holder;
+
+            if (convertView == null) {
+
+                convertView = inflater.inflate(R.layout.row_grid, null);
+                holder = new ViewHolder();
+                convertView.setTag(holder);
+
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            //setting fonts
+            Typeface gothamMedium = Typeface.createFromAsset(getActivity().getAssets(), "Gotham-Medium.otf");
+            holder.label = (TextView) convertView.findViewById(R.id.grid_item_label);
+            holder.label.setTypeface(gothamMedium);
+            System.out.println("position: " + position);
+
+            // set value into textview
+            if(itemsValues.get(position).contains(";"))
+                holder.label.setText(itemsValues.get(position).substring(0, itemsValues.get(position).indexOf(";")));
+
+            //store id grid_item_hidden_id
+            holder.hidden = (TextView) convertView.findViewById(R.id.grid_item_hidden_id);
+            if(itemsValues.get(position).contains("|")) {
+                holder.hidden.setText(itemsValues.get(position).substring(itemsValues.get(position).indexOf("|")+1, itemsValues.get(position).length()));
+            }
+
+            // set image based on selected text
+            holder.image = (ImageView) convertView.findViewById(R.id.grid_item_image);
+
+
+            String items = itemsValues.get(position);
+            //setting item background within category
+            if(items.contains(";0"))
+                holder.image.setImageResource(R.drawable.item_red);
+            else if(items.contains(";1"))
+                holder.image.setImageResource(R.drawable.item_pink);
+            else if(items.contains(";2"))
+                holder.image.setImageResource(R.drawable.item_green);
+            else if(items.contains(";3"))
+                holder.image.setImageResource(R.drawable.item_blue);
+
+            return convertView;
+        }
+
+        @Override
+        public int getCount() {
+            return itemsValues.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+    }
+
+    class ViewHolder {
+        ImageView image;
+        TextView label;
+        TextView hidden;
     }
 }

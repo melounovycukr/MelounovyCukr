@@ -26,12 +26,14 @@ public class CoffeeDialog extends DialogFragment{
     private Controller.CategoryID chosenCategory;
     private Handler handler;
     int polozkaID;
+    int stulID;
     public CoffeeDialog() {
         // Empty constructor required for DialogFragment
     }
     //cons
-    public CoffeeDialog(int id, Handler h)
+    public CoffeeDialog(int stulID, int id, Handler h)
     {
+        this.stulID = stulID;
         this.polozkaID = id;
         this.handler = h;
     }
@@ -67,7 +69,7 @@ public class CoffeeDialog extends DialogFragment{
     };
     View.OnClickListener ethyopieListener = new View.OnClickListener() {
         public void onClick(View v) {
-            ((MainActivity)getActivity()).cont.PridejPolozkuStul(((MainActivity)getActivity()).getTableId(),
+            ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,
                     polozkaID,Controller.TagKavy.Ethyopia);
             Log.d("tralal", "id_polozky(ethyopie):" + polozkaID+", "+Controller.TagKavy.Ethyopia.ordinal());
             getDialog().dismiss();
@@ -75,7 +77,7 @@ public class CoffeeDialog extends DialogFragment{
     };
     View.OnClickListener kenaListener = new View.OnClickListener() {
         public void onClick(View v) {
-            ((MainActivity)getActivity()).cont.PridejPolozkuStul(((MainActivity)getActivity()).getTableId(),
+            ((MainActivity)getActivity()).cont.PridejPolozkuStul(stulID,
                     polozkaID,Controller.TagKavy.Keňa);
             Log.d("tralal", "id_polozky(kena):" + polozkaID+", "+Controller.TagKavy.Keňa.ordinal());
             getDialog().dismiss();

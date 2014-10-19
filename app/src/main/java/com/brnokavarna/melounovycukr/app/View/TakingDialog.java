@@ -181,7 +181,7 @@ public class TakingDialog extends DialogFragment{
                 // remove items
                 ((MainActivity) getActivity()).cont.VymazTrzbu();
                 dismiss();
-                ((MainActivity) getActivity()).ShowMainHideOthers();
+                //((MainActivity) getActivity()).ShowMainHideOthers();
             }
             printProblemFlag = false;
         }

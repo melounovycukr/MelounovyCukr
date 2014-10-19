@@ -156,17 +156,23 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                         null, // g. order by
                         null); // h. limit
 
+        Seznam seznam = new Seznam();
+        try{
         // 3. if we got results get the first one
         if (cursor != null)
             cursor.moveToFirst();
 
         // 4. build book object
-        Seznam seznam = new Seznam();
+
         seznam.setId(Integer.parseInt(cursor.getString(0)));
         seznam.setKategorie_id(Integer.parseInt(cursor.getString(1)));
         seznam.setCena(cursor.getFloat(2));
         seznam.setNazev_zbozi(cursor.getString(3));
         seznam.setPopularni((Integer.parseInt(cursor.getString(4)) == 1)? true : false);
+        } finally{
+            cursor.close();
+            db.close();
+        }
 
         //Log.d("getSeznam("+id+")", seznam.toString());
 
@@ -183,7 +189,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         // 1. get reference to readable DB
         SQLiteDatabase db = this.getReadableDatabase();
-
+        Integer pom;
         // 2. build query
         Cursor cursor =
                 db.query(TABLE_SEZNAM, // a. table
@@ -195,11 +201,17 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                         null, // g. order by
                         null); // h. limit
 
-        // 3. if we got results get the first one
-        if (cursor != null)
-            cursor.moveToFirst();
+        try {
+            // 3. if we got results get the first one
+            if (cursor != null)
+                cursor.moveToFirst();
 
-        return Integer.parseInt(cursor.getString(0));
+            pom = Integer.parseInt(cursor.getString(0));
+        } finally{
+            cursor.close();
+        }
+
+        return pom;
         // 4. build book object
         /*Seznam seznam = new Seznam();
         seznam.setId(Integer.parseInt(cursor.getString(0)));
@@ -230,20 +242,25 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query,  new String[] { String.valueOf(id.ordinal()) });
 
-        // 3. go over each row, build book and add it to list
-        Seznam item = null;
-        if (cursor.moveToFirst()) {
-            do {
-                item = new Seznam();
-                item.setId(Integer.parseInt(cursor.getString(0)));
-                item.setKategorie_id(Integer.parseInt(cursor.getString(1)));
-                item.setCena(cursor.getFloat(2));
-                item.setNazev_zbozi(cursor.getString(3));
-                item.setPopularni((Integer.parseInt(cursor.getString(4)) == 1)? true : false);
+        try {
+            // 3. go over each row, build book and add it to list
+            Seznam item = null;
+            if (cursor.moveToFirst()) {
+                do {
+                    item = new Seznam();
+                    item.setId(Integer.parseInt(cursor.getString(0)));
+                    item.setKategorie_id(Integer.parseInt(cursor.getString(1)));
+                    item.setCena(cursor.getFloat(2));
+                    item.setNazev_zbozi(cursor.getString(3));
+                    item.setPopularni((Integer.parseInt(cursor.getString(4)) == 1) ? true : false);
 
 
-                items.add(item);
-            } while (cursor.moveToNext());
+                    items.add(item);
+                } while (cursor.moveToNext());
+            }
+        } finally{
+            cursor.close();
+            db.close();
         }
 
         //Log.d("getAllItems()", items.toString());
@@ -365,17 +382,23 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                         null, // g. order by
                         null); // h. limit
 
+        Stul stul = new Stul();
+        try{
         // 3. if we got results get the first one
         if (cursor != null)
             cursor.moveToFirst();
 
         // 4. build book object
-        Stul stul = new Stul();
+
         stul.setId(Integer.parseInt(cursor.getString(0)));
         stul.setId_polozky(Integer.parseInt(cursor.getString(1)));
         stul.setId_stul(Integer.parseInt(cursor.getString(2)));
         stul.setDruh_kavy(Integer.parseInt(cursor.getString(3)));
         stul.setMnozstvi(Integer.parseInt(cursor.getString(4)));
+        } finally{
+            cursor.close();
+            db.close();
+        }
 
         //Log.d("getStul("+id+")", stul.toString());
 
@@ -398,19 +421,24 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, new String[] { String.valueOf(id) });
 
-        // 3. go over each row, build book and add it to list
-       Stul item = null;
-        if (cursor.moveToFirst()) {
-            do {
-                item = new Stul();
-                item.setId(Integer.parseInt(cursor.getString(0)));
-                item.setId_polozky(Integer.parseInt(cursor.getString(1)));
-                item.setId_stul(Integer.parseInt(cursor.getString(2)));
-                item.setDruh_kavy(Integer.parseInt(cursor.getString(3)));
-                item.setMnozstvi(Integer.parseInt(cursor.getString(4)));
+        try {
+            // 3. go over each row, build book and add it to list
+            Stul item = null;
+            if (cursor.moveToFirst()) {
+                do {
+                    item = new Stul();
+                    item.setId(Integer.parseInt(cursor.getString(0)));
+                    item.setId_polozky(Integer.parseInt(cursor.getString(1)));
+                    item.setId_stul(Integer.parseInt(cursor.getString(2)));
+                    item.setDruh_kavy(Integer.parseInt(cursor.getString(3)));
+                    item.setMnozstvi(Integer.parseInt(cursor.getString(4)));
 
-                items.add(item);
-            } while (cursor.moveToNext());
+                    items.add(item);
+                } while (cursor.moveToNext());
+            }
+        } finally{
+            cursor.close();
+            db.close();
         }
 
         //Log.d("getAllItems()", items.toString());
@@ -484,9 +512,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 + "tg." + KEY_TAG_POLOZKA_ID + " AND tg." + KEY_TAG_ID + " = " + 1;
 
         // 2. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
         return true;
     }
 
@@ -544,16 +569,22 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                         null, // g. order by
                         null); // h. limit
 
+        CelkovaTrzba stul = new CelkovaTrzba();
+        try{
         // 3. if we got results get the first one
         if (cursor != null)
             cursor.moveToFirst();
 
         // 4. build book object
-        CelkovaTrzba stul = new CelkovaTrzba();
+
         stul.setId(Integer.parseInt(cursor.getString(0)));
         stul.setId_polozky(Integer.parseInt(cursor.getString(1)));
         stul.setDruh_kavy(Integer.parseInt(cursor.getString(2)));
         stul.setMnozstvi(Integer.parseInt(cursor.getString(3)));
+        } finally{
+            cursor.close();
+            db.close();
+        }
 
         //Log.d("getTrzba("+id+")", stul.toString());
 
@@ -575,6 +606,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
+        try{
         // 3. go over each row, build book and add it to list
         CelkovaTrzba item = null;
         if (cursor.moveToFirst()) {
@@ -588,7 +620,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 items.add(item);
             } while (cursor.moveToNext());
         }
-
+        } finally{
+            cursor.close();
+            db.close();
+        }
         //Log.d("getAllItems()", items.toString());
 
         // return books
@@ -653,6 +688,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CELKOVA_TRZBA, null, null);
+        db.close();
     }
 
 
@@ -711,9 +747,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                         null, // g. order by
                         null); // h. limit
 
+        String pom;
+        try{
         // 3. if we got results get the first one
         if (cursor != null)
             cursor.moveToFirst();
+            pom = cursor.getString(0);
+        } finally{
+            cursor.close();
+            db.close();
+        }
 
         // 4. build book object
        // Tagy stul = new Tagy();
@@ -723,7 +766,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         //Log.d("getTrzba("+id+")", stul.toString());
 
         // 5. return book
-        return cursor.getString(0);
+        return pom;
     }
 
 
@@ -798,6 +841,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
+        try{
         // 3. go over each row, build book and add it to list
         Seznam item = null;
         if (cursor.moveToFirst()) {
@@ -812,7 +856,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 items.add(item);
             } while (cursor.moveToNext());
         }
-
+        } finally{
+            cursor.close();
+            db.close();
+        }
         //Log.d("getAllItems()", items.toString());
 
         // return books

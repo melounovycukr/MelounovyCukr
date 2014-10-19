@@ -12,47 +12,65 @@
         android:orientation="horizontal"
         android:layout_width="1196dp"
         android:layout_height="fill_parent"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="32dp">
+        android:layout_marginLeft="40dp">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Populární        "
+            android:text="Populární"
             android:textSize="24sp"
+            android:paddingTop="32dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="30dp"
             android:id="@+id/textPopular"
             android:textColor="#9c2320"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Káva        "
+            android:text="Káva"
             android:textSize="24sp"
+            android:paddingTop="32dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="25dp"
+            android:paddingRight="30dp"
             android:id="@+id/textKava"
             android:textColor="#808080"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dobroty        "
+            android:text="Dobroty"
             android:textSize="24sp"
+            android:paddingTop="32dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="25dp"
+            android:paddingRight="30dp"
             android:id="@+id/textDobroty"
             android:textColor="#808080"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Alkohol        "
+            android:text="Alkohol"
             android:textSize="24sp"
+            android:paddingTop="32dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="25dp"
+            android:paddingRight="30dp"
             android:id="@+id/textAlkohol"
             android:textColor="#808080"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ostatní     "
+            android:text="Ostatní"
             android:textSize="24sp"
+            android:paddingTop="32dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="25dp"
+            android:paddingRight="30dp"
             android:id="@+id/textOstatni"
             android:textColor="#808080"/>
     </LinearLayout>
@@ -67,7 +85,7 @@
 
         <GridView
             android:layout_width="800dp"
-            android:layout_height="wrap_content"
+            android:layout_height="480dp"
             android:numColumns="4"
             android:gravity="center"
             android:layout_marginTop="90dp"
@@ -76,6 +94,54 @@
             android:stretchMode="columnWidth"
             android:listSelector="@android:color/transparent"
             android:id="@+id/gridViewSortiment" />
+
+        <GridView
+            android:layout_width="800dp"
+            android:layout_height="480dp"
+            android:numColumns="4"
+            android:gravity="center"
+            android:layout_marginTop="90dp"
+            android:layout_marginLeft="40dp"
+            android:verticalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:listSelector="@android:color/transparent"
+            android:id="@+id/gridViewSortiment2" />
+
+        <GridView
+            android:layout_width="800dp"
+            android:layout_height="480dp"
+            android:numColumns="4"
+            android:gravity="center"
+            android:layout_marginTop="90dp"
+            android:layout_marginLeft="40dp"
+            android:verticalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:listSelector="@android:color/transparent"
+            android:id="@+id/gridViewSortiment3" />
+
+        <GridView
+            android:layout_width="800dp"
+            android:layout_height="480dp"
+            android:numColumns="4"
+            android:gravity="center"
+            android:layout_marginTop="90dp"
+            android:layout_marginLeft="40dp"
+            android:verticalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:listSelector="@android:color/transparent"
+            android:id="@+id/gridViewSortiment4" />
+
+        <GridView
+            android:layout_width="800dp"
+            android:layout_height="480dp"
+            android:numColumns="4"
+            android:gravity="center"
+            android:layout_marginTop="90dp"
+            android:layout_marginLeft="40dp"
+            android:verticalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:listSelector="@android:color/transparent"
+            android:id="@+id/gridViewSortiment5" />
 
         <ImageView
             android:id="@+id/verticalSeparator"
